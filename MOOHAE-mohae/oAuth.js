@@ -1,0 +1,5 @@
+const REST_API_KEY = import.meta.env.VITE_APP_REST_API_KEY;
+const REDIRECT_URI = import.meta.env.VITE_APP_REDIRECT_URI;
+const JAVASCRIPT_KEY = import.meta.env.VITE_KAKAO_JAVASCRIPT_KEY;
+
+console.log(REST_API_KEY, REDIRECT_URI, JAVASCRIPT_KEY);
