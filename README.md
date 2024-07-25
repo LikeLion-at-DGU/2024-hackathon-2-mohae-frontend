@@ -73,7 +73,7 @@ git push origin main
 <🚀 커밋 규칙 (Commit Convention)>
 커밋 유형	설명
 feat	새로운 기능 추가
-fix	버그 수정
+fix	    버그 수정
 docs	문서 수정
 style	코드 formatting, 세미콜론 누락, 코드 자체의 변경이 없는 경우
 refactor	코드 리팩토링
