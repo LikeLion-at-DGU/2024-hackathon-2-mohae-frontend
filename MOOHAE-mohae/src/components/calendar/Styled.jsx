@@ -289,7 +289,7 @@ export const contentContainer = styled.div`
 `;
 
 export const backWrapping = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 100%;
   position: absolute;
 

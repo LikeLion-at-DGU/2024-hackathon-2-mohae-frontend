@@ -6,7 +6,6 @@ import { useSwipeable } from 'react-swipeable';
 
 import { PiPencilSimple , PiCalendarBlank } from "react-icons/pi";
 
-import { dummy_data } from "../../data/dummy_data";
 
 import * as S from "./Styled";
 
