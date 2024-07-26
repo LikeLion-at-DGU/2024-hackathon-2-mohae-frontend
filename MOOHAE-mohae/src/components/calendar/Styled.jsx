@@ -240,7 +240,7 @@ export const EventDetails = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 0;
   width: 500px;
@@ -291,7 +291,9 @@ export const contentContainer = styled.div`
 export const backWrapping = styled.div`
   width: 100vw;
   height: 100%;
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
 
   z-index: 100;
   background: rgba(159, 159, 159, 0.50);

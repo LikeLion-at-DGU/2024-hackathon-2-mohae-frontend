@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import { createGlobalStyle } from "styled-components";
 
 const PageStyle = createGlobalStyle`
@@ -14,12 +15,15 @@ const PageStyle = createGlobalStyle`
   }
 `;
 
-function HomePage() {
+import CustomCalendar from "../components/calendar/CustomCalendar";
+
+function DatePage() {
   return (
     <>
       <PageStyle />
+      <CustomCalendar></CustomCalendar>
     </>
   );
 }
 
-export default HomePage;
+export default DatePage;

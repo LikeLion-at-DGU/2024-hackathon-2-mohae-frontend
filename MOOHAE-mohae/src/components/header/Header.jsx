@@ -5,9 +5,18 @@ import { styled } from "styled-components";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { BiSolidUser } from "react-icons/bi";
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit; /* 원래 텍스트 색상을 유지하려면 사용 */
+
+  &:hover {
+    text-decoration: none; /* 호버 시에도 밑줄 없앰 */
+  }
+`;
+
 const HeaderContainer = styled.div`
   display: flex;
-  width: 1140px;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -72,28 +81,28 @@ const CategoryTitle = styled.div`
 const Header = () => {
   return (
     <HeaderContainer>
-      <Link to="/">
+      <StyledLink to="/">
         <MOHAEsytle>mohae</MOHAEsytle>
-      </Link>
+      </StyledLink>
       <HeaderWrap1>
-        <Link to="/">
+        <StyledLink to="/">
           <ButtonwithIcon style={{marginLeft:30}}>
             <RiAlarmWarningFill size={30} style={{color:'#FF6F6F'}}/>
             긴급
           </ButtonwithIcon>
-        </Link>
-        <Link to="detail/1">
+        </StyledLink>
+        <StyledLink to="Login">
           <ButtonwithIcon style={{marginRight:30}}>
             <BiSolidUser size={30}/>
             로그인
           </ButtonwithIcon>
-        </Link>
+        </StyledLink>
       </HeaderWrap1>
       <HeaderWrap2>
-        <Link to="/"><CategoryTitle>일정</CategoryTitle></Link>
-        <Link to="/"><CategoryTitle>건강</CategoryTitle></Link>
-        <Link to="/"><CategoryTitle>가족 사진첩</CategoryTitle></Link>
-        <Link to="/"><CategoryTitle>문화생활</CategoryTitle></Link>
+        <StyledLink to="Date"><CategoryTitle>일정</CategoryTitle></StyledLink>
+        <StyledLink to="HealthCare"><CategoryTitle>건강</CategoryTitle></StyledLink>
+        <StyledLink to="Gallery"><CategoryTitle>가족 사진첩</CategoryTitle></StyledLink>
+        <StyledLink to="/"><CategoryTitle>문화생활</CategoryTitle></StyledLink>
       </HeaderWrap2>
     </HeaderContainer>
   )

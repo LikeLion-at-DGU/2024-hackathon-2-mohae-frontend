@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import { createGlobalStyle } from "styled-components";
 
 const PageStyle = createGlobalStyle`
@@ -14,7 +15,7 @@ const PageStyle = createGlobalStyle`
   }
 `;
 
-function HomePage() {
+function HealthCarePage() {
   return (
     <>
       <PageStyle />
@@ -22,4 +23,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default HealthCarePage;

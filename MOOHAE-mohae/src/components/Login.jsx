@@ -17,6 +17,15 @@ const PageStyle = createGlobalStyle`
   }
 `;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit; /* 원래 텍스트 색상을 유지하려면 사용 */
+
+  &:hover {
+    text-decoration: none; /* 호버 시에도 밑줄 없앰 */
+  }
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -24,6 +33,7 @@ const Container = styled.div`
   font-family: Arial, sans-serif;
   min-height: 100vh;
   width: 100%;
+  align-items: center;
 `;
 
 const Header = styled.h1`
@@ -260,9 +270,6 @@ const Login = () => {
     <>
       <PageStyle />
       <Container>
-        <Link to="/">
-          <Header>MOHAE</Header>
-        </Link>
         <P1>
           모해 <span>MOHAE</span> 서비스
         </P1>
@@ -311,9 +318,9 @@ const Login = () => {
                 {" "}
                 로그인{" "}
               </Button>
-              <Link to="/Signup">
+              <StyledLink to="/Signup">
                 <Button1> 회원가입 </Button1>
-              </Link>
+              </StyledLink>
               <Find> 아이디 / 비밀번호 찾기</Find>
               <KAKAO>- SNS 로그인 -</KAKAO>
               <KakakoButton onClick={handleKakaoLogin}>
