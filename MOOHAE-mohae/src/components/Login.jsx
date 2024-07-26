@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import "../App.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-solid-svg-icons";

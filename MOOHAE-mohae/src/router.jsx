@@ -6,7 +6,6 @@ import Signup from "./components/Signup";
 import Login from "./pages/LoginPage";
 import Gallery from "./pages/Gallery";
 import Date from "./pages/DatePage";
-import Header from "./components/Header";
 import DatePage from "./pages/DatePage";
 import LoginPage from "./pages/LoginPage";
 import HealthCarePage from "./pages/HealthCarePage";
