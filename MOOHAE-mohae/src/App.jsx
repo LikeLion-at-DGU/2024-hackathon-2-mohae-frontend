@@ -1,9 +1,10 @@
 import { styled, ThemeProvider } from "styled-components";
 
 import { Outlet } from "react-router-dom";
+import Header from "./components/header/Header";
 
 const Wrapper = styled.div`
-  width: 100vw;
+  width: 1440px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -13,6 +14,7 @@ const Wrapper = styled.div`
 const Layout = () => {
   return (
     <Wrapper>
+      <Header />
       <Outlet />
     </Wrapper>
   );
