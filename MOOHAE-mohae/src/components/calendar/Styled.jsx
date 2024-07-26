@@ -20,21 +20,39 @@ export const Main = styled.div`
 export const Body = styled.div`
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 100%;
   align-items: center;
 `;
 
 export const CalendarContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
+
+  padding: 30px 40px;
+
+  background-color: #FFF;
+
+  border: 1px solid #FFF;
+  border-radius: 20px;
+`;
+
+export const CalendarLine = styled.div`
+  display: flex;
+  position: relative;
+  border: 1px solid #E8E8E8;
+  top: 50px;
+  left: -40px;
+  width: calc(100% + 80px);
 `;
 
 export const CalendarHeader = styled.div`
   display: flex;
-  position: absolute;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  justify-content: flex-end;
+  position: absolute;
+  right: 40px;
+  top: 30px;
   gap: 0.5rem;
 `;
 
@@ -44,29 +62,32 @@ export const TodayButton = styled.button`
 
   font-size: 1rem;
   font-weight: 700;
-
+  font-family: "NanumSquareRound";
+  
   border: none;
-  padding: 4px 12px;
+  padding: 0.375rem 0.75rem;
   cursor: pointer;
   border-radius: 5px;
 `;
 
 export const AddEventButton = styled.button`
-  background-color: #28a745;
-  color: white;
+  color:  #2D539E;
   border: none;
-  padding: 5px 10px;
   cursor: pointer;
-  border-radius: 5px;
+  font-size: 30px;
+  font-family: "NanumSquareRound";
+  background-color: #FFF;
+  
 
   &:hover {
-    background-color: #218838;
+    
   }
 `;
 
 export const CalendarMonthYear = styled.div`
   font-size: 18px;
   font-weight: bold;
+  font-family: "NanumSquareRound";
 `;
 
 export const CustomCalendar = styled.div`
@@ -80,7 +101,11 @@ export const CustomCalendar = styled.div`
     border: none;
     outline: none;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
+  }
+
+  .react-calendar__viewContainer {
+    margin-top: 20px;
   }
 
   //네비게이션 버튼들
@@ -91,7 +116,6 @@ export const CustomCalendar = styled.div`
   .react-calendar__navigation {
     margin-bottom: 1em;
     display: flex;
-    
   }
 
   .react-calendar__navigation button {
@@ -99,32 +123,24 @@ export const CustomCalendar = styled.div`
     min-height: 14px;
   }
 
-  .react-calendar__navigation button:disabled {
-    background-color: #f0f0f0;
-  }
-
-  .react-calendar__navigation button:enabled:hover,
-  .react-calendar__navigation button:enabled:focus {
-    background-color: #e6e6e6;
-  }
-
   .react-calendar__navigation__arrow {
     border: none;
     min-width: 1.25rem;
-    font-size: 1.5rem;
+    font-size: 2rem;
     min-height: 1.5rem;
     color: #2D539E;
     background-color: inherit;
-    font-size: 1.5rem;
   }
 
   .react-calendar__navigation__label {
-    border: 1px solid #2D539E;
+    border: none;
     padding: 4px 12px;
     border-radius: 5px;
-    background-color: #2D539E;
-    color: #FFF;
-    font-size: 1rem;
+    background-color: inherit;
+    font-family: "NanumSquareRound";
+    color: #2D539E;
+    font-size: 1.5rem;
+    font-weight: 700;
   }
 
   .react-calendar__navigation__next2-button,
@@ -137,14 +153,20 @@ export const CustomCalendar = styled.div`
     text-align: center;
     text-transform: uppercase;
     font: inherit;
-    font-size: 0.75em;
+    font-size: 1rem;
     font-weight: bold;
+    font-weight: 700;
+    font-family: "NanumSquareRound";
     color: #2D539E;
     margin-bottom: 0.5rem;
   }
   
   .current-month-sunday {
-    color: red !important;
+    color: #DE0000 !important;
+  }
+
+  .current-month-satday {
+    color: #4081FF !important;
   }
 
   .other-month-sunday {
@@ -170,10 +192,17 @@ export const CustomCalendar = styled.div`
     position: relative;
 
     max-width: 100%;
-    min-height: 100px;
+    min-height: 80px;
     padding: 0.75em 0em;
+    
     background: none;
     border: 1px solid #E8E8E8;
+  }
+
+  .react-calendar__tile abbr {
+    font-family: "NanumSquareRound";
+    font-weight: 700;
+    font-style: normal;
   }
 
   .react-calendar__tile abbr{
@@ -232,6 +261,7 @@ export const EventTile = styled.div`
 
   span {
     display: block;
+    font-family: "NanumSquareRound";
     font-size: 0.5rem;
   }
 `;
@@ -257,7 +287,7 @@ export const EventDetailsHeader = styled.div`
 `;
 
 export const NewEventForm = styled.div`
-  position: absolute;
+  position: fixed;
 
   top: 50%;
   left: 50%;
@@ -363,9 +393,9 @@ export const AddButton = styled.button`
 `;
 
 export const AddEmojiForm = styled.div`
-  position: absolute;
+  position: fixed;
 
-  top: 25%;
+  top: 50%;
   left: 50%;
 
   transform: translate(-50%, -50%);
@@ -384,6 +414,7 @@ export const EventInputStyle = styled.input`
   width: 100%;
   border: none;
   font-size: 1rem;
+  font-family: "NanumSquareRound";
   padding: 0.344rem 0rem;
 `;
 
@@ -392,6 +423,7 @@ export const DateSelectInput = styled.input`
   text-align: center;
   justify-content: space-around;
   font-size: 1rem;
+  font-family: "NanumSquareRound";
 `;
 
 export const row = styled.div`

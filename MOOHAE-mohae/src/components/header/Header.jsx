@@ -16,7 +16,7 @@ const StyledLink = styled(Link)`
 
 const HeaderContainer = styled.div`
   display: flex;
-  width: 100%;
+  width: 1140px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -37,7 +37,7 @@ const ButtonwithIcon = styled.div`
 
   color: #000;
   text-align: center;
-  font-family: "NanumSquare Neo";
+  font-family: "NanumSquareRound";
   font-size: 1rem;
   font-style: normal;
   font-weight: 700;
@@ -48,6 +48,10 @@ const HeaderWrap2 = styled.div`
   display: flex;
 
   gap: 3rem;
+  padding: 1rem;
+  width: 90%;
+  justify-content: center;
+  border-bottom: 0.5px solid rgba(171, 171, 171, 0.50);
 `;
 
 const MOHAEsytle = styled.h1`
@@ -67,8 +71,7 @@ const CategoryTitle = styled.div`
   color: #000;
 
   text-align: center;
-  font-family: "NanumSquare Neo";
-  font-size: 1.5rem;
+  font-family: "NanumSquareRound";
   font-style: normal;
   font-weight: 700;
   line-height: normal;
