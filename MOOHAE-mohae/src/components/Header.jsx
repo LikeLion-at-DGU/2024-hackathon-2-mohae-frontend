@@ -67,6 +67,12 @@ const Right = styled.div`
   }
 `;
 
+const Navbar = styled.div``;
+const Category1 = styled.p``;
+const Category2 = styled.p``;
+const Category3 = styled.p``;
+const Category4 = styled.p``;
+
 const Header = () => {
   return (
     <>
@@ -83,6 +89,12 @@ const Header = () => {
             로그인
           </Right>
         </Emergency>
+        <Navbar>
+          <Category1>일정</Category1>
+          <Category2>건강</Category2>
+          <Category3>가족 사진첩</Category3>
+          <Category4>문화생활</Category4>
+        </Navbar>
       </Container>
     </>
   );
