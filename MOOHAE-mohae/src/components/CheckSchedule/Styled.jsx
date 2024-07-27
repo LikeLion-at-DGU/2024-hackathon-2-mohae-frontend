@@ -11,13 +11,14 @@ const fadeIn = keyframes`
 
 export const ScheduleContainer = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
-  background-color: #2D539E;
+  background-color: ${props => props.$bgColor || '#FFFFFF'};
   margin-top: 2rem;
   border-radius: 1.25rem;
   width: 1060px;
   padding: 20px 40px 40px 40px;
-  animation: ${fadeIn} 0.5s ease-in;
+  animation: ${fadeIn} 0.5s ease-in-out;
 `;
 
 export const ScheduleText = styled.p`
@@ -73,4 +74,22 @@ export const ScheduleTime = styled.div`
   font-size: 0.75rem;
   font-style: normal;
   font-weight: 700;
+`;
+
+export const ArrowButton = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 4rem;
+  font-weight: 400;
+  cursor: pointer;
+  color: #333;
+  ${(props) => (props.$left ? 'left: -50px;' : 'right: -50px;')}
+
+  &:hover {
+    color: #000;
+    font-weight: 600;
+  }
 `;

@@ -76,8 +76,9 @@ const CategoryTitle = styled.div`
   font-weight: 700;
   line-height: normal;
 
-  & hover {
+  &:hover {
     color: #2d539e;
+    font-weight: 1000;
   }
 `;
 
