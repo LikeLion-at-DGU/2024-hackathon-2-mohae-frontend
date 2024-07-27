@@ -1,12 +1,13 @@
+// HomePage.jsx
 import React from "react";
-import { Link } from "react-router-dom";
-
 import CustomCalendar from "../components/calendar/CustomCalendar";
+// HomePage.jsx에서
+import GalleryFrame from "../components/GalleryFrame";
 
 function HomePage() {
   return (
     <>
-      <CustomCalendar></CustomCalendar>
+      {/* <CustomCalendar /> */}
       <br />
     </>
   );
