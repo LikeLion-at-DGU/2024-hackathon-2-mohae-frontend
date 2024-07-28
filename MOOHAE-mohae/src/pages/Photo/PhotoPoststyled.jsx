@@ -6,36 +6,40 @@ export const All = styled.div`
   display: flex;
   margin-top: 20px;
   overflow-x: hidden; /* 가로 스크롤 방지 */
+  flex-direction: row; /* 항상 가로 배치 */
+  overflow: hidden; /* 요소가 화면을 넘어가면 가리기 */
+
+  @media (max-width: 768px) {
+    /* 기본 설정 유지 */
+  }
 `;
 
 export const Margin = styled.div`
   max-width: 100%;
-  margin: 20px auto;
+  margin: 10px auto;
+  margin-right: 100px;
   color: #9f9f9f;
-  text-align: right; /* 텍스트 오른쪽 정렬 */
+  text-align: right;
   font-family: "NanumSquareRound", sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.2px;
-  position: absolute;
-  right: 300px;
-  background: yellow;
-  cursor: pointer; /* 커서 모양 변경 */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 애니메이션 추가 */
+  /* position: absolute; */
+  /* right: 300px; */
+  /* background: yellow; */
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
     color: black;
   }
-`;
 
-// export const Left = styled.div`
-//   flex: 0 0 230px; /* 고정 너비 */
-//   min-height: 100vh;
-//   /* margin-left: 60px; */
-//   margin-right: 30px; Right와의 간격을 주기 위해 추가
-// `;
+  @media (max-width: 768px) {
+    /* 기본 설정 유지 */
+  }
+`;
 
 export const Menubar = styled.div`
   width: 160px;
@@ -43,19 +47,25 @@ export const Menubar = styled.div`
   border-radius: 10px;
   background: #ffffff;
   box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.25);
-  margin-top: 3;
-  position: absolute;
-  top: 260px;
-  left: 0px;
-  margin-left: 100px;
+  margin-top: 30px;
+  margin-left: 10px; /* 왼쪽 여백을 20px로 설정 */
   padding: 28px 15px;
   color: #2d539e;
-  font-family: NanumSquareRound;
+  font-family: NanumSquareRound, sans-serif;
   font-size: 23px;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
   letter-spacing: -0.23px;
+  z-index: 1000;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    margin-left: 0; /* 작은 화면에서는 좌측 여백 제거 */
+    margin-top: 20px;
+    box-shadow: none;
+  }
 `;
 
 export const Section = styled.div`
@@ -69,10 +79,10 @@ export const SectionTitle = styled.h3`
   margin-bottom: 10px;
   display: flex;
   align-items: center;
-
   color: #2d539e;
+
   &:before {
-    content: "\\1F4C1"; /* 폴더 아이콘 (유니코드) */
+    content: "\\1F4C1";
     margin-right: 10px;
   }
 `;
@@ -86,31 +96,33 @@ export const ItemList = styled.ul`
 
 export const Item = styled.li`
   margin-bottom: 10px;
-  color: #0000ff; /* 링크 색상 */
+  color: #0000ff;
   cursor: pointer;
 
   &:hover {
     font-weight: bold;
-    color: #000080; /* 호버시 색상 변경 */
+    color: #000080;
   }
 `;
 
 export const SelectedItem = styled(Item)`
-  /* background-color: #e0e0e0;
-  border-radius: 5px;
-  padding: 5px 10px; */
   font-weight: bold;
 `;
 
 export const Right = styled.div`
-  /* flex: 1; 남은 공간을 모두 차지 */
   margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
-  /* background-color: gray; */
   width: 900px;
   margin-left: 100px;
+  min-width: 900px; /* 최소 너비를 설정하여 요소들이 줄어들지 않게 함 */
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-left: 0;
+    gap: 10px;
+  }
 `;
 
 export const Arrow = styled.img`
@@ -118,15 +130,15 @@ export const Arrow = styled.img`
   height: 50px;
   position: fixed;
   bottom: 30px;
-  right: 50px; /* 오른쪽에 고정 */
+  right: 50px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 
-  /* &:hover {
-    background-color: darkgray;
-  } */
-
   &:active {
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15); /* 그림자 추가 */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (max-width: 768px) {
+    right: 20px;
   }
 `;
