@@ -49,6 +49,7 @@ const GalleryButton = styled.div`
   gap: 10px;
   border-radius: 5px;
   background: #2d539e;
+  margin-bottom: 50px;
 `;
 
 const TitleInputText = styled.p`
@@ -63,6 +64,31 @@ const TitleInputText = styled.p`
 `;
 
 const TitleInput = styled.input`
+  display: flex;
+  width: 90%;
+  height: 20px;
+  padding: 14px 22px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 2px solid #ededed;
+`;
+
+const DetailTitleInputText = styled.p`
+  color: #000;
+  font-family: NanumSquareRound;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.23px;
+  margin-bottom: 10px;
+`;
+
+const DetailTitleInput = styled.input`
   display: flex;
   width: 90%;
   height: 20px;
@@ -147,25 +173,10 @@ const Tag = styled.div`
   align-items: center;
 `;
 
-const RemoveTagButton = styled.button`
-  display: flex;
-  width: 10px;
-  height: 10px;
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  border-radius: 15px;
-  border: 2px solid #2d539e;
-  background: #fff;
-  color: #2d539e;
-  text-align: center;
-  font-family: NanumSquareRound;
-  font-size: 17px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.23px;
+const RemoveTagButton = styled.span`
+  margin-left: 10px;
+  cursor: pointer;
+  color: #ff0000;
 `;
 
 const RemoveButton = styled.button`
@@ -243,12 +254,14 @@ const Buttons = styled.div`
   display: flex;
   gap: 50px;
   justify-content: center;
+  margin-top: 50px;
 `;
 
 const PhotoPlus = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [title, setTitle] = useState("");
+  const [detailTitle, setDetailTitle] = useState("");
   const [photos, setPhotos] = useState([]);
   const [previewSrcs, setPreviewSrcs] = useState([]);
   const [tags, setTags] = useState([]);
@@ -256,11 +269,20 @@ const PhotoPlus = () => {
   const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
-    setIsFormValid(title.trim() !== "" && photos.length > 0 && tags.length > 0);
-  }, [title, photos, tags]);
+    setIsFormValid(
+      title.trim() !== "" &&
+        detailTitle.trim() !== "" &&
+        photos.length > 0 &&
+        tags.length > 0
+    );
+  }, [title, detailTitle, photos, tags]);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
+  };
+
+  const handleDetailTitleChange = (event) => {
+    setDetailTitle(event.target.value);
   };
 
   const handlePhotoChange = (event) => {
@@ -297,6 +319,7 @@ const PhotoPlus = () => {
 
     const formData = new FormData();
     formData.append("title", title);
+    formData.append("detailTitle", detailTitle);
 
     photos.forEach((photo, index) => {
       formData.append(`photo${index}`, photo);
@@ -364,6 +387,16 @@ const PhotoPlus = () => {
             placeholder="제목을 입력하세요"
             value={title}
             onChange={handleTitleChange}
+          />
+        </div>
+
+        <div>
+          <DetailTitleInputText>상세제목</DetailTitleInputText>
+          <DetailTitleInput
+            type="text"
+            placeholder="상세 제목을 입력하세요"
+            value={detailTitle}
+            onChange={handleDetailTitleChange}
           />
         </div>
 
