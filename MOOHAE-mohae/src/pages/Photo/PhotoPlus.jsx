@@ -1,15 +1,64 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import uploadImg from "../../assets/imgplus.png"; // 업로드한 이미지 경로
 
-const MOHAEsytle = styled.h1`
-  color: #2d539e;
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
+
+const Modal = styled.div`
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  height: 600px;
+  width: 90%;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;
+
+const GalleryButton = styled.div`
+  color: #fff;
   text-align: center;
-  font-family: "Cafe24 Meongi B";
-  font-size: 3.125rem;
+  font-family: "NanumSquare Neo";
+  font-size: 15px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   line-height: normal;
+  letter-spacing: -0.18px;
+
+  display: flex;
+  width: 80px;
+  height: 40px;
+  /* padding: 10px 37px; */
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+  background: #2d539e;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
 `;
 
 const TitleInput = styled.input`
@@ -23,12 +72,17 @@ const TitleInput = styled.input`
   font-family: "NanumSquareRound", sans-serif;
 `;
 
-const PhotoInput = styled.input`
+const HiddenPhotoInput = styled.input`
+  display: none;
+`;
+
+const CustomPhotoButton = styled.img`
   display: block;
-  margin: 20px auto;
-  padding: 10px;
-  width: 300px;
-  font-size: 1rem;
+  width: 70px;
+  cursor: pointer;
+  margin: 0 auto; /* 가운데 정렬 */
+  margin-top: 20px; /* 갤러리와의 간격 조정 */
+  margin-left: 0px;
 `;
 
 const TagInput = styled.input`
@@ -87,23 +141,9 @@ const PreviewImage = styled.img`
   border: 2px solid #ddd;
 `;
 
-const UploadButton = styled.button`
-  display: block;
-  margin: 20px auto;
-  padding: 10px 20px;
-  font-size: 1rem;
-  background-color: ${(props) => (props.disabled ? "#cccccc" : "#2d539e")};
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
-
-  &:hover {
-    background-color: ${(props) => (props.disabled ? "#cccccc" : "#1e3b73")};
-  }
-`;
-
 const PhotoPlus = () => {
+  const navigate = useNavigate();
+  const fileInputRef = useRef(null);
   const [title, setTitle] = useState("");
   const [photos, setPhotos] = useState([]);
   const [previewSrcs, setPreviewSrcs] = useState([]);
@@ -175,52 +215,68 @@ const PhotoPlus = () => {
       });
   };
 
+  const closeModal = () => {
+    navigate(-1); // 뒤로 가기
+  };
+
+  const openFileDialog = () => {
+    fileInputRef.current.click();
+  };
+
   return (
-    <>
-      <Link to="/">
-        <MOHAEsytle>mohae</MOHAEsytle>
-      </Link>
-      <TitleInput
-        type="text"
-        placeholder="제목을 입력하세요"
-        value={title}
-        onChange={handleTitleChange}
-      />
-      <PhotoInput
-        type="file"
-        multiple
-        accept="image/*"
-        onChange={handlePhotoChange}
-      />
-      <PreviewContainer>
-        {previewSrcs.map((src, index) => (
-          <PreviewImage key={index} src={src} alt={`Preview ${index}`} />
-        ))}
-      </PreviewContainer>
-      {photos.length > 0 && (
-        <PhotoCount>Selected Photos: {photos.length}</PhotoCount>
-      )}
-      <TagInput
-        type="text"
-        placeholder="#과 함께 태그를 입력하고 Enter를 누르세요"
-        value={tagInput}
-        onChange={handleTagInputChange}
-        onKeyPress={handleTagKeyPress}
-      />
-      <TagContainer>
-        {tags.map((tag, index) => (
-          <Tag key={index}>
-            {tag}
-            <RemoveTagButton onClick={() => handleRemoveTag(index)}>
-              ×
-            </RemoveTagButton>
-          </Tag>
-        ))}
-      </TagContainer>
-      <UploadButton onClick={handleUpload} disabled={!isFormValid}>
-        Upload
-      </UploadButton>
-    </>
+    <Overlay>
+      <Modal>
+        <GalleryButton>갤러리</GalleryButton>
+        <CloseButton onClick={closeModal}>&times;</CloseButton>
+        <Link to="/">{/* <MOHAEsytle>mohae</MOHAEsytle> */}</Link>
+
+        <TitleInput
+          type="text"
+          placeholder="제목을 입력하세요"
+          value={title}
+          onChange={handleTitleChange}
+        />
+
+        <CustomPhotoButton
+          src={uploadImg}
+          alt="Select Photos"
+          onClick={openFileDialog}
+        />
+        <HiddenPhotoInput
+          ref={fileInputRef}
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handlePhotoChange}
+        />
+
+        <PreviewContainer>
+          {previewSrcs.map((src, index) => (
+            <PreviewImage key={index} src={src} alt={`Preview ${index}`} />
+          ))}
+        </PreviewContainer>
+        {photos.length > 0 && (
+          <PhotoCount>Selected Photos: {photos.length}</PhotoCount>
+        )}
+        <TagInput
+          type="text"
+          placeholder="#과 함께 태그를 입력하고 Enter를 누르세요"
+          value={tagInput}
+          onChange={handleTagInputChange}
+          onKeyPress={handleTagKeyPress}
+        />
+        <TagContainer>
+          {tags.map((tag, index) => (
+            <Tag key={index}>
+              {tag}
+              <RemoveTagButton onClick={() => handleRemoveTag(index)}>
+                ×
+              </RemoveTagButton>
+            </Tag>
+          ))}
+        </TagContainer>
+      </Modal>
+    </Overlay>
   );
 };
 

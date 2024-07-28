@@ -77,27 +77,34 @@ const Header = () => {
       </Link>
       <HeaderWrap1>
         <Link to="/">
-          <ButtonwithIcon style={{marginLeft:30}}>
-            <RiAlarmWarningFill size={30} style={{color:'#FF6F6F'}}/>
+          <ButtonwithIcon style={{ marginLeft: 30 }}>
+            <RiAlarmWarningFill size={30} style={{ color: "#FF6F6F" }} />
             긴급
           </ButtonwithIcon>
         </Link>
-        <Link to="detail/1">
-          <ButtonwithIcon style={{marginRight:30}}>
-            <BiSolidUser size={30}/>
+        <Link to="/Login">
+          <ButtonwithIcon style={{ marginRight: 30 }}>
+            <BiSolidUser size={30} />
             로그인
           </ButtonwithIcon>
         </Link>
       </HeaderWrap1>
       <HeaderWrap2>
-        <Link to="/"><CategoryTitle>일정</CategoryTitle></Link>
-        <Link to="/"><CategoryTitle>건강</CategoryTitle></Link>
-        <Link to="/"><CategoryTitle>가족 사진첩</CategoryTitle></Link>
-        <Link to="/"><CategoryTitle>문화생활</CategoryTitle></Link>
+        <Link to="/">
+          <CategoryTitle>일정</CategoryTitle>
+        </Link>
+        <Link to="/">
+          <CategoryTitle>건강</CategoryTitle>
+        </Link>
+        <Link to="/PhotoPost">
+          <CategoryTitle>가족 사진첩</CategoryTitle>
+        </Link>
+        <Link to="/">
+          <CategoryTitle>문화생활</CategoryTitle>
+        </Link>
       </HeaderWrap2>
     </HeaderContainer>
-  )
-
+  );
 };
 
 export default Header;

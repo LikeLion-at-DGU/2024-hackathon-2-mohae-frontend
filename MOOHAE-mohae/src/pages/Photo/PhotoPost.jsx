@@ -23,6 +23,7 @@ const PhotoPost = () => {
   // 좋아요 상태 관리
   const [favorites, setFavorites] = useState([]);
   const [filter, setFilter] = useState("all");
+  const [folders, setFolders] = useState(["여행", "맛집", "추억"]);
 
   // 좋아요 상태 토글 함수
   const handleLikeToggle = (image) => {
@@ -51,12 +52,13 @@ const PhotoPost = () => {
     });
   };
 
-  //PhotoDetail 팝업 열도록 하는 것 + x 클릭하면 화면 닫히도록 하는 콛임
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  // 새로운 폴더 추가 함수
+  const addNewFolder = () => {
+    const newFolderName = prompt("새 폴더 이름을 입력하세요:");
+    if (newFolderName && newFolderName.trim() !== "") {
+      setFolders((prevFolders) => [...prevFolders, newFolderName]);
+    }
+  };
 
   return (
     <div>
@@ -88,10 +90,10 @@ const PhotoPost = () => {
               >
                 즐겨찾기
               </S.Item>
-              <S.SelectedItem>여행</S.SelectedItem>
-              <S.Item>맛집</S.Item>
-              <S.Item>추억</S.Item>
-              <S.Item>+</S.Item>
+              {folders.map((folder, index) => (
+                <S.SelectedItem key={index}>{folder}</S.SelectedItem>
+              ))}
+              <S.Item onClick={addNewFolder}>+</S.Item>
             </S.ItemList>
           </S.Section>
         </S.Menubar>
