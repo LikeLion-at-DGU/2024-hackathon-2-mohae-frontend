@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import uploadImg from "../../assets/imgplus.png"; // 업로드한 이미지 경로
 
 const Overlay = styled.div`
@@ -22,8 +22,10 @@ const Modal = styled.div`
   padding: 20px;
   border-radius: 10px;
   max-width: 500px;
-  height: 600px;
   width: 90%;
+  height: 600px;
+
+  overflow-y: auto; /* 스크롤 가능하게 설정 */
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
   position: relative;
   display: flex;
@@ -39,11 +41,9 @@ const GalleryButton = styled.div`
   font-weight: 700;
   line-height: normal;
   letter-spacing: -0.18px;
-
   display: flex;
   width: 80px;
   height: 40px;
-  /* padding: 10px 37px; */
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -51,48 +51,83 @@ const GalleryButton = styled.div`
   background: #2d539e;
 `;
 
-const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
+const TitleInputText = styled.p`
+  color: #000;
+  font-family: NanumSquareRound;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.23px;
+  margin-bottom: 10px;
 `;
 
 const TitleInput = styled.input`
-  display: block;
-  margin: 20px auto;
-  padding: 10px;
-  width: 300px;
-  font-size: 1.25rem;
-  border-radius: 5px;
-  text-align: center;
-  font-family: "NanumSquareRound", sans-serif;
+  display: flex;
+  width: 90%;
+  height: 20px;
+  padding: 14px 22px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 2px solid #ededed;
 `;
 
 const HiddenPhotoInput = styled.input`
   display: none;
 `;
 
+const CustomPhotoButtonText = styled.p`
+  color: #000;
+  font-family: NanumSquareRound;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.23px;
+  margin-bottom: -10px;
+`;
+
 const CustomPhotoButton = styled.img`
   display: block;
   width: 70px;
   cursor: pointer;
-  margin: 0 auto; /* 가운데 정렬 */
-  margin-top: 20px; /* 갤러리와의 간격 조정 */
-  margin-left: 0px;
+  margin: 0 auto;
+  margin-top: 20px;
+  transition: box-shadow 0.3s ease, transform 0.1s ease;
+
+  &:active {
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    transform: scale(0.98);
+  }
+`;
+
+const TagText = styled.p`
+  color: #000;
+  font-family: NanumSquareRound;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.23px;
+  margin-bottom: 10px;
 `;
 
 const TagInput = styled.input`
-  display: block;
-  margin: 20px auto;
-  padding: 10px;
-  width: 300px;
-  font-size: 1rem;
-  border-radius: 5px;
-  font-family: "NanumSquareRound", sans-serif;
+  display: flex;
+  width: 90%;
+  height: 20px;
+  padding: 14px 22px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 2px solid #ededed;
 `;
 
 const TagContainer = styled.div`
@@ -112,10 +147,46 @@ const Tag = styled.div`
   align-items: center;
 `;
 
-const RemoveTagButton = styled.span`
-  margin-left: 10px;
-  cursor: pointer;
-  color: #ff0000;
+const RemoveTagButton = styled.button`
+  display: flex;
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 15px;
+  border: 2px solid #2d539e;
+  background: #fff;
+  color: #2d539e;
+  text-align: center;
+  font-family: NanumSquareRound;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.23px;
+`;
+
+const RemoveButton = styled.button`
+  display: flex;
+  width: 150px;
+  height: 30px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 15px;
+  border: 2px solid #2d539e;
+  background: #fff;
+  color: #2d539e;
+  text-align: center;
+  font-family: NanumSquareRound;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.23px;
 `;
 
 const PhotoCount = styled.div`
@@ -134,11 +205,44 @@ const PreviewContainer = styled.div`
 
 const PreviewImage = styled.img`
   margin: 10px;
-  width: 150px;
-  height: 150px;
+  width: 50px;
+  height: 50px;
   object-fit: cover;
   border-radius: 10px;
   border: 2px solid #ddd;
+`;
+
+const UploadButton = styled.button`
+  color: #fff;
+  text-align: center;
+  font-family: NanumSquareRound;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.23px;
+  display: flex;
+  width: 150px;
+  height: 30px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  border: none;
+  background: ${(props) => (props.disabled ? "#CCCCCC" : "#2d539e")};
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: ${(props) => (props.disabled ? "#CCCCCC" : "#1e3b73")};
+  }
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  gap: 50px;
+  justify-content: center;
 `;
 
 const PhotoPlus = () => {
@@ -152,8 +256,8 @@ const PhotoPlus = () => {
   const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
-    setIsFormValid(title.trim() !== "" && photos.length > 0);
-  }, [title, photos]);
+    setIsFormValid(title.trim() !== "" && photos.length > 0 && tags.length > 0);
+  }, [title, photos, tags]);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -216,7 +320,7 @@ const PhotoPlus = () => {
   };
 
   const closeModal = () => {
-    navigate(-1); // 뒤로 가기
+    navigate(-1);
   };
 
   const openFileDialog = () => {
@@ -227,21 +331,15 @@ const PhotoPlus = () => {
     <Overlay>
       <Modal>
         <GalleryButton>갤러리</GalleryButton>
-        <CloseButton onClick={closeModal}>&times;</CloseButton>
-        <Link to="/">{/* <MOHAEsytle>mohae</MOHAEsytle> */}</Link>
+        <div>
+          <CustomPhotoButtonText>이미지선택</CustomPhotoButtonText>
+          <CustomPhotoButton
+            src={uploadImg}
+            alt="Select Photos"
+            onClick={openFileDialog}
+          />
+        </div>
 
-        <TitleInput
-          type="text"
-          placeholder="제목을 입력하세요"
-          value={title}
-          onChange={handleTitleChange}
-        />
-
-        <CustomPhotoButton
-          src={uploadImg}
-          alt="Select Photos"
-          onClick={openFileDialog}
-        />
         <HiddenPhotoInput
           ref={fileInputRef}
           type="file"
@@ -258,23 +356,43 @@ const PhotoPlus = () => {
         {photos.length > 0 && (
           <PhotoCount>Selected Photos: {photos.length}</PhotoCount>
         )}
-        <TagInput
-          type="text"
-          placeholder="#과 함께 태그를 입력하고 Enter를 누르세요"
-          value={tagInput}
-          onChange={handleTagInputChange}
-          onKeyPress={handleTagKeyPress}
-        />
-        <TagContainer>
-          {tags.map((tag, index) => (
-            <Tag key={index}>
-              {tag}
-              <RemoveTagButton onClick={() => handleRemoveTag(index)}>
-                ×
-              </RemoveTagButton>
-            </Tag>
-          ))}
-        </TagContainer>
+
+        <div>
+          <TitleInputText>피드제목</TitleInputText>
+          <TitleInput
+            type="text"
+            placeholder="제목을 입력하세요"
+            value={title}
+            onChange={handleTitleChange}
+          />
+        </div>
+
+        <div>
+          <TagText>태그 작성</TagText>
+          <TagInput
+            type="text"
+            placeholder="#과 함께 태그를 입력하고 Enter를 누르세요"
+            value={tagInput}
+            onChange={handleTagInputChange}
+            onKeyPress={handleTagKeyPress}
+          />
+          <TagContainer>
+            {tags.map((tag, index) => (
+              <Tag key={index}>
+                {tag}
+                <RemoveTagButton onClick={() => handleRemoveTag(index)}>
+                  ×
+                </RemoveTagButton>
+              </Tag>
+            ))}
+          </TagContainer>
+          <Buttons>
+            <UploadButton onClick={handleUpload} disabled={!isFormValid}>
+              등록하기
+            </UploadButton>
+            <RemoveButton onClick={closeModal}>취소하기</RemoveButton>
+          </Buttons>
+        </div>
       </Modal>
     </Overlay>
   );
