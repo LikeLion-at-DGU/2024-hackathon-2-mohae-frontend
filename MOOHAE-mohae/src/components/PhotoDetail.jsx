@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { API } from "./../api"; // API 인스턴스 불러오기
@@ -103,10 +103,24 @@ const SubmitButton = styled.button`
   }
 `;
 
-const PhotoDetail = () => {
+const PhotoDetail = ({ photoId }) => {
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+
+  useEffect(() => {
+    // 컴포넌트 마운트 시 댓글 목록 가져오기
+    const loadComments = async () => {
+      try {
+        const response = await API.get(`/api/comments?photo_id=${photoId}`);
+        setComments(response.data);
+      } catch (error) {
+        console.error("댓글을 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    loadComments();
+  }, [photoId]);
 
   const closeModal = () => {
     navigate(-1); // 뒤로 가기
@@ -121,7 +135,10 @@ const PhotoDetail = () => {
     if (newComment.trim() !== "") {
       try {
         // API를 사용하여 서버에 댓글 전송
-        const response = await API.post("api/comments", { text: newComment });
+        const response = await API.post("/api/comments", {
+          photo_id: photoId,
+          text: newComment,
+        });
         setComments([...comments, response.data]); // 새로운 댓글 추가
         setNewComment(""); // 입력 필드 초기화
       } catch (error) {

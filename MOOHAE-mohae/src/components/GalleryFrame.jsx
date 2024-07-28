@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import good from "./../assets/good.png";
+import realheart from "./../assets/realheart.png";
 import { Link } from "react-router-dom";
 
 const Frame = styled.div`
@@ -48,9 +49,9 @@ const StyledImageWrapper = styled.div`
 `;
 
 const StyledImage = styled.img`
-  max-width: 100%;
-  height: auto;
-  border: ${(props) => (props.liked ? "2px solid red" : "none")};
+  width: 30px; // good.png의 크기로 조정
+  height: 30px; // good.png의 크기로 조정
+  border: none;
   border-radius: 5px;
   transition: border 0.3s ease;
 `;
@@ -145,7 +146,11 @@ const GalleryFrame = ({ src, onLikeToggle, isLiked }) => {
       <Frame>
         <ImgFrame>
           <StyledImageWrapper onClick={handleLikeClick}>
-            <StyledImage src={good} alt="사진이 들어갈 공간" liked={isLiked} />
+            <StyledImage
+              src={isLiked ? good : realheart}
+              alt="좋아요 이미지"
+              liked={isLiked}
+            />
           </StyledImageWrapper>
         </ImgFrame>
         <UnderImg>
