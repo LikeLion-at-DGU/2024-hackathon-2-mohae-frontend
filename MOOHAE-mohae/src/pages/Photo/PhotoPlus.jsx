@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -12,12 +12,35 @@ const MOHAEsytle = styled.h1`
   line-height: normal;
 `;
 
+const TitleInput = styled.input`
+  display: block;
+  margin: 20px auto;
+  padding: 10px;
+  width: 300px;
+  font-size: 1.25rem;
+  border-radius: 5px;
+  text-align: center;
+  font-family: " NanumSquareRound ", sans-serif;
+`;
+
 const PhotoPlus = () => {
+  const [title, setTitle] = useState("");
+
+  const handleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
   return (
     <>
       <Link to="/">
         <MOHAEsytle>mohae</MOHAEsytle>
       </Link>
+      <TitleInput
+        type="text"
+        placeholder="제목을 입력하세요"
+        value={title}
+        onChange={handleChange}
+      />
     </>
   );
 };

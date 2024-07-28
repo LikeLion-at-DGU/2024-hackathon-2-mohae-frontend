@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import good from "./../assets/good.png";
+import { Link } from "react-router-dom";
 
 const Frame = styled.div`
   display: flex;
@@ -69,6 +70,7 @@ const Re = styled.div`
   font-weight: 700;
   line-height: normal;
   letter-spacing: -0.09px;
+  text-decoration: none !important; // 밑줄 강제 제거
 `;
 
 const When = styled.p`
@@ -98,8 +100,7 @@ const Radius = styled.div`
   background: #d9d9d9;
   border-radius: 50%;
   box-sizing: border-box;
-  margin-bottom: 10px;
-  margin-right: 10px;
+  margin-right: 10px; /* 여백 조정 */
 `;
 
 const Who = styled.p`
@@ -110,38 +111,56 @@ const Who = styled.p`
   font-weight: 800;
   line-height: normal;
   letter-spacing: -0.16px;
-  margin-bottom: 2px; /* 하단 여백을 줄임 */
+  margin-bottom: 2px;
 `;
 
 const DetailText = styled.p`
-  margin-top: 2px; /* 상단 여백을 줄임 */
+  color: #2d539e;
+  font-family: NanumSquareRound;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.11px;
+  margin-top: -2px;
+  text-align: center;
 `;
 
 const WhoandDetailText = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start; /* 왼쪽 정렬 */
+  gap: 2px;
 `;
 
 const GalleryFrame = ({ src, onLikeToggle, isLiked }) => {
+  const handleLikeClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onLikeToggle(src);
+  };
+
   return (
-    <Frame>
-      <ImgFrame>
-        <StyledImageWrapper onClick={() => onLikeToggle(src)}>
-          <StyledImage src={good} alt="사진이 들어갈 공간" liked={isLiked} />
-        </StyledImageWrapper>
-      </ImgFrame>
-      <UnderImg>
-        <Re>댓글</Re>
-        <When>2024-07-25</When>
-      </UnderImg>
-      <Under>
-        <Radius />
-        <WhoandDetailText>
-          <Who>취직한 동생</Who>
-          <DetailText>첫 사회생활의 시작</DetailText>
-        </WhoandDetailText>
-      </Under>
-    </Frame>
+    <Link to="/PhotoDetail">
+      <Frame>
+        <ImgFrame>
+          <StyledImageWrapper onClick={handleLikeClick}>
+            <StyledImage src={good} alt="사진이 들어갈 공간" liked={isLiked} />
+          </StyledImageWrapper>
+        </ImgFrame>
+        <UnderImg>
+          <Re>댓글</Re>
+          <When>2024-07-25</When>
+        </UnderImg>
+        <Under>
+          <Radius />
+          <WhoandDetailText>
+            <Who>취직한 동생</Who>
+            <DetailText>첫 사회생활의 시작</DetailText>
+          </WhoandDetailText>
+        </Under>
+      </Frame>
+    </Link>
   );
 };
 

@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import Header from "./components/Header";
 import PhotoPost from "./pages/Photo/PhotoPost";
 import PhotoPlus from "./pages/Photo/PhotoPlus";
+import PhotoDetail from "./components/PhotoDetail";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       { path: "Header", element: <Header /> },
       { path: "PhotoPost", element: <PhotoPost /> },
       { path: "PhotoPlus", element: <PhotoPlus /> },
+      { path: "PhotoDetail", element: <PhotoDetail /> },
     ],
   },
 ]);

@@ -51,6 +51,13 @@ const PhotoPost = () => {
     });
   };
 
+  //PhotoDetail 팝업 열도록 하는 것 + x 클릭하면 화면 닫히도록 하는 콛임
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
     <div>
       <Link to="/PhotoPlus">
