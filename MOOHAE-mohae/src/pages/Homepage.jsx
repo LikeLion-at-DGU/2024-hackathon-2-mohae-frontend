@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import MainPage from "../components/MainPage/MainPage";
 
 const PageStyle = createGlobalStyle`
   body {
@@ -18,6 +19,7 @@ function HomePage() {
   return (
     <>
       <PageStyle />
+      <MainPage/>
     </>
   );
 }
