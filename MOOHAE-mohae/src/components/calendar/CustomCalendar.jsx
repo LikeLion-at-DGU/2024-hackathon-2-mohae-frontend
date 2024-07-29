@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Calendar from 'react-calendar';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useSwipeable } from 'react-swipeable';
 
 import { PiPencilSimple , PiCalendarBlank } from "react-icons/pi";
 import { TbPencilPlus } from "react-icons/tb";
@@ -79,8 +78,6 @@ const CustomCalendar = () => {
     setNewEventEndDate(new Date());
     setNewEventCategory('');
     setColor('');
-    setShowForm(false);
-    setShowEmojiForm(false);
   };
 
   const addEmojiToDate = () => {
@@ -124,11 +121,6 @@ const CustomCalendar = () => {
       </div>
     ));
   };
-
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => setDate(new Date(date.setMonth(date.getMonth() + 1))),
-    onSwipedRight: () => setDate(new Date(date.setMonth(date.getMonth() - 1))),
-  });
 
   const handleCategoryChange = (e) => {
     const selectedCategory = categories.find(category => category.name === e.target.value);
@@ -179,7 +171,7 @@ const CustomCalendar = () => {
       if (tileDate.getDay() === 0) { // 일요일
         return isCurrentMonth ? 'current-month-sunday' : 'other-month-sunday';
       }
-      if (tileDate.getDay() === 6) {
+      if (tileDate.getDay() === 6) { // 토요일
         return isCurrentMonth ? 'current-month-satday' : 'other-month-satday';
       }
     }
@@ -187,7 +179,7 @@ const CustomCalendar = () => {
   };  
 
   return (
-    <S.Main {...swipeHandlers}>
+    <S.Main>
       <S.Body>
         <S.CalendarContainer>
           <S.CalendarLine />
@@ -362,7 +354,7 @@ const CustomCalendar = () => {
                   )}
                 </S.EventContainer>
                 
-                <div>
+                {/* <div>
                   <label>누가?:</label>
                   <select value={newEventCategory} onChange={handleCategoryChange}>
                     <option value="">새로운 모해?</option>
@@ -394,7 +386,7 @@ const CustomCalendar = () => {
                       </select>
                     </>
                   )}  
-                </div>
+                </div> */}
                 <S.row>
                   <S.dateCloseButton onClick={CloseAddForm}>닫기</S.dateCloseButton>
                   <S.AddButton onClick={addEvent}>추가</S.AddButton>

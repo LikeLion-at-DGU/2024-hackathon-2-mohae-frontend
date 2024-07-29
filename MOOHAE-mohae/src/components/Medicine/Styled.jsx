@@ -7,6 +7,7 @@ export const MedicineContainers = styled.div`
   overflow-x: scroll;
   white-space: nowrap;
   gap: 1rem;
+  margin-bottom: 2rem;
 `;
 
 export const MedicineContainer = styled.div`
@@ -57,7 +58,7 @@ export const MedicineTitle = styled.div`
   padding: 0rem 1rem 0rem 1rem;
 `;
 
-export const ProfileImage = styled.image`
+export const ProfileImage = styled.div`
   width: 3.125rem;
   height: 3.125rem;
 

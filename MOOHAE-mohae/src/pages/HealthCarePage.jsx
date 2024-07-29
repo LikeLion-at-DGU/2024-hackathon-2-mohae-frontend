@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 import { createGlobalStyle } from "styled-components";
 
@@ -16,23 +16,35 @@ const PageStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     display: flex;
+    width: 1440px;
     justify-content: center;
     align-items: center;
     height: fit-content;
   }
 `;
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
 const BackEffect = styled.div`
   display: flex;
   padding-top: 2rem;
-  justify-content: center;
+  flex-direction: column;
   width: 1440px;
+  align-items: center;
   background: linear-gradient(120deg, #E1EAFF 0%, #FFF 52.4%, #DCFAFC 100%);
 `;
 
-const MedicineBox = styled.div`
+const Box = styled.div`
   display: flex;
   flex-direction: column;
+  animation: ${fadeIn} 0.5s ease-in;
 `;
 
 const MedicineTitle = styled.div`
@@ -59,20 +71,24 @@ const MedicineContent = styled.div`
   line-height: normal;
 `;
 
+
 function HealthCarePage() {
   return (
     <>
       <PageStyle />
       <BackEffect>
-        <MedicineBox>
+        <Box>
           <MedicineTitle>비타민⋅약 복용</MedicineTitle>
           <MedicineContent><img src={Clock} alt="Clock" style={{width:50, height:50}} />2024년 7월 2일(화) 13:12 PM (점심)</MedicineContent>
           <Medicine />
-        </MedicineBox>
+        </Box>
+        <Box>
+          <Hospital />
+        </Box>
+
         <br />
         <HealthChallenge />
         <br />
-        <Hospital />
       </BackEffect>
     </>
   );
