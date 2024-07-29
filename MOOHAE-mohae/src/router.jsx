@@ -11,6 +11,8 @@ import Header from "./components/Header"; // 필요한 경우 사용
 import PhotoPost from "./pages/Photo/PhotoPost";
 import PhotoPlus from "./pages/Photo/PhotoPlus";
 import PhotoDetail from "./components/PhotoDetail";
+import Main from "./pages/PhotoBook/Main";
+import MHealthcareChallenge from "./components/CHealthChallenge/MHealthChallenge";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,8 @@ const router = createBrowserRouter([
       { path: "/PhotoPost", element: <PhotoPost /> },
       { path: "/PhotoPlus", element: <PhotoPlus /> },
       { path: "/PhotoDetail", element: <PhotoDetail /> },
+      { path: "/Main", element: <Main /> },
+      { path: "/MHealthcareChallenge", element: <MHealthcareChallenge /> },
     ],
   },
 ]);
