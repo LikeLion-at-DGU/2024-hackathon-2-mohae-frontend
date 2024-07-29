@@ -9,6 +9,13 @@ import Date from "./pages/DatePage";
 import DatePage from "./pages/DatePage";
 import LoginPage from "./pages/LoginPage";
 import HealthCarePage from "./pages/HealthCarePage";
+import Homepage from "./pages/Homepage";
+import Signup from "./components/Signup";
+import Login from "./pages/Login";
+import Header from "./components/Header";
+import PhotoPost from "./pages/Photo/PhotoPost";
+import PhotoPlus from "./pages/Photo/PhotoPlus";
+import PhotoDetail from "./components/PhotoDetail";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +28,12 @@ const router = createBrowserRouter([
       { path: "/Gallery", element: <Gallery /> },
       { path: "/Date", element: <DatePage /> },
       { path: "/HealthCare", element: <HealthCarePage /> },
+      { path: "Signup", element: <Signup /> },
+      { path: "Login", element: <Login /> },
+      { path: "Header", element: <Header /> },
+      { path: "PhotoPost", element: <PhotoPost /> },
+      { path: "PhotoPlus", element: <PhotoPlus /> },
+      { path: "PhotoDetail", element: <PhotoDetail /> },
     ],
   },
 ]);
