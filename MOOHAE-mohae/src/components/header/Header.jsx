@@ -51,7 +51,7 @@ const HeaderWrap2 = styled.div`
   padding: 1rem;
   width: 90%;
   justify-content: center;
-  border-bottom: 0.5px solid rgba(171, 171, 171, 0.50);
+  border-bottom: 0.5px solid rgba(171, 171, 171, 0.5);
 `;
 
 const MOHAEsytle = styled.h1`
@@ -76,8 +76,9 @@ const CategoryTitle = styled.div`
   font-weight: 700;
   line-height: normal;
 
-  & hover {
+  &:hover {
     color: #2d539e;
+    font-weight: 1000;
   }
 `;
 
@@ -89,27 +90,34 @@ const Header = () => {
       </StyledLink>
       <HeaderWrap1>
         <StyledLink to="/">
-          <ButtonwithIcon style={{marginLeft:30}}>
-            <RiAlarmWarningFill size={30} style={{color:'#FF6F6F'}}/>
+          <ButtonwithIcon style={{ marginLeft: 30 }}>
+            <RiAlarmWarningFill size={30} style={{ color: "#FF6F6F" }} />
             긴급
           </ButtonwithIcon>
         </StyledLink>
         <StyledLink to="Login">
-          <ButtonwithIcon style={{marginRight:30}}>
-            <BiSolidUser size={30}/>
+          <ButtonwithIcon style={{ marginRight: 30 }}>
+            <BiSolidUser size={30} />
             로그인
           </ButtonwithIcon>
         </StyledLink>
       </HeaderWrap1>
       <HeaderWrap2>
-        <StyledLink to="Date"><CategoryTitle>일정</CategoryTitle></StyledLink>
-        <StyledLink to="HealthCare"><CategoryTitle>건강</CategoryTitle></StyledLink>
-        <StyledLink to="Gallery"><CategoryTitle>가족 사진첩</CategoryTitle></StyledLink>
-        <StyledLink to="/"><CategoryTitle>문화생활</CategoryTitle></StyledLink>
+        <StyledLink to="Date">
+          <CategoryTitle>일정</CategoryTitle>
+        </StyledLink>
+        <StyledLink to="HealthCare">
+          <CategoryTitle>건강</CategoryTitle>
+        </StyledLink>
+        <StyledLink to="PhotoPost">
+          <CategoryTitle>가족 사진첩</CategoryTitle>
+        </StyledLink>
+        <StyledLink to="/">
+          <CategoryTitle>문화생활</CategoryTitle>
+        </StyledLink>
       </HeaderWrap2>
     </HeaderContainer>
-  )
-
+  );
 };
 
 export default Header;

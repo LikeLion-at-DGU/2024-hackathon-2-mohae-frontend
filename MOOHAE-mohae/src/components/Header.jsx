@@ -84,6 +84,7 @@ const Header = () => {
             <img src={emergencyIcon} alt="Emergency Icon" />
             긴급
           </Left>
+
           <Right>
             <img src={Ingan} alt="Login Icon" />
             로그인
