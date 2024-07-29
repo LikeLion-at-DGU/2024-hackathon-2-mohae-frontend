@@ -12,7 +12,8 @@ const PageStyle = createGlobalStyle`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: fit-content;
+    height: auto;
+    overflow-x: hidden;
   }
 `;
 
@@ -28,18 +29,20 @@ const StyledLink = styled(Link)`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
   font-family: Arial, sans-serif;
   min-height: 100vh;
   width: 100%;
-  align-items: center;
+  overflow: auto;
 `;
 
 const Header = styled.h1`
   color: #2a82da;
   margin-bottom: 20px;
   font-family: "Cafe24 Meongi B";
-  justify-content: flex-start;
+  text-align: center;
 `;
 
 const P1 = styled.h2`
@@ -69,6 +72,7 @@ const UnderText = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  margin-bottom: 20px;
 `;
 
 const Nemo = styled.div`
@@ -84,6 +88,7 @@ const Nemo = styled.div`
 
 const First = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   width: 100%;
   color: #000;
@@ -269,6 +274,7 @@ const Login = () => {
     <>
       <PageStyle />
       <Container>
+        <Link to="/"></Link>
         <P1>
           모해 <span>MOHAE</span> 서비스
         </P1>
@@ -314,13 +320,12 @@ const Login = () => {
 
             <ButtonContainer>
               <Button onClick={handleLogin} disabled={!username || !password}>
-                {" "}
-                로그인{" "}
+                로그인
               </Button>
-              <StyledLink to="/Signup">
-                <Button1> 회원가입 </Button1>
-              </StyledLink>
-              <Find> 아이디 / 비밀번호 찾기</Find>
+              <Link to="/Signup">
+                <Button1>회원가입</Button1>
+              </Link>
+              <Find>아이디 / 비밀번호 찾기</Find>
               <KAKAO>- SNS 로그인 -</KAKAO>
               <KakakoButton onClick={handleKakaoLogin}>
                 <FontAwesomeIcon icon={faComment} />
