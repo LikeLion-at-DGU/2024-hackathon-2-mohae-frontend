@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Calendar from 'react-calendar';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useSwipeable } from 'react-swipeable';
 
 import { PiPencilSimple , PiCalendarBlank } from "react-icons/pi";
+import { TbPencilPlus } from "react-icons/tb";
 
 
 import * as S from "./Styled";
@@ -78,8 +78,6 @@ const CustomCalendar = () => {
     setNewEventEndDate(new Date());
     setNewEventCategory('');
     setColor('');
-    setShowForm(false);
-    setShowEmojiForm(false);
   };
 
   const addEmojiToDate = () => {
@@ -123,11 +121,6 @@ const CustomCalendar = () => {
       </div>
     ));
   };
-
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => setDate(new Date(date.setMonth(date.getMonth() + 1))),
-    onSwipedRight: () => setDate(new Date(date.setMonth(date.getMonth() - 1))),
-  });
 
   const handleCategoryChange = (e) => {
     const selectedCategory = categories.find(category => category.name === e.target.value);
@@ -178,18 +171,21 @@ const CustomCalendar = () => {
       if (tileDate.getDay() === 0) { // 일요일
         return isCurrentMonth ? 'current-month-sunday' : 'other-month-sunday';
       }
+      if (tileDate.getDay() === 6) { // 토요일
+        return isCurrentMonth ? 'current-month-satday' : 'other-month-satday';
+      }
     }
     return null;
   };  
 
   return (
-    <S.Main {...swipeHandlers}>
+    <S.Main>
       <S.Body>
-        <h1>일정 관리 캘린더</h1>
         <S.CalendarContainer>
+          <S.CalendarLine />
           <S.CalendarHeader>
-            <S.AddEventButton onClick={() => setShowForm(!showForm)}>+</S.AddEventButton>
-            <S.TodayButton onClick={handleTodayClick}>오늘</S.TodayButton>
+            <S.AddEventButton onClick={() => setShowForm(!showForm)}><TbPencilPlus /></S.AddEventButton>
+            <S.TodayButton onClick={handleTodayClick}>Today</S.TodayButton>
           </S.CalendarHeader>
           <S.CustomCalendar>
             <Calendar
@@ -209,7 +205,7 @@ const CustomCalendar = () => {
               prev2Label=""
               next2Label=""
               minDetail="year"
-              formatDay={(locale, date) => date.toLocaleString('ko-KR', { day: 'numeric' })}
+              formatDay={(locale, date) => date.getDate().toString()}
               // 오늘 날짜로 가기 설정
               activeStartDate={activeStartDate === null ? undefined : activeStartDate}
               onActiveStartDateChange={({ activeStartDate }) =>
@@ -251,32 +247,35 @@ const CustomCalendar = () => {
           </S.EventDetails>
         )}
         {showEmojiForm && (
-          <S.AddEmojiForm>
-            <S.CloseButton onClick={CloseEmojiForm}>X</S.CloseButton>
-            <S.FormContent>
-              <h2>오늘모했어?</h2>
-              <S.EventContainer>
-                <select value={emoji} onChange={(e) => setEmoji(e.target.value)}>
-                  <option value="">이모지 선택</option>
-                  {availEmoji.map((emoji, index) => (
-                    <option key={index} value={emoji}>
-                      {emoji}
-                    </option>
-                  ))}
-                </select>
-                <textarea
-                  value={emojiText}
-                  onChange={(e) => setEmojiText(e.target.value)}
-                  placeholder="오늘의 기분"
-                />
-                <S.AddButton onClick={addEmojiToDate}>추가</S.AddButton>
-              </S.EventContainer>
-            </S.FormContent>
-          </S.AddEmojiForm>
+          <>
+            <S.backWrapping />
+            <S.AddEmojiForm>
+              <S.CloseButton onClick={CloseEmojiForm}>X</S.CloseButton>
+              <S.FormContent>
+                <h2>오늘모했어?</h2>
+                <S.EventContainer>
+                  <select value={emoji} onChange={(e) => setEmoji(e.target.value)}>
+                    <option value="">이모지 선택</option>
+                    {availEmoji.map((emoji, index) => (
+                      <option key={index} value={emoji}>
+                        {emoji}
+                      </option>
+                    ))}
+                  </select>
+                  <textarea
+                    value={emojiText}
+                    onChange={(e) => setEmojiText(e.target.value)}
+                    placeholder="오늘의 기분"
+                  />
+                  <S.AddButton onClick={addEmojiToDate}>추가</S.AddButton>
+                </S.EventContainer>
+              </S.FormContent>
+            </S.AddEmojiForm>
+          </>
         )}
         {showForm && (
           <>
-            <S.backWrapping></S.backWrapping>
+            <S.backWrapping />
             <S.NewEventForm>
               <S.FormContent>
                 <h2>새 일정 추가</h2>
@@ -355,7 +354,7 @@ const CustomCalendar = () => {
                   )}
                 </S.EventContainer>
                 
-                <div>
+                {/* <div>
                   <label>누가?:</label>
                   <select value={newEventCategory} onChange={handleCategoryChange}>
                     <option value="">새로운 모해?</option>
@@ -387,7 +386,7 @@ const CustomCalendar = () => {
                       </select>
                     </>
                   )}  
-                </div>
+                </div> */}
                 <S.row>
                   <S.dateCloseButton onClick={CloseAddForm}>닫기</S.dateCloseButton>
                   <S.AddButton onClick={addEvent}>추가</S.AddButton>

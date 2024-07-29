@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import "../App.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
@@ -11,10 +10,19 @@ const PageStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     display: flex;
+    width: 1440px;
     justify-content: center;
     align-items: center;
-    height: auto;
-    overflow-x: hidden;
+    height: fit-content;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit; /* 원래 텍스트 색상을 유지하려면 사용 */
+
+  &:hover {
+    text-decoration: none; /* 호버 시에도 밑줄 없앰 */
   }
 `;
 
@@ -22,7 +30,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: 20px;
   font-family: Arial, sans-serif;
   min-height: 100vh;

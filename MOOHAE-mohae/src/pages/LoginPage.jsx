@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
+import Login from "./Login";
+
 import { createGlobalStyle } from "styled-components";
-import MainPage from "../components/MainPage/MainPage";
 
 const PageStyle = createGlobalStyle`
   body {
@@ -16,13 +18,13 @@ const PageStyle = createGlobalStyle`
   }
 `;
 
-function HomePage() {
+function LoginPage() {
   return (
     <>
-      <PageStyle />
-      <MainPage />
+      <Login></Login>
+      <br />
     </>
   );
 }
 
-export default HomePage;
+export default LoginPage;

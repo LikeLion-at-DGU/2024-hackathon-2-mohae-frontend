@@ -1,7 +1,6 @@
 // src/components/Signup.jsx
 import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import "../App.css";
 import { Link } from "react-router-dom";
 
 const PageStyle = createGlobalStyle`
