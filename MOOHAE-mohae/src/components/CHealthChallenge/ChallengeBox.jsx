@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Nemo = styled.div`
   display: flex;
-  width: 522px;
+  width: 548px;
   height: 155px;
   padding: 6px 7px;
   justify-content: center;
