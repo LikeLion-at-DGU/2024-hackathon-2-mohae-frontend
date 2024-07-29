@@ -109,7 +109,7 @@ const Header = () => {
         <StyledLink to="HealthCare">
           <CategoryTitle>건강</CategoryTitle>
         </StyledLink>
-        <StyledLink to="Gallery">
+        <StyledLink to="PhotoPost">
           <CategoryTitle>가족 사진첩</CategoryTitle>
         </StyledLink>
         <StyledLink to="/">
