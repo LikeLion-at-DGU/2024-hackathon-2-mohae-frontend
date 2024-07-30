@@ -26,7 +26,7 @@ const DivWrapper = styled.div`
 `;
 
 const AboutMohae = () =>{
-
+    
     return(
         <>
             <DivWrapper>

@@ -12,7 +12,6 @@ import React from "react";
     width: 280px;
     height: fit-content;
     `;
-
     const TopSection = styled.div`
     display: flex;
     flex-direction: row;
@@ -35,9 +34,9 @@ import React from "react";
     border: 1px solid #2d539e;
     border-radius: 50%;
     color: #2d539e;
-    width: 19px;
-    height: 14px;
-    font-size: 9px;
+    width: 24px;
+    height: 20px;
+    font-size: 12px;
     font-weight: 600;
     `;
 
