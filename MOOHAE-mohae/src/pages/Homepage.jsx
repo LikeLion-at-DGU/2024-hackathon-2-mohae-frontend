@@ -1,4 +1,3 @@
-// HomePage.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
@@ -20,7 +19,7 @@ function HomePage() {
   return (
     <>
       <PageStyle />
-      <MainPage/>
+      <MainPage />
     </>
   );
 }

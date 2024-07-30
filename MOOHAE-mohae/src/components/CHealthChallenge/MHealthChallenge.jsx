@@ -8,6 +8,7 @@ const Container = styled.div`
   height: 498px;
   flex-shrink: 0;
   margin-bottom: 20px;
+  /* border: 1px solid pink; */
 `;
 
 const P = styled.p`
@@ -62,7 +63,7 @@ const Tag = styled.div`
 `;
 
 const UnderContainer = styled.div`
-  width: 1087px;
+  width: 1140px;
   height: 355px;
   /* border: 1px solid pink; */
   display: flex;
