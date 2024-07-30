@@ -73,6 +73,7 @@ const MedicineContent = styled.div`
 
 
 function HealthCarePage() {
+
   return (
     <>
       <PageStyle />
