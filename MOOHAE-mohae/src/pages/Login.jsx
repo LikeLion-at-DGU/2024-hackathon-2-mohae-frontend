@@ -14,6 +14,16 @@ const PageStyle = createGlobalStyle`
     justify-content: center;
     align-items: center;
     height: fit-content;
+    @media (max-width: 360px) {
+      background-color: #F7F8FB;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 360px;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+  }
   }
 `;
 
@@ -35,6 +45,14 @@ const Container = styled.div`
   min-height: 100vh;
   width: 100%;
   overflow: auto;
+  @media (max-width: 360px) {
+    /* 작은 화면에 맞게 요소 크기 조정 */
+    width: 360px;
+    padding: 10px;
+    justify-content: center;
+    margin: 0 auto; /* 가로 중앙 정렬 */
+    border: 1px solid pink;
+  }
 `;
 
 const Header = styled.h1`
@@ -44,24 +62,24 @@ const Header = styled.h1`
   text-align: center;
 `;
 
-const P1 = styled.h2`
-  color: #000;
-  text-align: center;
-  font-family: "NanumSquare Neo";
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+// const P1 = styled.h2`
+//   color: #000;
+//   text-align: center;
+//   font-family: "NanumSquare Neo";
+//   font-size: 32px;
+//   font-style: normal;
+//   font-weight: 400;
+//   line-height: normal;
 
-  span {
-    color: #000;
-    font-family: "Cafe24 Meongi B";
-    font-size: 36px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-`;
+//   span {
+//     color: #000;
+//     font-family: "Cafe24 Meongi B";
+//     font-size: 36px;
+//     font-style: normal;
+//     font-weight: 400;
+//     line-height: normal;
+//   }
+// `;
 
 const UnderText = styled.p`
   color: #7a7a7a;
@@ -83,6 +101,13 @@ const Nemo = styled.div`
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  @media (max-width: 360px) {
+    width: 100%; /* 작은 화면에 맞게 너비 조정 */
+    padding: 10px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    background: #fff;
+  }
 `;
 
 const First = styled.div`
@@ -97,6 +122,18 @@ const First = styled.div`
   font-weight: 400;
   line-height: normal;
   margin-bottom: 60px;
+  @media (max-width: 360px) {
+    width: 120px;
+    height: 24px;
+    flex-shrink: 0;
+    color: #000;
+    font-family: NanumSquareRound;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 20px;
+  }
 `;
 
 const Form = styled.div`
@@ -116,6 +153,15 @@ const Label = styled.label`
   line-height: normal;
   margin-bottom: 5px;
   width: 100px;
+  @media (max-width: 360px) {
+    align-self: stretch;
+    color: #000;
+    font-family: NanumSquareRound;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
 `;
 
 const Flex = styled.div`
@@ -123,6 +169,13 @@ const Flex = styled.div`
   justify-content: space-between;
   width: 100%;
   margin-bottom: 20px;
+  @media (max-width: 360px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+  }
 `;
 
 const InputWrapper = styled.div`
@@ -274,9 +327,9 @@ const Login = () => {
       <PageStyle />
       <Container>
         <Link to="/"></Link>
-        <P1>
+        {/* <P1>
           모해 <span>MOHAE</span> 서비스
-        </P1>
+        </P1> */}
         <UnderText>
           모해(MOHAE)는 ‘엄마, 아빠 그리고 나’ 일상을 보다 더 건강하고 의미있게
           맺어주는 플랫폼입니다.
