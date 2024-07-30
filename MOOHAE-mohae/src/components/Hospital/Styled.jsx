@@ -12,8 +12,7 @@ export const HospitalHeader = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-around;
-  border-bottom: 1px solid #ccc;
-  background-color: #FFF;
+  background-color: inherit;
 `;
 
 export const HospitalTitle = styled.div`
@@ -29,47 +28,64 @@ export const HospitalTitle = styled.div`
 export const HospitalContent = styled.div`
   display: flex;
   margin-top: 1rem;
-  width: 240px;
+  margin-bottom: 0.5rem;
+  width: 120px;
   gap: 0.5rem;
-  padding: 20px 0px 20px 0px;
+  padding: 0.25rem 0rem;
   align-items: center;
   justify-content: center;
 
-  border-radius: 1rem 1rem 0rem 0rem;
+  border-radius: 1rem;
   background-color: #fff;
+
+  color: #2D538E;
+  font-family: 'NanumSquareRound';
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
 `;
 
 export const CalendarBody = styled.div`
   display: flex;
   width: 100%;
+  height: 250px;
+  overflow-y: scroll;
 `;
 
 export const DayContainer = styled.div`
   flex: 1;
-  border: 1px solid #ccc;
   min-height: 150px;
   position: relative;
 `;
 
 export const DayHeader = styled.div`
+  width: 80px;
   display: flex;
   text-align: center;
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  padding: 0.75rem 1rem;
+  font-family: 'NanumSquareRound';
+  font-weight: 700;
+  font-size: 1.25rem;
+  padding: 0.5rem 0rem;
+  
   border-radius: 0.625rem;
 
   margin-bottom: 0.5rem;
 
-  background-color: ${props => props.isToday ? '#2d539e' : '#fff'};
+  background-color: ${props => props.isToday ? '#2d539e' : 'inherit'};
   color: ${props => props.isToday ? '#fff' : '#000'};
 `;
 
 export const Event = styled.div`
-  background-color: ${props => props.color || '#add8e6'};
-  margin: 5px;
-  padding: 5px;
+  padding: 0.75rem;
+  background-color: #FFF;
+  border-radius: 0.25rem;
+  box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
+  min-height: 150px;
+
+  margin: 1rem;
   border-radius: 4px;
   top: ${props => props.top}%;
   height: ${props => props.height}%;
@@ -157,6 +173,26 @@ export const NoDate = styled.div`
   color: #9F9F9F;
 
   text-align: center;
+  font-family: 'NanumSquareRound';
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+`;
+
+export const EventTime = styled.div`
+  color: #2D539E;
+
+  font-family: 'NanumSquareRound';
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+`;
+
+export const EventTitle = styled.div`
+  color: #000;
+
   font-family: 'NanumSquareRound';
   font-size: 1rem;
   font-style: normal;

@@ -4,6 +4,7 @@ import styled, {keyframes} from 'styled-components';
 export const MedicineContainers = styled.div`
   display: flex;
   width: 1140px;
+  position: relative;
   overflow-x: scroll;
   white-space: nowrap;
   gap: 1rem;
@@ -132,6 +133,7 @@ export const CheckBar = styled.div`
 
 export const CheckBarAll = styled.div`
   width: 300px;
+  margin: auto;
   height: 5px;
   border: 20px;
   background-color: #D9D9D9;
@@ -147,7 +149,7 @@ export const CheckBar33 = styled.div`
 
 export const CheckBar66 = styled.div`
   position: absolute;
-  width: 33%;
+  width: 34%;
   left: 33%;
   height: 5px;
   border: 20px;
@@ -157,8 +159,20 @@ export const CheckBar66 = styled.div`
 export const CheckBar100 = styled.div`
   position: absolute;
   width: 33%;
-  left: 66%;
+  left: 67%;
   height: 5px;
   border: 20px;
   background-color: #2D539e;
+`;
+
+export const AddButton = styled.div`
+  display: flex;
+  position: absolute;
+  right: 0;
+  color: #9f9f9f;
+  text-align: center;
+  font-family: 'NanumSquareRound';
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 800;
 `;

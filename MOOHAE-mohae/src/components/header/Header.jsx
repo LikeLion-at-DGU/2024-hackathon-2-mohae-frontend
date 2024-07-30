@@ -7,10 +7,10 @@ import { BiSolidUser } from "react-icons/bi";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: inherit; /* 원래 텍스트 색상을 유지하려면 사용 */
+  color: inherit;
 
   &:hover {
-    text-decoration: none; /* 호버 시에도 밑줄 없앰 */
+    text-decoration: none;
   }
 `;
 
@@ -20,6 +20,10 @@ const HeaderContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 359px) {
+    width: 338px;
+  }
 `;
 
 const HeaderWrap1 = styled.div`
@@ -27,6 +31,12 @@ const HeaderWrap1 = styled.div`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: 359px) {
+    position: absolute;
+    top: 1rem;
+  }
 `;
 
 const ButtonwithIcon = styled.div`
@@ -42,6 +52,10 @@ const ButtonwithIcon = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 const HeaderWrap2 = styled.div`
@@ -52,6 +66,10 @@ const HeaderWrap2 = styled.div`
   width: 90%;
   justify-content: center;
   border-bottom: 0.5px solid rgba(171, 171, 171, 0.5);
+
+  @media (max-width: 359px) {
+    gap: 1rem;
+  }
 `;
 
 const MOHAEsytle = styled.h1`
@@ -62,6 +80,10 @@ const MOHAEsytle = styled.h1`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 2rem;
+  }
 `;
 
 const CategoryTitle = styled.div`
@@ -85,15 +107,15 @@ const CategoryTitle = styled.div`
 const Header = () => {
   return (
     <HeaderContainer>
-      <StyledLink to="/">
-        <MOHAEsytle>mohae</MOHAEsytle>
-      </StyledLink>
       <HeaderWrap1>
         <StyledLink to="/">
           <ButtonwithIcon style={{ marginLeft: 30 }}>
             <RiAlarmWarningFill size={30} style={{ color: "#FF6F6F" }} />
             긴급
           </ButtonwithIcon>
+        </StyledLink>
+        <StyledLink to="/">
+          <MOHAEsytle>mohae</MOHAEsytle>
         </StyledLink>
         <StyledLink to="Login">
           <ButtonwithIcon style={{ marginRight: 30 }}>

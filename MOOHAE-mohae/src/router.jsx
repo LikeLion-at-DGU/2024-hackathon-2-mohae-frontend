@@ -5,7 +5,7 @@ import Homepage from "./pages/Homepage";
 import Signup from "./components/Signup";
 import LoginPage from "./pages/LoginPage";
 // import Gallery from "./pages/Gallery"; // 추가된 부분
-import DatePage from "./pages/DatePage"; // DatePage와 Date가 동일 파일로 보임
+import DatePage from "./pages/DatePage/DatePage"; // DatePage와 Date가 동일 파일로 보임
 import HealthCarePage from "./pages/HealthCarePage";
 import Header from "./components/Header"; // 필요한 경우 사용
 import PhotoPost from "./pages/Photo/PhotoPost";

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Calendar from 'react-calendar';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { PiPencilSimple , PiCalendarBlank } from "react-icons/pi";
 import { TbPencilPlus } from "react-icons/tb";
+import { IoPersonCircleOutline } from "react-icons/io5";
 
+
+import { API } from '../../api';
 
 import * as S from "./Styled";
 
@@ -21,11 +24,6 @@ const CustomCalendar = () => {
 
   const [allDay, setAllDay] = useState(false);
 
-  const [color, setColor] = useState('');
-  const [availColor, setAvailColor] = useState([
-    'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'
-  ]);
-
   const [emoji, setEmoji] = useState('');
   const [emojiText, setEmojiText] = useState('');
   const [availEmoji, setAvailEmoji] = useState([
@@ -33,51 +31,55 @@ const CustomCalendar = () => {
   ]);
 
   const [showForm, setShowForm] = useState(false);
-  const [newEventCategory, setNewEventCategory] = useState('');
-
-  const [categories, setCategories] = useState([]);
+  
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
   const [showEmojiForm, setShowEmojiForm] = useState(false);
   const [dateEmojis, setDateEmojis] = useState({});
 
-  const addEvent = () => {
-    let startDate = new Date(newEventStartDate);
-    let endDate = new Date(newEventEndDate);
+  const [selectedParticipants, setSelectedParticipants] = useState([]);
+  const [availableParticipants, setAvailableParticipants] = useState([
+    "Alice", "Bob", "Charlie"
+  ]);
 
-    if (!allDay) {
-      startDate.setHours(newEventStartDate.getHours(), newEventStartDate.getMinutes());
-      endDate.setHours(newEventEndDate.getHours(), newEventEndDate.getMinutes());
+
+  const FetchDateData = async () => {
+    try {
+      const response = await API.get('{% url "post:calendar" %}');
+
+      setEvents(response.data);
+
+    } catch (error) {
+      console.log('fetch error');
     }
+  }
 
-    if (endDate < startDate) {
-      endDate = startDate;
+  useEffect(() => {
+    FetchDateData();
+  }, []);
+
+  const PostDateData = async () => {
+    try {
+      const eventData = {
+        title: newEventTitle,
+        start: newEventStartDate,
+        end: newEventEndDate,
+        all_day: allDay,
+        participants: selectedParticipants,
+      };
+  
+      const response = await API.post('{% url "post:calendar_event" %}', eventData);
+
+    } catch (error) {
+      console.error(error);
+      alert('post Failure');
     }
+  };
 
-    // 시작날짜를 하루 안빼면 이상해지더라고요.. 나중에 고칠게요
-    startDate.setDate(startDate.getDate() - 1);
-
-    const eventColor = categories.find(cat => cat.name === newEventCategory)?.color || color;
-
-    setEvents([...events, {
-      start: startDate,
-      end: endDate,
-      title: newEventTitle,
-      allDay,
-      category: newEventCategory,
-      color: eventColor,
-    }]);
-
-    if (!categories.some(category => category.name === newEventCategory)) {
-      setCategories([...categories, { name: newEventCategory, color: eventColor }]);
-    }
-
-    setNewEventTitle('');
-    setNewEventStartDate(new Date());
-    setNewEventEndDate(new Date());
-    setNewEventCategory('');
-    setColor('');
+  const handleEvent = () => {
+    PostDateData();
+    setShowForm(false);
   };
 
   const addEmojiToDate = () => {
@@ -95,17 +97,17 @@ const CustomCalendar = () => {
     return events
       .filter(event => date >= event.start && date <= event.end)
       .map((event, index) => {
+        // 시작날 하루 빼주는 걸 어떻게 하는지 모르겠다..ㅠ
         const isStart = date.toDateString() === new Date(event.start.getTime() + 86400000).toDateString();
         const isEnd = date.toDateString() === new Date(event.end.getTime()).toDateString();
 
         return (
           <S.EventTile
             key={index}
-            color={event.color}
-            isStart={isStart}
-            isEnd={isEnd}
+            data-isstart={isStart}
+            data-isend={isEnd}
           >
-            <span>{isStart ? `${event.category} ${event.title}` : ''}</span>
+            <span>{isStart ? `${event.title}` : ''}</span>
           </S.EventTile>
         );
       });
@@ -120,17 +122,6 @@ const CustomCalendar = () => {
         <span>{item.emoji}</span>
       </div>
     ));
-  };
-
-  const handleCategoryChange = (e) => {
-    const selectedCategory = categories.find(category => category.name === e.target.value);
-    if (selectedCategory) {
-      setNewEventCategory(selectedCategory.name);
-      setColor(selectedCategory.color);
-    } else {
-      setNewEventCategory(e.target.value);
-      setColor('');
-    }
   };
 
   const CloseAddForm = () => {
@@ -177,6 +168,17 @@ const CustomCalendar = () => {
     }
     return null;
   };  
+
+  const handleParticipantChange = (e) => {
+    const selectedParticipant = e.target.value;
+    if (selectedParticipant && !selectedParticipants.includes(selectedParticipant)) {
+      setSelectedParticipants([...selectedParticipants, selectedParticipant]);
+    }
+  };
+
+  const removeParticipant = (participant) => {
+    setSelectedParticipants(selectedParticipants.filter(p => p !== participant));
+  };
 
   return (
     <S.Main>
@@ -225,7 +227,7 @@ const CustomCalendar = () => {
             {selectedEvent.length > 0 ? (
               selectedEvent.map((event, index) => (
                 <div key={index} style={{ backgroundColor: event.color }}>
-                  {event.category ? `${event.category} : ` : ''} {event.title}
+                  {event.title}
                   {event.start.getFullYear() === event.end.getFullYear() && event.start.getMonth() === event.end.getMonth() && event.start.getDate() + 1 === event.end.getDate() ? (
                     <p>{event.allDay ? "하루종일" : `${event.start.getHours()}:${event.start.getMinutes()} ~ ${event.end.getHours()}:${event.end.getMinutes()}`}</p>
                   ) : (
@@ -290,8 +292,8 @@ const CustomCalendar = () => {
                 </S.contentContainer>
                 <S.contentContainer>
                   <S.ToggleLabel>하루종일</S.ToggleLabel>
-                  <S.ToggleContainer isActive={allDay} onClick={toggleAllDay}>
-                    <S.ToggleCircle isActive={allDay} />
+                  <S.ToggleContainer data-isactive={allDay} onClick={toggleAllDay}>
+                    <S.ToggleCircle data-isactive={allDay} />
                   </S.ToggleContainer>
                 </S.contentContainer>
                 <S.EventContainer>
@@ -301,6 +303,7 @@ const CustomCalendar = () => {
                         showIcon
                         icon={<PiCalendarBlank color="#2D539E"/>}
                         selected={newEventStartDate}
+                        value={newEventStartDate}
                         onChange={(date) => setNewEventStartDate(date)}
                         dateFormat="yyyy/MM/dd"
                         customInput={<S.DateSelectInput />}
@@ -313,6 +316,7 @@ const CustomCalendar = () => {
                         showIcon
                         icon={<PiCalendarBlank color="#2D539E"/>}
                         selected={newEventStartDate}
+                        value={newEventStartDate}
                         onChange={(date) => setNewEventStartDate(date)}
                         showTimeSelect
                         timeFormat="aa hh:mm"
@@ -330,6 +334,7 @@ const CustomCalendar = () => {
                         showIcon
                         icon={<PiCalendarBlank color="#2D539E"/>}
                         selected={newEventEndDate}
+                        value={newEventEndDate}
                         onChange={(date) => setNewEventEndDate(date)}
                         dateFormat="yyyy/MM/dd"
                         customInput={<S.DateSelectInput />}
@@ -342,6 +347,7 @@ const CustomCalendar = () => {
                         showIcon
                         icon={<PiCalendarBlank color="#2D539E"/>}
                         selected={newEventEndDate}
+                        value={newEventEndDate}
                         onChange={(date) => setNewEventEndDate(date)}
                         showTimeSelect
                         timeFormat="aa hh:mm"
@@ -353,43 +359,31 @@ const CustomCalendar = () => {
                     </S.contentContainer>
                   )}
                 </S.EventContainer>
-                
-                {/* <div>
-                  <label>누가?:</label>
-                  <select value={newEventCategory} onChange={handleCategoryChange}>
-                    <option value="">새로운 모해?</option>
-                    {categories.map((category, index) => (
-                      <option key={index} value={category.name}>{category.name}</option>
+                <S.contentContainer>
+                  <IoPersonCircleOutline color="#2D539E" size={25} />
+                  <S.EventSelectStyle
+                    value=""
+                    onChange={handleParticipantChange}
+                  >
+                    <option value="">참가자 선택</option>
+                    {availableParticipants.map((participant, index) => (
+                      <option key={index} value={participant}>
+                        {participant}
+                      </option>
                     ))}
-                  </select>
-                  {!categories.some(category => category.name === newEventCategory) && (
-                    <>
-                      <input
-                        type="text"
-                        value={newEventCategory}
-                        onChange={(e) => setNewEventCategory(e.target.value)}
-                        placeholder="누가 모해?"
-                      />
-                    </>
-                  )}
-                  {!categories.some(category => category.name === newEventCategory) && (
-                    <>
-                      <select 
-                        value={color} 
-                        onChange={(e) => setColor(e.target.value)}>
-                        <option value="">색상 선택</option>
-                        {availColor.filter(c => !events.some(event => event.color === c)).map((color, index) => (
-                          <option key={index} value={color}>
-                            {color}
-                          </option>
-                        ))}
-                      </select>
-                    </>
-                  )}  
-                </div> */}
+                  </S.EventSelectStyle>
+                </S.contentContainer>
+                <div>
+                  {selectedParticipants.map((participant, index) => (
+                    <S.SelectedParticipant key={index}>
+                      {participant}
+                      <S.RemoveParticipant onClick={() => removeParticipant(participant)}>X</S.RemoveParticipant>
+                    </S.SelectedParticipant>
+                  ))}
+                </div>
                 <S.row>
                   <S.dateCloseButton onClick={CloseAddForm}>닫기</S.dateCloseButton>
-                  <S.AddButton onClick={addEvent}>추가</S.AddButton>
+                  <S.AddButton onClick={handleEvent}>추가</S.AddButton>
                 </S.row>
               </S.FormContent>
             </S.NewEventForm>
@@ -403,3 +397,94 @@ const CustomCalendar = () => {
 export default CustomCalendar;
 
 
+// const [color, setColor] = useState('');
+// const [availColor, setAvailColor] = useState([
+//   'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'
+// ]);
+// const [newEventCategory, setNewEventCategory] = useState('');
+
+// const [categories, setCategories] = useState([]);
+
+// const handleCategoryChange = (e) => {
+//   const selectedCategory = categories.find(category => category.name === e.target.value);
+//   if (selectedCategory) {
+//     setNewEventCategory(selectedCategory.name);
+//     setColor(selectedCategory.color);
+//   } else {
+//     setNewEventCategory(e.target.value);
+//     setColor('');
+//   }
+// };
+
+
+// const addEvent = () => {
+//   let startDate = new Date(newEventStartDate);
+//   let endDate = new Date(newEventEndDate);
+
+//   if (!allDay) {
+//     startDate.setHours(newEventStartDate.getHours(), newEventStartDate.getMinutes());
+//     endDate.setHours(newEventEndDate.getHours(), newEventEndDate.getMinutes());
+//   }
+
+//   if (endDate < startDate) {
+//     endDate = startDate;
+//   }
+
+//   // 시작날짜를 하루 안빼면 이상해지더라고요.. 나중에 고칠게요
+//   startDate.setDate(startDate.getDate() - 1);
+
+//   // const eventColor = categories.find(cat => cat.name === newEventCategory)?.color || color;
+
+//   setEvents([...events, {
+//     start: startDate,
+//     end: endDate,
+//     title: newEventTitle,
+//     allDay,
+//     // category: newEventCategory,
+//     // color: eventColor,
+//   }]);
+
+//   // if (!categories.some(category => category.name === newEventCategory)) {
+//   //   setCategories([...categories, { name: newEventCategory, color: eventColor }]);
+//   // }
+
+//   setNewEventTitle('');
+//   setNewEventStartDate(new Date());
+//   setNewEventEndDate(new Date());
+// };
+
+
+
+/* <div>
+  <label>누가?:</label>
+  <select value={newEventCategory} onChange={handleCategoryChange}>
+    <option value="">새로운 모해?</option>
+    {categories.map((category, index) => (
+      <option key={index} value={category.name}>{category.name}</option>
+    ))}
+  </select>
+  {!categories.some(category => category.name === newEventCategory) && (
+    <>
+      <input
+        type="text"
+        value={newEventCategory}
+        onChange={(e) => setNewEventCategory(e.target.value)}
+        placeholder="누가 모해?"
+      />
+    </>
+  )}
+  {!categories.some(category => category.name === newEventCategory) && (
+    <>
+      <select 
+        value={color} 
+        onChange={(e) => setColor(e.target.value)}>
+        <option value="">색상 선택</option>
+        {availColor.filter(c => !events.some(event => event.color === c)).map((color, index) => (
+          <option key={index} value={color}>
+            {color}
+          </option>
+        ))}
+      </select>
+    </>
+  )}  
+</div> */
