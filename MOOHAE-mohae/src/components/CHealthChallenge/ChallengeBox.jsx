@@ -44,7 +44,7 @@ const Icon = styled.div`
   /* background-color: blue; // 확인용 */
 `;
 
-const Imgofuser = styled.p`
+const Imgofuser = styled.div`
   color: #000;
   font-family: NanumSquareRound;
   font-size: 15px;
@@ -75,7 +75,7 @@ const Radiusofuser = styled.div`
   margin-left: 10px;
 `;
 
-const ChallengeTitle = styled.p`
+const ChallengeTitle = styled.div`
   align-self: stretch;
   color: #2d539e;
   font-family: NanumSquareRound;
@@ -87,7 +87,7 @@ const ChallengeTitle = styled.p`
   margin-top: 0px;
 `;
 
-const ChallengeDate = styled.p`
+const ChallengeDate = styled.div`
   align-self: stretch;
   color: #000;
   font-family: NanumSquareRound;
@@ -99,17 +99,17 @@ const ChallengeDate = styled.p`
   margin-top: -10px;
 `;
 
-const PLeft = styled.p`
+const PLeft = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-const PRight = styled.p`
+const PRight = styled.div`
   display: flex;
   gap: 8px;
   margin-right: 10px;
 `;
-const PRight1 = styled.p`
+const PRight1 = styled.div`
   color: #2d539e;
   text-align: center;
   font-family: NanumSquareRound;
@@ -126,7 +126,7 @@ const PRight1 = styled.p`
   border-radius: 30px;
   background: #ebf1ff;
 `;
-const PRight2 = styled.p`
+const PRight2 = styled.div`
   color: #de0000;
   text-align: center;
   font-family: NanumSquareRound;
@@ -144,7 +144,7 @@ const PRight2 = styled.p`
   background: #ffebe1;
 `;
 
-const Apply = styled.p`
+const Apply = styled.div`
   color: #fff;
   text-align: center;
   font-family: NanumSquareRound;

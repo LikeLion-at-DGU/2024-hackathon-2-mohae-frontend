@@ -46,14 +46,13 @@ const CustomCalendar = () => {
 
   const FetchDateData = async () => {
     try {
-      const response = await API.get('{% url "post:calendar" %}');
-
+      const response = await API.get('/cal/events/list/');
+      console.log(response.data);
       setEvents(response.data);
-
     } catch (error) {
-      console.log('fetch error');
+      console.log('fetch error:', error);
     }
-  }
+  };
 
   useEffect(() => {
     FetchDateData();
@@ -61,15 +60,17 @@ const CustomCalendar = () => {
 
   const PostDateData = async () => {
     try {
+      const created_by = 1;
+      const family_id = 1;
+
       const eventData = {
         title: newEventTitle,
-        start: newEventStartDate,
-        end: newEventEndDate,
-        all_day: allDay,
-        participants: selectedParticipants,
+        start: newEventStartDate.toISOString(),
+        end: newEventEndDate.toISOString(),
+        participants: setSelectedParticipants,
       };
   
-      const response = await API.post('{% url "post:calendar_event" %}', eventData);
+      const response = await API.post('/cal/events/list/', eventData);
 
     } catch (error) {
       console.error(error);
@@ -133,11 +134,16 @@ const CustomCalendar = () => {
   };
 
   const handleDateClick = (date) => {
+  if (selectedDate && selectedDate.toDateString() === date.toDateString()) {
+    setSelectedDate(null);
+    setShowDetails(false);
+  } else {
     setSelectedDate(date);
     const event = events.filter(event => date >= event.start && date <= event.end);
     setSelectedEvent(event);
     setShowDetails(true);
-  };
+  }
+};
 
   const CloseDetails = () => {
     setShowDetails(false);
@@ -181,63 +187,210 @@ const CustomCalendar = () => {
   };
 
   return (
-    <S.Main>
-      <S.Body>
-        <S.CalendarContainer>
-          <S.CalendarLine />
-          <S.CalendarHeader>
-            <S.AddEventButton onClick={() => setShowForm(!showForm)}><TbPencilPlus /></S.AddEventButton>
-            <S.TodayButton onClick={handleTodayClick}>Today</S.TodayButton>
-          </S.CalendarHeader>
-          <S.CustomCalendar>
-            <Calendar
-              value={date}
-              onChange={handleDateClick}
-              tileContent={({ date }) => (
-                <>
-                  {renderEvents(date)}
-                  {renderEmojis(date)}
-                </>
-              )}
-              formatShortWeekday={(locale, date) => date.toLocaleDateString('en', { weekday: 'short' })}
-              formatMonthYear={(locale, date) => `${date.getMonth() + 1}월`}
-              calendarType="gregory"
-              prevLabel="<"
-              nextLabel=">"
-              prev2Label=""
-              next2Label=""
-              minDetail="year"
-              formatDay={(locale, date) => date.getDate().toString()}
-              // 오늘 날짜로 가기 설정
-              activeStartDate={activeStartDate === null ? undefined : activeStartDate}
-              onActiveStartDateChange={({ activeStartDate }) =>
-                setActiveStartDate(activeStartDate)
-              }
-              tileClassName={tileClassName}
-            />
-          </S.CustomCalendar>
-        </S.CalendarContainer>
-        {showDetails && selectedDate && (
-          <S.EventDetails>
+    <>
+      <S.Main>
+        <S.Body>
+          <S.CalendarContainer>
+            <S.CalendarLine />
+            <S.CalendarHeader>
+              <S.AddEventButton onClick={() => setShowForm(!showForm)}><TbPencilPlus /></S.AddEventButton>
+              <S.TodayButton onClick={handleTodayClick}>Today</S.TodayButton>
+            </S.CalendarHeader>
+            <S.CustomCalendar>
+              <Calendar
+                value={date}
+                onChange={handleDateClick}
+                tileContent={({ date }) => (
+                  <>
+                    {renderEvents(date)}
+                    {renderEmojis(date)}
+                  </>
+                )}
+                formatShortWeekday={(locale, date) => date.toLocaleDateString('en', { weekday: 'short' })}
+                formatMonthYear={(locale, date) => `${date.getMonth() + 1}월`}
+                calendarType="gregory"
+                prevLabel="<"
+                nextLabel=">"
+                prev2Label=""
+                next2Label=""
+                minDetail="year"
+                formatDay={(locale, date) => date.getDate().toString()}
+                // 오늘 날짜로 가기 설정
+                activeStartDate={activeStartDate === null ? undefined : activeStartDate}
+                onActiveStartDateChange={({ activeStartDate }) =>
+                  setActiveStartDate(activeStartDate)
+                }
+                tileClassName={tileClassName}
+              />
+            </S.CustomCalendar>
+          </S.CalendarContainer>
+          {showEmojiForm && (
+            <>
+              <S.backWrapping />
+              <S.AddEmojiForm>
+                <S.CloseButton onClick={CloseEmojiForm}>X</S.CloseButton>
+                <S.FormContent>
+                  <h2>오늘모했어?</h2>
+                  <S.EventContainer>
+                    <select value={emoji} onChange={(e) => setEmoji(e.target.value)}>
+                      <option value="">이모지 선택</option>
+                      {availEmoji.map((emoji, index) => (
+                        <option key={index} value={emoji}>
+                          {emoji}
+                        </option>
+                      ))}
+                    </select>
+                    <textarea
+                      value={emojiText}
+                      onChange={(e) => setEmojiText(e.target.value)}
+                      placeholder="오늘의 기분"
+                    />
+                    <S.AddButton onClick={addEmojiToDate}>추가</S.AddButton>
+                  </S.EventContainer>
+                </S.FormContent>
+              </S.AddEmojiForm>
+            </>
+          )}
+          {showForm && (
+            <>
+              <S.backWrapping />
+              <S.NewEventForm>
+                <S.FormContent>
+                  <h2>새 일정 추가</h2>
+                  <S.contentContainer>
+                    <PiPencilSimple color="#2D539E" size={25}/>
+                    <S.EventInputStyle
+                      type="text"
+                      value={newEventTitle}
+                      onChange={(e) => setNewEventTitle(e.target.value)}
+                      placeholder="제목을 입력하세요."
+                    />
+                  </S.contentContainer>
+                  <S.contentContainer>
+                    <S.ToggleLabel>하루종일</S.ToggleLabel>
+                    <S.ToggleContainer data-isactive={allDay} onClick={toggleAllDay}>
+                      <S.ToggleCircle data-isactive={allDay} />
+                    </S.ToggleContainer>
+                  </S.contentContainer>
+                  <S.EventContainer>
+                    {allDay && (
+                      <S.contentContainer>
+                        <DatePicker
+                          showIcon
+                          icon={<PiCalendarBlank color="#2D539E"/>}
+                          selected={newEventStartDate}
+                          value={newEventStartDate}
+                          onChange={(date) => setNewEventStartDate(date)}
+                          dateFormat="yyyy/MM/dd"
+                          customInput={<S.DateSelectInput />}
+                        />
+                      </S.contentContainer>
+                    )}
+                    {!allDay && (
+                      <S.contentContainer>
+                        <DatePicker
+                          showIcon
+                          icon={<PiCalendarBlank color="#2D539E"/>}
+                          selected={newEventStartDate}
+                          value={newEventStartDate}
+                          onChange={(date) => setNewEventStartDate(date)}
+                          showTimeSelect
+                          timeFormat="aa hh:mm"
+                          timeIntervals={15}
+                          dateFormat="yyyy/MM/dd aa h:mm"
+                          timeCaption="time"
+                          customInput={<S.DateSelectInput />}
+                        />
+                      </S.contentContainer>
+                    )}
+
+                    {allDay && (
+                      <S.contentContainer>
+                        <DatePicker
+                          showIcon
+                          icon={<PiCalendarBlank color="#2D539E"/>}
+                          selected={newEventEndDate}
+                          value={newEventEndDate}
+                          onChange={(date) => setNewEventEndDate(date)}
+                          dateFormat="yyyy/MM/dd"
+                          customInput={<S.DateSelectInput />}
+                        />
+                      </S.contentContainer>
+                    )}
+                    {!allDay && (
+                      <S.contentContainer>
+                        <DatePicker
+                          showIcon
+                          icon={<PiCalendarBlank color="#2D539E"/>}
+                          selected={newEventEndDate}
+                          value={newEventEndDate}
+                          onChange={(date) => setNewEventEndDate(date)}
+                          showTimeSelect
+                          timeFormat="aa hh:mm"
+                          timeIntervals={15}
+                          dateFormat="yyyy/MM/dd aa h:mm"
+                          timeCaption="time"
+                          customInput={<S.DateSelectInput />}
+                        />
+                      </S.contentContainer>
+                    )}
+                  </S.EventContainer>
+                  <S.contentContainer>
+                    <IoPersonCircleOutline color="#2D539E" size={25} />
+                    <S.EventSelectStyle
+                      value=""
+                      onChange={handleParticipantChange}
+                    >
+                      <option value="">참가자 선택</option>
+                      {availableParticipants.map((participant, index) => (
+                        <option key={index} value={participant}>
+                          {participant}
+                        </option>
+                      ))}
+                    </S.EventSelectStyle>
+                  </S.contentContainer>
+                  <div>
+                    {selectedParticipants.map((participant, index) => (
+                      <S.SelectedParticipant key={index}>
+                        {participant}
+                        <S.RemoveParticipant onClick={() => removeParticipant(participant)}>X</S.RemoveParticipant>
+                      </S.SelectedParticipant>
+                    ))}
+                  </div>
+                  <S.row>
+                    <S.dateCloseButton onClick={CloseAddForm}>닫기</S.dateCloseButton>
+                    <S.AddButton onClick={handleEvent}>추가</S.AddButton>
+                  </S.row>
+                </S.FormContent>
+              </S.NewEventForm>
+            </>
+          )}
+        </S.Body>
+      </S.Main>
+      {showDetails && selectedDate && (
+        <S.SideSchedules>
+          <S.SideContainer>
             <S.EventDetailsHeader>
               <S.CloseButton2 onClick={CloseDetails}>X</S.CloseButton2>
               <S.AddEventButton onClick={() => setShowEmojiForm(!showEmojiForm)}>+</S.AddEventButton>
             </S.EventDetailsHeader>
-            <><h2>{`${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`}</h2></>
-            {selectedEvent.length > 0 ? (
-              selectedEvent.map((event, index) => (
-                <div key={index} style={{ backgroundColor: event.color }}>
-                  {event.title}
-                  {event.start.getFullYear() === event.end.getFullYear() && event.start.getMonth() === event.end.getMonth() && event.start.getDate() + 1 === event.end.getDate() ? (
-                    <p>{event.allDay ? "하루종일" : `${event.start.getHours()}:${event.start.getMinutes()} ~ ${event.end.getHours()}:${event.end.getMinutes()}`}</p>
-                  ) : (
-                    <p>{event.allDay ? `${event.start.getFullYear()}.${event.start.getMonth() + 1}.${event.start.getDate() + 1} ~ ${event.end.getFullYear()}.${event.end.getMonth() + 1}.${event.end.getDate()}` : `${event.start.getFullYear()}.${event.start.getMonth() + 1}.${event.start.getDate()} ${event.start.getHours()}:${event.start.getMinutes()} ~ ${event.end.getFullYear()}.${event.end.getMonth() + 1}.${event.end.getDate()} ${event.end.getHours()}:${event.end.getMinutes()}`}</p>
-                  )}
-                </div>
-              ))
-            ) : (
-              <div>일정 없음</div>
-            )}
+            <S.DateStyle>{`${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`}</S.DateStyle>
+            <S.ScheduleStyle>
+              {selectedEvent.length > 0 ? (
+                selectedEvent.map((event, index) => (
+                  <div key={index} style={{ backgroundColor: event.color }}>
+                    {event.title}
+                    {event.start.getFullYear() === event.end.getFullYear() && event.start.getMonth() === event.end.getMonth() && event.start.getDate() + 1 === event.end.getDate() ? (
+                      <p>{event.allDay ? "하루종일" : `${event.start.getHours()}:${event.start.getMinutes()} ~ ${event.end.getHours()}:${event.end.getMinutes()}`}</p>
+                    ) : (
+                      <p>{event.allDay ? `${event.start.getFullYear()}.${event.start.getMonth() + 1}.${event.start.getDate() + 1} ~ ${event.end.getFullYear()}.${event.end.getMonth() + 1}.${event.end.getDate()}` : `${event.start.getFullYear()}.${event.start.getMonth() + 1}.${event.start.getDate()} ${event.start.getHours()}:${event.start.getMinutes()} ~ ${event.end.getFullYear()}.${event.end.getMonth() + 1}.${event.end.getDate()} ${event.end.getHours()}:${event.end.getMinutes()}`}</p>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <div>일정 없음</div>
+              )}
+            </S.ScheduleStyle>
             <div>
               {dateEmojis[selectedDate.toDateString()]?.length === 0 ? '이모지 없음' : dateEmojis[selectedDate.toDateString()]?.map((item, idx) => (
                 <div key={idx}>
@@ -246,151 +399,10 @@ const CustomCalendar = () => {
                 </div>
               ))}
             </div>
-          </S.EventDetails>
-        )}
-        {showEmojiForm && (
-          <>
-            <S.backWrapping />
-            <S.AddEmojiForm>
-              <S.CloseButton onClick={CloseEmojiForm}>X</S.CloseButton>
-              <S.FormContent>
-                <h2>오늘모했어?</h2>
-                <S.EventContainer>
-                  <select value={emoji} onChange={(e) => setEmoji(e.target.value)}>
-                    <option value="">이모지 선택</option>
-                    {availEmoji.map((emoji, index) => (
-                      <option key={index} value={emoji}>
-                        {emoji}
-                      </option>
-                    ))}
-                  </select>
-                  <textarea
-                    value={emojiText}
-                    onChange={(e) => setEmojiText(e.target.value)}
-                    placeholder="오늘의 기분"
-                  />
-                  <S.AddButton onClick={addEmojiToDate}>추가</S.AddButton>
-                </S.EventContainer>
-              </S.FormContent>
-            </S.AddEmojiForm>
-          </>
-        )}
-        {showForm && (
-          <>
-            <S.backWrapping />
-            <S.NewEventForm>
-              <S.FormContent>
-                <h2>새 일정 추가</h2>
-                <S.contentContainer>
-                  <PiPencilSimple color="#2D539E" size={25}/>
-                  <S.EventInputStyle
-                    type="text"
-                    value={newEventTitle}
-                    onChange={(e) => setNewEventTitle(e.target.value)}
-                    placeholder="제목을 입력하세요."
-                  />
-                </S.contentContainer>
-                <S.contentContainer>
-                  <S.ToggleLabel>하루종일</S.ToggleLabel>
-                  <S.ToggleContainer data-isactive={allDay} onClick={toggleAllDay}>
-                    <S.ToggleCircle data-isactive={allDay} />
-                  </S.ToggleContainer>
-                </S.contentContainer>
-                <S.EventContainer>
-                  {allDay && (
-                    <S.contentContainer>
-                      <DatePicker
-                        showIcon
-                        icon={<PiCalendarBlank color="#2D539E"/>}
-                        selected={newEventStartDate}
-                        value={newEventStartDate}
-                        onChange={(date) => setNewEventStartDate(date)}
-                        dateFormat="yyyy/MM/dd"
-                        customInput={<S.DateSelectInput />}
-                      />
-                    </S.contentContainer>
-                  )}
-                  {!allDay && (
-                    <S.contentContainer>
-                      <DatePicker
-                        showIcon
-                        icon={<PiCalendarBlank color="#2D539E"/>}
-                        selected={newEventStartDate}
-                        value={newEventStartDate}
-                        onChange={(date) => setNewEventStartDate(date)}
-                        showTimeSelect
-                        timeFormat="aa hh:mm"
-                        timeIntervals={15}
-                        dateFormat="yyyy/MM/dd aa h:mm"
-                        timeCaption="time"
-                        customInput={<S.DateSelectInput />}
-                      />
-                    </S.contentContainer>
-                  )}
-
-                  {allDay && (
-                    <S.contentContainer>
-                      <DatePicker
-                        showIcon
-                        icon={<PiCalendarBlank color="#2D539E"/>}
-                        selected={newEventEndDate}
-                        value={newEventEndDate}
-                        onChange={(date) => setNewEventEndDate(date)}
-                        dateFormat="yyyy/MM/dd"
-                        customInput={<S.DateSelectInput />}
-                      />
-                    </S.contentContainer>
-                  )}
-                  {!allDay && (
-                    <S.contentContainer>
-                      <DatePicker
-                        showIcon
-                        icon={<PiCalendarBlank color="#2D539E"/>}
-                        selected={newEventEndDate}
-                        value={newEventEndDate}
-                        onChange={(date) => setNewEventEndDate(date)}
-                        showTimeSelect
-                        timeFormat="aa hh:mm"
-                        timeIntervals={15}
-                        dateFormat="yyyy/MM/dd aa h:mm"
-                        timeCaption="time"
-                        customInput={<S.DateSelectInput />}
-                      />
-                    </S.contentContainer>
-                  )}
-                </S.EventContainer>
-                <S.contentContainer>
-                  <IoPersonCircleOutline color="#2D539E" size={25} />
-                  <S.EventSelectStyle
-                    value=""
-                    onChange={handleParticipantChange}
-                  >
-                    <option value="">참가자 선택</option>
-                    {availableParticipants.map((participant, index) => (
-                      <option key={index} value={participant}>
-                        {participant}
-                      </option>
-                    ))}
-                  </S.EventSelectStyle>
-                </S.contentContainer>
-                <div>
-                  {selectedParticipants.map((participant, index) => (
-                    <S.SelectedParticipant key={index}>
-                      {participant}
-                      <S.RemoveParticipant onClick={() => removeParticipant(participant)}>X</S.RemoveParticipant>
-                    </S.SelectedParticipant>
-                  ))}
-                </div>
-                <S.row>
-                  <S.dateCloseButton onClick={CloseAddForm}>닫기</S.dateCloseButton>
-                  <S.AddButton onClick={handleEvent}>추가</S.AddButton>
-                </S.row>
-              </S.FormContent>
-            </S.NewEventForm>
-          </>
-        )}
-      </S.Body>
-    </S.Main>
+          </S.SideContainer>
+        </S.SideSchedules>
+      )}
+    </>
   );
 }
 

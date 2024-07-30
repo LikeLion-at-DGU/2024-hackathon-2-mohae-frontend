@@ -2,8 +2,8 @@ import styled, {keyframes} from 'styled-components';
 
 export const SideContainer = styled.div`
   display: flex;
-  width: 285px;
-  height: 172px;
+  width: 280px;
+  height: 100%;
 
   border-radius: 1.25rem;
   background-color: #FFF;

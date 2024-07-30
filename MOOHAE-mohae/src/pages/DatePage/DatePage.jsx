@@ -23,12 +23,7 @@ const DatePage = () => {
           </S.CalendarFitlerContent>
         </S.CalendarFilter>
         <S.Calendars>
-          <CustomCalendar></CustomCalendar>
-          <S.SideSchedules>
-            <SideSchedule></SideSchedule>
-            <SideSchedule></SideSchedule>
-            <SideSchedule></SideSchedule>
-          </S.SideSchedules>
+          <CustomCalendar />
         </S.Calendars>
       </S.Calendar>
     </>

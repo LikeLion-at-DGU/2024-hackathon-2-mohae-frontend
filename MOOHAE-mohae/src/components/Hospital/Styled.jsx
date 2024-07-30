@@ -135,7 +135,7 @@ export const FormOverlay = styled.div`
 `;
 
 export const DateSelectInput = styled.input`
-  border: none;
+  border: 1px solid #000;
   text-align: center;
   justify-content: space-around;
   font-size: 1rem;
@@ -154,13 +154,13 @@ export const FormLabel = styled.label`
 
 export const FormButton = styled.button`
   padding: 10px 20px;
-  background-color: #4CAF50;
+  background-color: #2d539e;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   &:hover {
-    background-color: #45a049;
+    background-color: #2d539e;
   }
 `;
 
@@ -198,4 +198,12 @@ export const EventTitle = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+`;
+
+export const FormInput = styled.input`
+  border: 1px solid #000;
+  text-align: center;
+  justify-content: space-around;
+  font-size: 1rem;
+  font-family: "NanumSquareRound";
 `;
