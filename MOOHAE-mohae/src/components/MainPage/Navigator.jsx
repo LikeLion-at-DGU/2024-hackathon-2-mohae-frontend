@@ -82,7 +82,7 @@ const Navigator = () => {
                 <NavBlockTop>
                     <StyledLink to="Date">
                         <NavMenu>
-                            <img className = "Menuimg" src="/src/assets/img/NavDate.png" alt="error loading pic" />
+                            <img class = "Menuimg" src="/src/assets/img/NavDate.png" alt="error loading pic" />
                         </NavMenu>
                     </StyledLink>
                 </NavBlockTop>
@@ -90,7 +90,7 @@ const Navigator = () => {
                 <StyledLink to="HealthCare">
 
                     <NavMenu>
-                        <img className = "Menuimg" src="/src/assets/img/NavHealth.png" alt="error loading pic" />
+                        <img class = "Menuimg" src="/src/assets/img/NavHealth.png" alt="error loading pic" />
                     </NavMenu>
                     </StyledLink>
 
@@ -99,7 +99,7 @@ const Navigator = () => {
                 <StyledLink to="Gallery">
 
                     <NavMenu>
-                        <img className = "Menuimg" src="/src/assets/img/NavPic.png" alt="error loading pic" />
+                        <img class = "Menuimg" src="/src/assets/img/NavPic.png" alt="error loading pic" />
                     </NavMenu>
                     </StyledLink>
                 </NavBlockTop>
@@ -108,7 +108,7 @@ const Navigator = () => {
                 <NavBlockBottom>
                     <StyledLink to="Culture">
                         <NavMenu>
-                            <img className = "Menuimg" src="/src/assets/img/NavCulture.png" alt="error loading pic" />
+                            <img class = "Menuimg" src="/src/assets/img/NavCulture.png" alt="error loading pic" />
                         </NavMenu>
                     </StyledLink>
                 </NavBlockBottom>

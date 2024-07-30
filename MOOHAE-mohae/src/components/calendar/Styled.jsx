@@ -35,6 +35,10 @@ export const CalendarContainer = styled.div`
 
   border: 1px solid #FFF;
   border-radius: 20px;
+
+  @media (max-width: 359px) {
+    padding: 0.5rem 0.5rem;
+  }
 `;
 
 export const CalendarLine = styled.div`
@@ -44,6 +48,11 @@ export const CalendarLine = styled.div`
   top: 50px;
   left: -40px;
   width: calc(100% + 80px);
+
+  @media (max-width: 359px) {
+    top: 40px;
+    width: calc(100% + 48px);
+  }
 `;
 
 export const CalendarHeader = styled.div`
@@ -54,6 +63,11 @@ export const CalendarHeader = styled.div`
   right: 40px;
   top: 30px;
   gap: 0.5rem;
+
+  @media (max-width: 359px) {
+    right: 20px;
+    top: 10px;
+  }
 `;
 
 export const TodayButton = styled.button`
@@ -68,6 +82,10 @@ export const TodayButton = styled.button`
   padding: 0.375rem 0.75rem;
   cursor: pointer;
   border-radius: 5px;
+
+  @media (max-width: 359px) {
+    font-size: 0.875rem;
+  }
 `;
 
 export const AddEventButton = styled.button`
@@ -82,12 +100,21 @@ export const AddEventButton = styled.button`
   &:hover {
     
   }
+
+  @media (max-width: 359px) {
+    font-size: 1.5rem;
+  }
+  
 `;
 
 export const CalendarMonthYear = styled.div`
   font-size: 18px;
   font-weight: bold;
   font-family: "NanumSquareRound";
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 export const CustomCalendar = styled.div`
@@ -106,6 +133,10 @@ export const CustomCalendar = styled.div`
 
   .react-calendar__viewContainer {
     margin-top: 20px;
+
+    @media (max-width: 359px) {
+      margin-top: 0.5rem;
+    }
   }
 
   //네비게이션 버튼들
@@ -130,6 +161,10 @@ export const CustomCalendar = styled.div`
     min-height: 1.5rem;
     color: #2D539E;
     background-color: inherit;
+
+    @media (max-width: 359px) {
+      font-size: 1.5rem;
+    }
   }
 
   .react-calendar__navigation__label {
@@ -141,6 +176,10 @@ export const CustomCalendar = styled.div`
     color: #2D539E;
     font-size: 1.5rem;
     font-weight: 700;
+
+    @media (max-width: 359px) {
+      font-size: 1.25rem;
+    }
   }
 
   .react-calendar__navigation__next2-button,
@@ -197,6 +236,12 @@ export const CustomCalendar = styled.div`
     
     background: none;
     border: 1px solid #E8E8E8;
+
+    @media (max-width: 359px) {
+      min-height: 2.5rem;
+      padding: 0.1em;
+      font-size: 0.375rem;
+    }
   }
 
   .react-calendar__tile abbr {
@@ -207,6 +252,10 @@ export const CustomCalendar = styled.div`
 
   .react-calendar__tile abbr{
     margin-left: 10px;
+
+    @media (max-width: 359px) {
+    margin-left: 0;
+    }
   }
 
   .react-calendar__tile:disabled {
@@ -264,6 +313,25 @@ export const EventTile = styled.div`
     font-family: "NanumSquareRound";
     font-size: 0.5rem;
   }
+
+  @media (max-width: 359px) {
+    margin-left: ${({ isStart, isEnd }) =>
+      isStart && isEnd ? '0.125rem' :
+      isStart ? '0.125rem' :
+      isEnd ? '' : ''};
+    margin-right: ${({ isStart, isEnd }) =>
+      isStart && isEnd ? '0.125rem' :
+      isStart ? '' :
+      isEnd ? '0.125rem' : ''};
+    width: ${({ isStart, isEnd }) =>
+      isStart && isEnd ? 'calc(100% - 0.25rem)' :
+      isStart ? '100%' :
+      isEnd ? 'calc(100% - 0.125rem)' : '100%'};
+    border-radius: ${({ isStart, isEnd }) => 
+      isStart && isEnd ? '10px' : 
+      isStart ? '10px 0 0 10px' : 
+      isEnd ? '0px 10px 10px 0px ' : '0'};
+  }
 `;
 
 export const EventDetails = styled.div`
@@ -319,7 +387,7 @@ export const contentContainer = styled.div`
 `;
 
 export const backWrapping = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100%;
   position: fixed;
   top: 0;
@@ -418,6 +486,16 @@ export const EventInputStyle = styled.input`
   padding: 0.344rem 0rem;
 `;
 
+export const EventSelectStyle = styled.select`
+  margin-left: 30px;
+  display: flex;
+  width: 100%;
+  border: none;
+  font-size: 1rem;
+  font-family: "NanumSquareRound";
+  padding: 0.344rem 0rem;
+`;
+
 export const DateSelectInput = styled.input`
   border: none;
   text-align: center;
@@ -457,4 +535,20 @@ export const ToggleLabel = styled.label`
   font-size: 1rem;
   color: #2D539E;
   cursor: pointer;
+`;
+
+
+export const SelectedParticipant = styled.div`
+  display: inline-block;
+  margin-right: 8px;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+`;
+
+export const RemoveParticipant = styled.div`
+  display: inline-block;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #2d539e;
 `;

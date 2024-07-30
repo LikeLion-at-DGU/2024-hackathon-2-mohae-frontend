@@ -15,7 +15,7 @@ const Hospital = () => {
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const daysOfWeek = Array.from({ length: 7 }, (_, i) => {
+  const dayWeek = Array.from({ length: 7 }, (_, i) => {
     const day = new Date();
     day.setDate(day.getDate() - day.getDay() + i);
     return day;
@@ -56,18 +56,18 @@ const Hospital = () => {
     <>
       <S.HospitalTitle>병원진료 예약</S.HospitalTitle>
       <S.HospitalContent>
-        <img src={Calendar} alt="Calendar" style={{ width: 50, height: 50 }} />
+        <img src={Calendar} alt="Calendar" style={{ width: 35, height: 35 }} />
         {today.getMonth() + 1}월
       </S.HospitalContent>
       <S.HospitalContainer>
         <S.AddEventButton onClick={() => setShowForm(true)}>일정 추가</S.AddEventButton>
         <S.HospitalHeader>
-          {daysOfWeek.map((day, index) => {
+          {dayWeek.map((day, index) => {
             const isToday = day.toDateString() === today.toDateString();
             return (
               <S.DayHeader key={index} isToday={isToday}>
-                {day.getMonth() + 1}/{day.getDate()}
-                {day.toLocaleDateString('ko-KR', { weekday: 'short' })}
+                {day.getDate()}
+                ({day.toLocaleDateString('ko-KR', { weekday: 'short' })})
               </S.DayHeader>
             );
           })}
@@ -76,7 +76,7 @@ const Hospital = () => {
           {events.length === 0 ? (
             <S.NoDate>일정 없음</S.NoDate>
           ) : (
-            daysOfWeek.map((day, index) => {
+            dayWeek.map((day, index) => {
               const dayEvents = events.filter(event => new Date(event.start).toDateString() === day.toDateString());
               return (
                 <S.DayContainer key={index}>
@@ -88,9 +88,9 @@ const Hospital = () => {
                         const { top } = calculateEventPosition(event.start);
                         return (
                           <S.Event key={idx} style={{ top: `${top}%` }}>
-                            <strong>{event.title}</strong><br />
-                            {event.location}<br />
-                            {formatTime(new Date(event.start))}
+                            <S.EventTime>{formatTime(new Date(event.start))}<br /></S.EventTime>
+                            <S.EventTitle>{event.location}<br /></S.EventTitle>
+                            <S.EventTitle><strong>{event.title}</strong></S.EventTitle>
                           </S.Event>
                         );
                       })
