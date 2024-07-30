@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Nemo = styled.div`
   display: flex;
@@ -188,7 +189,9 @@ const ChallengeBox = () => {
           </Participation>
           <ChallengeTitle>운동장 한바퀴 뛰기(가제)</ChallengeTitle>
           <ChallengeDate>2003.04.29</ChallengeDate>
-          <Apply>신청하기</Apply>
+          <Link to="/Apply">
+            <Apply>신청하기</Apply>
+          </Link>
         </Right>
       </Nemo1>
     </Nemo>
