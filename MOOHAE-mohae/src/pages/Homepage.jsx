@@ -9,6 +9,7 @@ const PageStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     display: flex;
+    width: 1440px;
     justify-content: center;
     align-items: center;
     height: fit-content;
