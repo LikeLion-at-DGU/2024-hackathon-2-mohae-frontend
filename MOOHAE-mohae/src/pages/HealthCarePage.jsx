@@ -9,6 +9,7 @@ import Clock from "../assets/Clock.png";
 import HealthChallenge from "../components/HealthChallenge/HealthChallenge";
 import Hospital from "../components/Hospital/Hospital";
 import Medicine from "../components/Medicine/Medicine";
+import MHealthcareChallenge from "../components/CHealthChallenge/MHealthChallenge";
 
 const PageStyle = createGlobalStyle`
   body {
@@ -38,7 +39,7 @@ const BackEffect = styled.div`
   flex-direction: column;
   width: 1440px;
   align-items: center;
-  background: linear-gradient(120deg, #E1EAFF 0%, #FFF 52.4%, #DCFAFC 100%);
+  background: linear-gradient(120deg, #e1eaff 0%, #fff 52.4%, #dcfafc 100%);
 `;
 
 const Box = styled.div`
@@ -50,7 +51,7 @@ const Box = styled.div`
 const MedicineTitle = styled.div`
   color: #000;
 
-  font-family: 'NanumSquareRound';
+  font-family: "NanumSquareRound";
   font-size: 1.5rem;
   font-style: normal;
   font-weight: 700;
@@ -62,15 +63,14 @@ const MedicineContent = styled.div`
   align-items: center;
   margin-bottom: 2rem;
 
-  color: #2D539E;
+  color: #2d539e;
 
-  font-family: 'NanumSquareRound';
+  font-family: "NanumSquareRound";
   font-size: 1.25rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 `;
-
 
 function HealthCarePage() {
 
@@ -80,7 +80,10 @@ function HealthCarePage() {
       <BackEffect>
         <Box>
           <MedicineTitle>비타민⋅약 복용</MedicineTitle>
-          <MedicineContent><img src={Clock} alt="Clock" style={{width:50, height:50}} />2024년 7월 2일(화) 13:12 PM (점심)</MedicineContent>
+          <MedicineContent>
+            <img src={Clock} alt="Clock" style={{ width: 50, height: 50 }} />
+            2024년 7월 2일(화) 13:12 PM (점심)
+          </MedicineContent>
           <Medicine />
         </Box>
         <Box>
@@ -89,6 +92,7 @@ function HealthCarePage() {
 
         <br />
         <HealthChallenge />
+        <MHealthcareChallenge />
         <br />
       </BackEffect>
     </>

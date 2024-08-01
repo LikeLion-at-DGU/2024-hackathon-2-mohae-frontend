@@ -25,11 +25,11 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const Header = styled.h1`
-  color: #2a82da;
-  margin-bottom: 20px;
-  font-family: "Cafe24 Meongi B";
-`;
+// const Header = styled.h1`
+//   color: #2a82da;
+//   margin-bottom: 20px;
+//   font-family: "Cafe24 Meongi B";
+// `;
 
 const SubHeader = styled.p`
   color: #666;
@@ -45,6 +45,30 @@ const Form = styled.form`
   background-color: white;
   padding: 68px;
   border-radius: 1rem;
+  @media (max-width: 360px) {
+    max-width: 360px;
+    height: fit-content;
+    flex-shrink: 0;
+    border-radius: 25px;
+    background: #fff;
+  }
+`;
+
+const SignupText = styled.p`
+  display: none;
+  @media (max-width: 360px) {
+    display: flex;
+    width: 141px;
+    height: 24px;
+    flex-shrink: 0;
+    color: #000;
+    font-family: NanumSquareRound;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    justify-content: center;
+  }
 `;
 
 const Label = styled.label`
@@ -186,9 +210,9 @@ const Signup = () => {
     <>
       <PageStyle />
       <Container>
-        <Link to="/">
+        {/* <Link to="/">
           <Header>MOHAE 서비스</Header>
-        </Link>
+        </Link> */}
         <SubHeader>
           모해(MOHAE)는 "엄마, 아빠 그리고 나" 일상을 보다 더 건강하고 의미있게
           꾸며주는 플랫폼입니다.
@@ -196,6 +220,7 @@ const Signup = () => {
           마음을 나누어 아름답습니다!
         </SubHeader>
         <Form>
+          <SignupText>회원가입 모해?</SignupText>
           <Label>이름</Label>
           <Input
             type="text"

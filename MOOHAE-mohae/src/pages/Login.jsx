@@ -3,6 +3,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
+import { API } from '../api';
 
 const PageStyle = createGlobalStyle`
   body {
@@ -14,13 +15,22 @@ const PageStyle = createGlobalStyle`
     justify-content: center;
     align-items: center;
     height: fit-content;
+    @media (max-width: 360px) {
+      background-color: #F7F8FB;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      width: 360px;
+      justify-content: center;
+      align-items: center;
+      height: fit-content;
+    }
   }
 `;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit; /* 원래 텍스트 색상을 유지하려면 사용 */
-
   &:hover {
     text-decoration: none; /* 호버 시에도 밑줄 없앰 */
   }
@@ -35,6 +45,13 @@ const Container = styled.div`
   min-height: 100vh;
   width: 100%;
   overflow: auto;
+  @media (max-width: 360px) {
+    width: 360px;
+    padding: 10px;
+    justify-content: center;
+    margin: 0 auto;
+    border: 1px solid pink;
+  }
 `;
 
 const Header = styled.h1`
@@ -42,25 +59,6 @@ const Header = styled.h1`
   margin-bottom: 20px;
   font-family: "Cafe24 Meongi B";
   text-align: center;
-`;
-
-const P1 = styled.h2`
-  color: #000;
-  text-align: center;
-  font-family: "NanumSquare Neo";
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-
-  span {
-    color: #000;
-    font-family: "Cafe24 Meongi B";
-    font-size: 36px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
 `;
 
 const UnderText = styled.p`
@@ -83,6 +81,13 @@ const Nemo = styled.div`
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  @media (max-width: 360px) {
+    width: 100%;
+    padding: 10px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    background: #fff;
+  }
 `;
 
 const First = styled.div`
@@ -97,6 +102,18 @@ const First = styled.div`
   font-weight: 400;
   line-height: normal;
   margin-bottom: 60px;
+  @media (max-width: 360px) {
+    width: 120px;
+    height: 24px;
+    flex-shrink: 0;
+    color: #000;
+    font-family: NanumSquareRound;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 20px;
+  }
 `;
 
 const Form = styled.div`
@@ -116,6 +133,15 @@ const Label = styled.label`
   line-height: normal;
   margin-bottom: 5px;
   width: 100px;
+  @media (max-width: 360px) {
+    align-self: stretch;
+    color: #000;
+    font-family: NanumSquareRound;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
 `;
 
 const Flex = styled.div`
@@ -123,6 +149,13 @@ const Flex = styled.div`
   justify-content: space-between;
   width: 100%;
   margin-bottom: 20px;
+  @media (max-width: 360px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+  }
 `;
 
 const InputWrapper = styled.div`
@@ -253,6 +286,33 @@ const Login = () => {
   const kakaoClientId = import.meta.env.VITE_APP_REST_API_KEY;
   const kakaoRedirectUri = import.meta.env.VITE_APP_REDIRECT_URI;
 
+  const PostDateData = async () => {
+    try {
+      const eventData = {
+        username,
+        password,
+      };
+
+      // API 요청 보내기
+      const response = await API.post('/accounts/login/', eventData);
+
+      // 서버가 200 응답을 주면 로그인 성공
+      if (response.status === 200) {
+        // 로그인 성공 시 JWT 토큰을 저장
+        localStorage.setItem('access_token', response.data.access);
+        localStorage.setItem('refresh_token', response.data.refresh);
+
+        alert('로그인 성공!');
+        window.location.href = '/';
+      } else {
+        setErrorMessage('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.');
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMessage('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.');
+    }
+  };
+
   const handleKakaoLogin = () => {
     const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUri}&response_type=code`;
     window.open(kakaoAuthUrl, "_blank", "noopener,noreferrer");
@@ -260,8 +320,7 @@ const Login = () => {
 
   const handleLogin = () => {
     if (!username || !password) {
-      setErrorMessage(
-        "닉네임 또는 비밀번호가 잘못되었습니다. 닉네임과 비밀번호를 정확히 입력해 주세요."
+      setErrorMessage("닉네임 또는 비밀번호가 잘못되었습니다. 닉네임과 비밀번호를 정확히 입력해 주세요."
       );
     } else {
       setErrorMessage("");
@@ -274,9 +333,9 @@ const Login = () => {
       <PageStyle />
       <Container>
         <Link to="/"></Link>
-        <P1>
+        {/* <P1>
           모해 <span>MOHAE</span> 서비스
-        </P1>
+        </P1> */}
         <UnderText>
           모해(MOHAE)는 ‘엄마, 아빠 그리고 나’ 일상을 보다 더 건강하고 의미있게
           맺어주는 플랫폼입니다.
@@ -318,7 +377,7 @@ const Login = () => {
             </CheckboxLabel>
 
             <ButtonContainer>
-              <Button onClick={handleLogin} disabled={!username || !password}>
+              <Button onClick={PostDateData} disabled={!username || !password}>
                 로그인
               </Button>
               <Link to="/Signup">

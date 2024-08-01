@@ -65,7 +65,7 @@ const Hospital = () => {
           {dayWeek.map((day, index) => {
             const isToday = day.toDateString() === today.toDateString();
             return (
-              <S.DayHeader key={index} isToday={isToday}>
+              <S.DayHeader key={index} data-istoday={isToday}>
                 {day.getDate()}
                 ({day.toLocaleDateString('ko-KR', { weekday: 'short' })})
               </S.DayHeader>
@@ -132,7 +132,7 @@ const Hospital = () => {
                   showTimeSelect
                   dateFormat="yyyy/MM/dd aa hh:mm"
                   minDate={today}
-                  timeFormat="HH:mm"
+                  timeFormat="aa hh:mm"
                   timeIntervals={15}
                   customInput={<S.DateSelectInput />}
                 />

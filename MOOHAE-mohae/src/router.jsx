@@ -14,6 +14,8 @@ import PhotoDetail from "./components/PhotoDetail";
 import Main from "./pages/PhotoBook/Main";
 import MHealthcareChallenge from "./components/CHealthChallenge/MHealthChallenge";
 import CulturePage from "./pages/CulturePage";
+import Apply from "./components/CHealthChallenge/Apply";
+import MyPage from "./pages/MyPage/MyPage";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +33,6 @@ const router = createBrowserRouter([
       { path: "/PhotoDetail", element: <PhotoDetail /> },
       { path: "/Main", element: <Main /> },
       { path: "/MHealthcareChallenge", element: <MHealthcareChallenge /> },
-      { path: "/CulturePage",element: <CulturePage />},
     ],
   },
 ]);

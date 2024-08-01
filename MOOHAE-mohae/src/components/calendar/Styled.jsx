@@ -1,4 +1,4 @@
-import styled, {keyframes} from 'styled-components';
+import styled, {keyframes,css} from 'styled-components';
 
 const fadeIn = keyframes`
   from {
@@ -6,6 +6,28 @@ const fadeIn = keyframes`
   }
   to {
     opacity: 1;
+  }
+`;
+
+const slideIn = keyframes`
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+
+const slideOut = keyframes`
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
   }
 `;
 
@@ -92,7 +114,7 @@ export const AddEventButton = styled.button`
   color:  #2D539E;
   border: none;
   cursor: pointer;
-  font-size: 30px;
+  font-size: 2.5rem;
   font-family: "NanumSquareRound";
   background-color: #FFF;
   
@@ -231,7 +253,8 @@ export const CustomCalendar = styled.div`
     position: relative;
 
     max-width: 100%;
-    min-height: 80px;
+    min-width: 100px;
+    min-height: 100px;
     padding: 0.75em 0em;
     
     background: none;
@@ -334,24 +357,11 @@ export const EventTile = styled.div`
   }
 `;
 
-export const EventDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 500px;
-  height: 100%;
-  background-color: white;
-  padding: 20px;
-  border: 1px solid #ccc;
-
-  animation: ${fadeIn} 0.3s ease-in-out;
-`;
-
 export const EventDetailsHeader = styled.div`
   display: flex;
+  padding: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const NewEventForm = styled.div`
@@ -365,7 +375,7 @@ export const NewEventForm = styled.div`
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 500px;
+  min-width: 500px;
   max-width: 90%;
   z-index: 1000;
 
@@ -410,7 +420,7 @@ export const CloseButton = styled.button`
 export const CloseButton2 = styled.button`
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 1.75rem;
   cursor: pointer;
 `;
 
@@ -551,4 +561,49 @@ export const RemoveParticipant = styled.div`
   padding: 0.5rem;
   font-size: 1rem;
   color: #2d539e;
+`;
+
+// side detail
+
+export const SideSchedules = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  @media (max-width: 359px) {
+    font-size: 0.5rem;
+  }
+
+  animation: ${({ showDetails }) => showDetails ? css`${slideOut} 0.7s forwards` : css`${slideIn} 0.7s forwards`};
+`;
+
+export const SideContainer = styled.div`
+  display: flex;
+  width: 280px;
+  height: 100%;
+
+  flex-direction: column;
+
+  border-radius: 1.25rem;
+  background-color: #FFF;
+  box-shadow: 0px 4px 21.9px 0px rgba(0, 0, 0, 0.10);
+`;
+
+export const DateStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 0rem 1rem;
+  font-size: 1.5rem;
+  font-family: "NanumSquareRound";
+  font-weight: 800;
+  color: #2d539e;
+`;
+
+export const ScheduleStyle = styled.div`
+  display: flex;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-family: "NanumSquareRound";
+  font-weight: 300;
+  color: #000;
 `;

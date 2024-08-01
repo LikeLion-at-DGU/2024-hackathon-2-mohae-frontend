@@ -8,9 +8,10 @@ const Container = styled.div`
   height: 498px;
   flex-shrink: 0;
   margin-bottom: 20px;
+  /* border: 1px solid pink; */
 `;
 
-const P = styled.p`
+const P = styled.div`
   align-self: stretch;
   color: #000;
   font-family: NanumSquareRound;
@@ -62,7 +63,7 @@ const Tag = styled.div`
 `;
 
 const UnderContainer = styled.div`
-  width: 1087px;
+  width: 1140px;
   height: 355px;
   /* border: 1px solid pink; */
   display: flex;
@@ -79,16 +80,16 @@ const MHealthcareChallenge = () => {
         <P>건강 챌린지</P>
         <TagContainer>
           <Image src={training} alt="예제 이미지" />
-          <Tag active={activeTag === 1} onClick={() => setActiveTag(1)}>
+          <Tag active={activeTag === 1 ? "true" : undefined} onClick={() => setActiveTag(1)}>
             #이번 주의 챌린지
           </Tag>
-          <Tag active={activeTag === 2} onClick={() => setActiveTag(2)}>
+          <Tag active={activeTag === 2 ? "true" : undefined} onClick={() => setActiveTag(2)}>
             #진행 중인 챌린지
           </Tag>
-          <Tag active={activeTag === 3} onClick={() => setActiveTag(3)}>
+          <Tag active={activeTag === 3 ? "true" : undefined} onClick={() => setActiveTag(3)}>
             #시작 전인 챌린지
           </Tag>
-          <Tag active={activeTag === 4} onClick={() => setActiveTag(4)}>
+          <Tag active={activeTag === 4 ? "true" : undefined} onClick={() => setActiveTag(4)}>
             #종료된 챌린지
           </Tag>
         </TagContainer>

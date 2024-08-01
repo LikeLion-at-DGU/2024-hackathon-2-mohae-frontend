@@ -8,10 +8,6 @@ export const All = styled.div`
   overflow-x: hidden; /* 가로 스크롤 방지 */
   flex-direction: row; /* 항상 가로 배치 */
   overflow: hidden; /* 요소가 화면을 넘어가면 가리기 */
-
-  @media (max-width: 768px) {
-    /* 기본 설정 유지 */
-  }
 `;
 
 export const Margin = styled.div`
@@ -35,10 +31,6 @@ export const Margin = styled.div`
   &:hover {
     color: black;
   }
-
-  @media (max-width: 768px) {
-    /* 기본 설정 유지 */
-  }
 `;
 
 export const Menubar = styled.div`
@@ -58,14 +50,6 @@ export const Menubar = styled.div`
   line-height: normal;
   letter-spacing: -0.23px;
   z-index: 1000;
-
-  @media (max-width: 768px) {
-    width: 100%;
-    height: auto;
-    margin-left: 0; /* 작은 화면에서는 좌측 여백 제거 */
-    margin-top: 20px;
-    box-shadow: none;
-  }
 `;
 
 export const Section = styled.div`
@@ -117,12 +101,6 @@ export const Right = styled.div`
   width: 900px;
   margin-left: 100px;
   min-width: 900px; /* 최소 너비를 설정하여 요소들이 줄어들지 않게 함 */
-
-  @media (max-width: 768px) {
-    width: 100%;
-    margin-left: 0;
-    gap: 10px;
-  }
 `;
 
 export const Arrow = styled.img`
@@ -136,9 +114,5 @@ export const Arrow = styled.img`
 
   &:active {
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
-  }
-
-  @media (max-width: 768px) {
-    right: 20px;
   }
 `;
