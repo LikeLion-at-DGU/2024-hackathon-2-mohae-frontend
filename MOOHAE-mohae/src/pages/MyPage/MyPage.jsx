@@ -12,9 +12,11 @@ const MyPage = () => {
     <>
       <S.PageStyle />
       <EditProfile />
+      <div style={{marginBottom: "2rem"}} />
       <S.BackEffect>
         <EditFamily />
         <BucketList />
+        <div style={{marginBottom: "2rem"}} />
       </S.BackEffect>
     </>
   );

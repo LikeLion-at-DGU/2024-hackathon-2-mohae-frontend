@@ -46,6 +46,7 @@ const CustomCalendar = () => {
 
   const FetchDateData = async () => {
     try {
+      // JWT 인증 토큰은 쿠키를 통해 자동으로 전송됨
       const response = await API.get('/cal/events/list/');
       console.log(response.data);
       setEvents(response.data);
@@ -60,9 +61,6 @@ const CustomCalendar = () => {
 
   const PostDateData = async () => {
     try {
-      const created_by = 1;
-      const family_id = 1;
-
       const eventData = {
         title: newEventTitle,
         start: newEventStartDate.toISOString(),
@@ -193,7 +191,7 @@ const CustomCalendar = () => {
           <S.CalendarContainer>
             <S.CalendarLine />
             <S.CalendarHeader>
-              <S.AddEventButton onClick={() => setShowForm(!showForm)}><TbPencilPlus /></S.AddEventButton>
+              <S.AddEventButton onClick={() => setShowForm(!showForm)}><TbPencilPlus size={30}/></S.AddEventButton>
               <S.TodayButton onClick={handleTodayClick}>Today</S.TodayButton>
             </S.CalendarHeader>
             <S.CustomCalendar>
@@ -253,10 +251,10 @@ const CustomCalendar = () => {
           )}
           {showForm && (
             <>
-              <S.backWrapping />
+              <S.backWrapping onClick={() => setShowForm(false)}/>
               <S.NewEventForm>
                 <S.FormContent>
-                  <h2>새 일정 추가</h2>
+                  <S.FormTitle>새 일정 추가</S.FormTitle>
                   <S.contentContainer>
                     <PiPencilSimple color="#2D539E" size={25}/>
                     <S.EventInputStyle

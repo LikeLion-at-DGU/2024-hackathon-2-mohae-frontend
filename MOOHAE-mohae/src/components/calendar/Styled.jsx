@@ -262,6 +262,7 @@ export const CustomCalendar = styled.div`
 
     @media (max-width: 359px) {
       min-height: 2.5rem;
+      min-width: 30px;
       padding: 0.1em;
       font-size: 0.375rem;
     }
@@ -291,13 +292,13 @@ export const CustomCalendar = styled.div`
   }
 
   .react-calendar__tile--now {
-    background: lightgray;
+    background: #F0F0F0;
   }
 
   .react-calendar__tile:enabled:hover,
   .react-calendar__tile:enabled:focus,
   .react-calendar__tile--active {
-    background-color: lightgray;
+    background-color: #F0F0F0;
   }
 
 `;
@@ -427,7 +428,7 @@ export const CloseButton2 = styled.button`
 export const FormContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 2rem;
   gap: 1rem;
 `;
 
@@ -606,4 +607,16 @@ export const ScheduleStyle = styled.div`
   font-family: "NanumSquareRound";
   font-weight: 300;
   color: #000;
+`;
+
+export const FormTitle = styled.div`
+  color: #000;
+
+  font-family: 'NanumSquareRound';
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+
+  margin-bottom: 1rem;
 `;

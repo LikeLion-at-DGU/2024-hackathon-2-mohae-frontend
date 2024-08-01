@@ -6,7 +6,6 @@ import { createGlobalStyle } from "styled-components";
 
 import Clock from "../assets/Clock.png";
 
-import HealthChallenge from "../components/HealthChallenge/HealthChallenge";
 import Hospital from "../components/Hospital/Hospital";
 import Medicine from "../components/Medicine/Medicine";
 import MHealthcareChallenge from "../components/CHealthChallenge/MHealthChallenge";
@@ -91,7 +90,6 @@ function HealthCarePage() {
         </Box>
 
         <br />
-        <HealthChallenge />
         <MHealthcareChallenge />
         <br />
       </BackEffect>

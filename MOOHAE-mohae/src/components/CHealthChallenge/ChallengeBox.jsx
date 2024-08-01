@@ -29,7 +29,10 @@ const Left = styled.div`
 `;
 
 const Right = styled.div`
-  width: 372px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
   height: 155px;
   /* border: 1px solid green; */
   margin-left: 10px;

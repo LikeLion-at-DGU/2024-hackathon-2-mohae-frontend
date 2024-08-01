@@ -15,7 +15,7 @@ const PageStyle = createGlobalStyle`
     justify-content: center;
     align-items: center;
     height: fit-content;
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
       background-color: #F7F8FB;
       margin: 0;
       padding: 0;
@@ -45,8 +45,8 @@ const Container = styled.div`
   min-height: 100vh;
   width: 100%;
   overflow: auto;
-  @media (max-width: 360px) {
-    width: 360px;
+  @media (max-width: 359px) {
+    width: 338px;
     padding: 10px;
     justify-content: center;
     margin: 0 auto;
@@ -81,7 +81,7 @@ const Nemo = styled.div`
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     width: 100%;
     padding: 10px;
     flex-shrink: 0;
@@ -102,7 +102,7 @@ const First = styled.div`
   font-weight: 400;
   line-height: normal;
   margin-bottom: 60px;
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     width: 120px;
     height: 24px;
     flex-shrink: 0;
@@ -133,7 +133,7 @@ const Label = styled.label`
   line-height: normal;
   margin-bottom: 5px;
   width: 100px;
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     align-self: stretch;
     color: #000;
     font-family: NanumSquareRound;
@@ -149,7 +149,7 @@ const Flex = styled.div`
   justify-content: space-between;
   width: 100%;
   margin-bottom: 20px;
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -288,20 +288,12 @@ const Login = () => {
 
   const PostDateData = async () => {
     try {
-      const eventData = {
-        username,
-        password,
-      };
+      const eventData = { username, password };
 
-      // API 요청 보내기
+      // API 요청 보내기 (withCredentials 설정은 API 인스턴스에서 이미 설정됨)
       const response = await API.post('/accounts/login/', eventData);
 
-      // 서버가 200 응답을 주면 로그인 성공
       if (response.status === 200) {
-        // 로그인 성공 시 JWT 토큰을 저장
-        localStorage.setItem('access_token', response.data.access);
-        localStorage.setItem('refresh_token', response.data.refresh);
-
         alert('로그인 성공!');
         window.location.href = '/';
       } else {

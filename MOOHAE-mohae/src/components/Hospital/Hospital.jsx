@@ -102,43 +102,49 @@ const Hospital = () => {
         </S.CalendarBody>
         {showForm && (
           <>
-            <S.FormOverlay onClick={() => setShowForm(false)} />
-            <S.EventForm onSubmit={handleSubmit}>
-              <S.FormField>
-                <S.FormLabel>제목:</S.FormLabel>
-                <S.FormInput
-                  type="text"
-                  name="title"
-                  value={newEvent.title}
-                  onChange={handleInputChange}
-                  required
-                />
-              </S.FormField>
-              <S.FormField>
-                <S.FormLabel>장소:</S.FormLabel>
-                <S.FormInput
-                  type="text"
-                  name="location"
-                  value={newEvent.location}
-                  onChange={handleInputChange}
-                  required
-                />
-              </S.FormField>
-              <S.FormField>
-                <S.FormLabel>시작 시간:</S.FormLabel>
-                <DatePicker
-                  selected={newEvent.start}
-                  onChange={handleDateChange}
-                  showTimeSelect
-                  dateFormat="yyyy/MM/dd aa hh:mm"
-                  minDate={today}
-                  timeFormat="aa hh:mm"
-                  timeIntervals={15}
-                  customInput={<S.DateSelectInput />}
-                />
-              </S.FormField>
-              <S.FormButton type="submit">추가</S.FormButton>
-            </S.EventForm>
+            <S.backWrapping onClick={() => setShowForm(false)} />
+            <S.NewEventForm onSubmit={handleSubmit}>
+              <S.FormContent>
+                <S.FormTitle>병원진료 예약</S.FormTitle>
+                <S.FormText>제목:</S.FormText>
+                <S.contentContainer>
+                  <S.EventInputStyle
+                    type="text"
+                    name="title"
+                    value={newEvent.title}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </S.contentContainer>
+                <S.FormText>장소:</S.FormText>
+                <S.contentContainer>
+                  <S.EventInputStyle
+                    type="text"
+                    name="location"
+                    value={newEvent.location}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </S.contentContainer>
+                <S.FormText>시작 시간:</S.FormText>
+                <S.contentContainer>
+                  <DatePicker
+                    selected={newEvent.start}
+                    onChange={handleDateChange}
+                    showTimeSelect
+                    dateFormat="yyyy/MM/dd aa hh:mm"
+                    minDate={today}
+                    timeFormat="aa hh:mm"
+                    timeIntervals={15}
+                    customInput={<S.DateSelectInput />}
+                  />
+                </S.contentContainer>
+                <S.row>
+                  <S.HospitalCloseButton onClick={() => setShowForm(false)}>닫기</S.HospitalCloseButton>
+                  <S.HospitalAddButton onClick={handleSubmit}>추가</S.HospitalAddButton>
+                </S.row>
+              </S.FormContent>
+            </S.NewEventForm>
           </>
         )}
       </S.HospitalContainer>
