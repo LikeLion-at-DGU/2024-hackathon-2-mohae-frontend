@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import { API } from "./../api"; // API 인스턴스 불러오기
+import { faSliders, faFolder } from "@fortawesome/free-solid-svg-icons";
 
+// 스타일 컴포넌트 정의
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -15,6 +17,9 @@ const Overlay = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  overflow-y: hidden; /* 추가된 부분 */
+
+  /* overflow-y: scroll; */
 `;
 
 const Modal = styled.div`
@@ -22,12 +27,55 @@ const Modal = styled.div`
   padding: 20px;
   border-radius: 10px;
   max-width: 500px;
-  height: 600px;
+  height: 700px;
   width: 90%;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
   position: relative;
   display: flex;
   flex-direction: column;
+  /* overflow-y: scroll; */
+  overflow-y: scroll; /* 추가된 부분 */
+`;
+
+const SmallModal = styled.div`
+  background: white;
+  padding: 20px;
+  border-radius: 30px;
+  width: 200px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: ${(props) => props.top}px;
+  left: ${(props) => props.left}px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1001;
+`;
+
+const SecondModal = styled.div`
+  background: #5c5c5c;
+  padding: 35px;
+  border-radius: 30px;
+  width: 432px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1002;
+  position: relative;
+`;
+
+const Button = styled.button`
+  border: none;
+  background: white;
+  color: pink;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 10px 0;
+
+  &:active {
+    color: #ff006a;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -38,21 +86,88 @@ const CloseButton = styled.button`
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
+  z-index: 10001;
 `;
 
-const IMGcome = styled.div`
-  background: gray;
+const FolderList = styled.div`
   display: flex;
-  justify-content: center;
-  width: 300px;
-  height: auto;
+  gap: 20px;
+  margin: 20px 0;
+`;
+
+const Folder = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+`;
+
+const FolderName = styled.span`
+  margin-top: 10px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
   margin-bottom: 20px;
+`;
+
+const HeaderIcon = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+`;
+
+const HeaderTitle = styled.h2`
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+`;
+
+const PostInfo = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+const Avatar = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+`;
+
+const PostContent = styled.div`
+  flex: 1;
+  justify-content: space-between;
+`;
+
+const PostText = styled.p`
+  font-size: 16px;
+  color: #333;
+  margin: 0 0 10px;
+`;
+
+const Image = styled.img`
+  width: 31.2rem;
+  min-height: 500px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background: blue;
+  border: 1px solid red;
+`;
+
+const Line = styled.div`
+  width: 32rem;
+  height: 1px;
+  background: #d9d9d9;
+  margin-bottom: 30px;
 `;
 
 const CommentSection = styled.div`
   flex: 1;
-  overflow-y: auto;
-  padding-bottom: 80px; /* 댓글 폼 높이 확보 */
+  padding-bottom: 80px;
+  /* overflow-y: auto; 추가된 부분 */
 `;
 
 const CommentList = styled.div`
@@ -60,115 +175,182 @@ const CommentList = styled.div`
 `;
 
 const CommentItem = styled.div`
+  display: flex;
+  align-items: flex-start;
   background: #f9f9f9;
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 10px;
 `;
 
+const CommentAvatar = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+`;
+
+const CommentText = styled.div`
+  flex: 1;
+  font-size: 14px;
+`;
+
 const CommentForm = styled.form`
   display: flex;
-  flex-direction: column;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
-  padding: 10px 20px;
-  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
-  border-top: 1px solid #ddd;
-  z-index: 100;
+  padding: 11px 10px 11px 10px;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 25px;
+  background: #f3f4f6;
 `;
 
 const TextArea = styled.textarea`
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
-  resize: none; /* 크기 조절 제한 */
-  width: 100%;
-  box-sizing: border-box; /* padding 포함한 너비 계산 */
+  display: flex;
+  width: 400px;
+  height: 30px;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #f3f4f6;
+  color: #9f9f9f;
+  font-family: NanumSquareRound;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.23px;
+  resize: none;
+  border: none;
 `;
 
 const SubmitButton = styled.button`
-  padding: 10px;
-  border-radius: 5px;
+  background: #f3f4f6;
+  width: 40px;
+  color: #7ea6f6;
+  text-align: center;
+  font-family: NanumSquareRound;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.46px;
   border: none;
-  background: #007bff;
-  color: white;
   cursor: pointer;
 
   &:hover {
-    background: #0056b3;
+    color: #0056b3;
   }
 `;
 
-const PhotoDetail = ({ photoId }) => {
+// 위에 스타일링 하는 부분
+
+const PhotoDetail = ({ photoId, closeModal }) => {
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-
-  useEffect(() => {
-    // 컴포넌트 마운트 시 댓글 목록 가져오기
-    const loadComments = async () => {
-      try {
-        const response = await API.get(`/api/comments?photo_id=${photoId}`);
-        setComments(response.data);
-      } catch (error) {
-        console.error("댓글을 가져오는 중 오류 발생:", error);
-      }
-    };
-
-    loadComments();
-  }, [photoId]);
-
-  const closeModal = () => {
-    navigate(-1); // 뒤로 가기
-  };
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const [isMoveFolderModalOpen, setIsMoveFolderModalOpen] = useState(false);
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+  const iconRef = useRef(null);
 
   const handleNewCommentChange = (e) => {
     setNewComment(e.target.value);
   };
 
-  const handleCommentSubmit = async (e) => {
+  const handleCommentSubmit = (e) => {
     e.preventDefault();
-    if (newComment.trim() !== "") {
-      try {
-        // API를 사용하여 서버에 댓글 전송
-        const response = await API.post("/api/comments", {
-          photo_id: photoId,
-          text: newComment,
-        });
-        setComments([...comments, response.data]); // 새로운 댓글 추가
-        setNewComment(""); // 입력 필드 초기화
-      } catch (error) {
-        console.error("댓글 저장 중 오류 발생:", error);
-      }
-    }
+    // 댓글 제출 시 처리 로직 삭제
+  };
+
+  const handleSettingsClick = () => {
+    const iconRect = iconRef.current.getBoundingClientRect();
+    setModalPosition({
+      top: iconRect.bottom + window.scrollY,
+      left: iconRect.left + window.scrollX,
+    });
+    setIsSettingsModalOpen(true);
+  };
+
+  const handleMoveFolderClick = () => {
+    setIsMoveFolderModalOpen(true);
   };
 
   return (
     <Overlay>
       <Modal>
         <CloseButton onClick={closeModal}>&times;</CloseButton>
-        <IMGcome>이미지 더미데이터를 불러올 곳</IMGcome>
+        <Header>
+          <HeaderIcon src="icon-url" alt="icon" />
+          <HeaderTitle>2024년 7월 31일 18:15</HeaderTitle>
+        </Header>
+        <PostInfo>
+          <Avatar src="avatar-url" alt="avatar" />
+          <PostContent>
+            <PostText>구도욱</PostText>
+          </PostContent>
+          <FontAwesomeIcon
+            icon={faSliders}
+            style={{ fontSize: "30px", cursor: "pointer" }}
+            onClick={handleSettingsClick}
+            ref={iconRef}
+          />
+        </PostInfo>
+        <Image />
+        <PostText>가족사진찍었습니다.</PostText>
+        <Line></Line>
         <CommentSection>
           <CommentList>
-            {comments.map((comment, index) => (
-              <CommentItem key={index}>{comment.text}</CommentItem>
-            ))}
+            <CommentItem>
+              <CommentAvatar src="avatar-url" alt="avatar" />
+              <CommentText>첫 번째 댓글</CommentText>
+            </CommentItem>
+            <CommentItem>
+              <CommentAvatar src="avatar-url" alt="avatar" />
+              <CommentText>두 번째 댓글</CommentText>
+            </CommentItem>
           </CommentList>
         </CommentSection>
         <CommentForm onSubmit={handleCommentSubmit}>
           <TextArea
             value={newComment}
             onChange={handleNewCommentChange}
-            rows="4"
-            placeholder="댓글을 입력하세요"
+            rows="2"
+            placeholder="댓글 달기"
           />
-          <SubmitButton type="submit">댓글 남기기</SubmitButton>
+          <SubmitButton type="submit">제출</SubmitButton>
         </CommentForm>
       </Modal>
+
+      {isSettingsModalOpen && (
+        <SmallModal top={modalPosition.top} left={modalPosition.left}>
+          <CloseButton onClick={() => setIsSettingsModalOpen(false)}>
+            &times;
+          </CloseButton>
+          <Button onClick={() => setIsSettingsModalOpen(false)}>
+            사진 삭제하기
+          </Button>
+          <Button onClick={handleMoveFolderClick}>폴더 이동하기</Button>
+        </SmallModal>
+      )}
+
+      {isMoveFolderModalOpen && (
+        <Overlay>
+          <SecondModal>
+            <CloseButton onClick={() => setIsMoveFolderModalOpen(false)}>
+              &times;
+            </CloseButton>
+            <h2 style={{ color: "white" }}>폴더 선택</h2>
+            <FolderList>
+              <Folder>
+                <FontAwesomeIcon icon={faFolder} size="3x" />
+                <FolderName>맛집</FolderName>
+              </Folder>
+            </FolderList>
+            <Button>폴더 이동하기</Button>
+          </SecondModal>
+        </Overlay>
+      )}
     </Overlay>
   );
 };

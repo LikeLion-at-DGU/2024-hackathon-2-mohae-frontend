@@ -16,6 +16,7 @@ import MHealthcareChallenge from "./components/CHealthChallenge/MHealthChallenge
 import CulturePage from "./pages/CulturePage";
 import Apply from "./components/CHealthChallenge/Apply";
 import MyPage from "./pages/MyPage/MyPage";
+import Mypage from "./pages/MyPage";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,8 @@ const router = createBrowserRouter([
       { path: "/Main", element: <Main /> },
       { path: "/MHealthcareChallenge", element: <MHealthcareChallenge /> },
       { path: "/CulturePage", element: <CulturePage /> },
+      { path: "/Apply", element: <Apply /> },
+      // { path: "/MyPage", element: <MyPage /> },
     ],
   },
 ]);

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useNavigate } from "react";
 import styled from "styled-components";
-import good from "./../assets/good.png";
-import realheart from "./../assets/realheart.png";
-import { Link } from "react-router-dom";
+import good from "./../assets/binstar.png";
+import realheart from "./../assets/star.png";
+import PhotoDetail from "./PhotoDetail";
+import ReactModal from "react-modal";
 
 const Frame = styled.div`
   display: flex;
@@ -49,8 +50,8 @@ const StyledImageWrapper = styled.div`
 `;
 
 const StyledImage = styled.img`
-  width: 30px; // good.png의 크기로 조정
-  height: 30px; // good.png의 크기로 조정
+  width: 30px;
+  height: 30px;
   border: none;
   border-radius: 5px;
   transition: border 0.3s ease;
@@ -71,7 +72,7 @@ const Re = styled.div`
   font-weight: 700;
   line-height: normal;
   letter-spacing: -0.09px;
-  text-decoration: none !important; // 밑줄 강제 제거
+  text-decoration: none !important;
 `;
 
 const When = styled.p`
@@ -101,7 +102,7 @@ const Radius = styled.div`
   background: #d9d9d9;
   border-radius: 50%;
   box-sizing: border-box;
-  margin-right: 10px; /* 여백 조정 */
+  margin-right: 10px;
 `;
 
 const Who = styled.p`
@@ -130,7 +131,7 @@ const DetailText = styled.p`
 const WhoandDetailText = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 왼쪽 정렬 */
+  align-items: flex-start;
   gap: 2px;
 `;
 
@@ -141,16 +142,37 @@ const GalleryFrame = ({ src, onLikeToggle, isLiked }) => {
     onLikeToggle(src);
   };
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+
   return (
-    <Link to="/PhotoDetail">
-      <Frame>
+    <>
+      <Frame onClick={openModal}>
+        <ReactModal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          style={{
+            overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)" },
+            content: {
+              padding: 0,
+              border: "none",
+              background: "none",
+              overflow: "visible",
+              position: "unset",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            },
+          }}
+        >
+          <PhotoDetail photoId={src} closeModal={closeModal} />
+        </ReactModal>
         <ImgFrame>
           <StyledImageWrapper onClick={handleLikeClick}>
-            <StyledImage
-              src={isLiked ? good : realheart}
-              alt="좋아요 이미지"
-              liked={isLiked}
-            />
+            <StyledImage src={isLiked ? realheart : good} alt="좋아요 이미지" />
           </StyledImageWrapper>
         </ImgFrame>
         <UnderImg>
@@ -165,7 +187,7 @@ const GalleryFrame = ({ src, onLikeToggle, isLiked }) => {
           </WhoandDetailText>
         </Under>
       </Frame>
-    </Link>
+    </>
   );
 };
 

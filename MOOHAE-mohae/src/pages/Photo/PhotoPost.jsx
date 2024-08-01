@@ -2,10 +2,24 @@ import React, { useState } from "react";
 import GalleryFrame from "../../components/GalleryFrame";
 import * as S from "./PhotoPoststyled";
 import arrow from "../../assets/arrow.png";
-import { Link } from "react-router-dom";
 import PhotoPlus from "./PhotoPlus";
+import ReactModal from "react-modal";
+import { useNavigate } from "react-router-dom";
+import PhotoDetail from "../../components/PhotoDetail";
+
+ReactModal.setAppElement("#root");
 
 const PhotoPost = () => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => {
+    setModalIsOpen(false);
+    navigate("/"); // 모달 닫힌 후 PhotoPost 페이지로 이동
+  };
+
+  // 포토디테일 모달창 띄우기
   // 예시 이미지 데이터 배열, 각 이미지에 폴더 정보 포함
   const [images, setImages] = useState([
     { src: "image1.jpg", folder: "all" },
@@ -23,7 +37,7 @@ const PhotoPost = () => {
   // 좋아요 상태 관리
   const [favorites, setFavorites] = useState([]);
   const [filter, setFilter] = useState("all"); // 전체보기 필터가 기본값
-  const [folders, setFolders] = useState(["여행", "맛집", "추억"]); // 기본 폴더 목록
+  const [folders, setFolders] = useState([""]); // 기본 폴더 목록
   const [selectedFolder, setSelectedFolder] = useState("all"); // 선택된 폴더 관리
 
   // 좋아요 상태 토글 함수
@@ -58,21 +72,7 @@ const PhotoPost = () => {
   // 새로운 폴더 추가 및 이미지 선택
   const addNewFolder = () => {
     const newFolderName = prompt("새 폴더 이름을 입력하세요:");
-    if (newFolderName && newFolderName.trim() !== "") {
-      const selected = prompt(
-        "폴더에 추가할 이미지 번호를 쉼표로 구분하여 입력하세요 (예: 1,3,5):"
-      );
-      if (selected) {
-        const indices = selected
-          .split(",")
-          .map((index) => parseInt(index.trim(), 10) - 1);
-        const newImages = images.map((image, i) =>
-          indices.includes(i) ? { ...image, folder: newFolderName } : image
-        );
-        setImages(newImages); // 선택된 이미지의 폴더 속성 업데이트
-      }
-      setFolders((prevFolders) => [...prevFolders, newFolderName]); // 폴더 목록에 새로운 폴더 추가
-    }
+    setFolders((prevFolders) => [...prevFolders, newFolderName]); // 폴더 목록에 새로운 폴더 추가
   };
 
   // 페이지 맨 위로 스크롤 함수
@@ -85,9 +85,27 @@ const PhotoPost = () => {
 
   return (
     <div>
-      <Link to="/PhotoPlus">
-        <S.Margin>추가하기 +</S.Margin>
-      </Link>
+      <S.Margin onClick={openModal}>추가하기 +</S.Margin>
+      <ReactModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={{
+          overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)" },
+          content: {
+            padding: 0,
+            border: "none",
+            background: "none",
+            overflow: "visible",
+            position: "unset",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          },
+        }}
+      >
+        <PhotoPlus closeModal={closeModal} />
+      </ReactModal>
       <S.All>
         <S.Menubar>
           <S.Section>
@@ -98,10 +116,6 @@ const PhotoPost = () => {
               >
                 전체보기
               </S.Item>
-              <S.SectionTitle>연도별</S.SectionTitle>
-              <S.Item>2024</S.Item>
-              <S.Item>2023</S.Item>
-              <S.Item>2022</S.Item>
             </S.ItemList>
           </S.Section>
           <S.Section>
@@ -127,7 +141,6 @@ const PhotoPost = () => {
           </S.Section>
         </S.Menubar>
         <S.Right>
-          {/* 필터링된 이미지들을 화면에 보여주는 부분 */}
           {filteredImages.map((image, index) => (
             <GalleryFrame
               key={index}
@@ -138,7 +151,6 @@ const PhotoPost = () => {
           ))}
         </S.Right>
       </S.All>
-      {/* 페이지 맨 위로 스크롤하는 화살표 아이콘 */}
       <S.Arrow onClick={scrollToTop} src={arrow} alt="Sample"></S.Arrow>
     </div>
   );
