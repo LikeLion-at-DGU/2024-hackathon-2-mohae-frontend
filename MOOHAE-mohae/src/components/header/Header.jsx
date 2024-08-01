@@ -21,6 +21,10 @@ const HeaderContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 auto; /* 중앙 정렬 */
+
+  @media (max-width: 359px) {
+    max-width: 360px;
+  }
 `;
 
 const Top = styled.div`
@@ -60,6 +64,8 @@ const HeaderWrap2 = styled.div`
 
   @media (max-width: 359px) {
     gap: 1rem;
+    max-width: 344px;
+    padding: 0.25rem 0.5rem;
   }
 `;
 

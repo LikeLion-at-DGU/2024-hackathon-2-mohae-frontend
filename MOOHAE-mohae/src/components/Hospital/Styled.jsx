@@ -1,5 +1,15 @@
 import styled, {keyframes} from 'styled-components';
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+
 export const HospitalContainer = styled.div`
   display: flex;
   width: 1140px;
@@ -109,47 +119,60 @@ export const AddEventButton = styled.button`
   cursor: pointer;
 `;
 
-export const EventForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  position: absolute;
-  top: 20%;
+export const NewEventForm = styled.div`
+  position: fixed;
+
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -20%);
+
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-width: 500px;
+  max-width: 90%;
   z-index: 1000;
+
+  animation: ${fadeIn} 0.3s ease-in-out;
 `;
 
-export const FormOverlay = styled.div`
+export const backWrapping = styled.div`
+  width: 100%;
+  height: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+
+  z-index: 100;
+  background: rgba(159, 159, 159, 0.50);
 `;
 
 export const DateSelectInput = styled.input`
-  border: 1px solid #000;
   text-align: center;
   justify-content: space-around;
   font-size: 1rem;
   font-family: "NanumSquareRound";
+  width: 436px;
+
+  border: none;
+  outline: none;
 `;
 
-export const FormField = styled.div`
+export const FormContent = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 2rem;
+  gap: 1rem;
 `;
 
-export const FormLabel = styled.label`
-  margin-bottom: 5px;
-  font-weight: bold;
+export const FormText = styled.div`
+  color: #000;
+  font-family: 'NanumSquareRound';
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 `;
 
 export const FormButton = styled.button`
@@ -200,10 +223,68 @@ export const EventTitle = styled.div`
   line-height: normal;
 `;
 
-export const FormInput = styled.input`
-  border: 1px solid #000;
-  text-align: center;
-  justify-content: space-around;
+export const EventInputStyle = styled.input`
+  margin-left: 30px;
+  display: flex;
+  width: 100%;
+  border: none;
   font-size: 1rem;
   font-family: "NanumSquareRound";
+  padding: 0.344rem 0rem;
+`;
+
+
+export const contentContainer = styled.div`
+  display: flex;
+  text-align: center;
+  padding: 0.5rem;
+
+  align-items: center;
+  justify-content: space-between;
+
+  flex-direction: row;
+
+  border: 2px solid #EDEDED;
+  border-radius: 10px;
+`;
+
+export const row = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const HospitalCloseButton = styled.button`
+  background-color: #FFF;
+  color: #2D539E;
+  border: 1px solid  ;
+  padding: 5px 10px;
+
+  border-radius: 5px;
+  width: 45%;
+  font-size: 1rem;
+`;
+
+export const HospitalAddButton = styled.button`
+  background-color: #2D539E;
+  color: #FFF;
+  border: none;
+  padding: 5px 10px;
+
+  border: 1px solid #2D539E;
+
+  border-radius: 5px;
+  width: 45%;
+  font-size: 1rem;
+`;
+
+export const FormTitle = styled.div`
+  color: #000;
+
+  font-family: 'NanumSquareRound';
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+
+  margin-bottom: 1rem;
 `;

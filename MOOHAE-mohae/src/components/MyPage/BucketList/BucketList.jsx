@@ -1,33 +1,64 @@
+import React, { useState } from "react";
 import * as S from "./Styled";
 
-
 const BucketList = () => {
+  const [showForm, setShowForm] = useState(false);
+  const [newBucket, setNewBucket] = useState('');
+
+  const [bucketlist, setBucketlist] = useState([
+    { bucketlist: '나는 놀러가야지' }
+  ]);
+
+  const handleAddBucketList = () => {
+    setBucketlist(prevList => [
+      ...prevList,
+      { bucketlist: newBucket }
+    ]);
+    setNewBucket('');
+    setShowForm(false);
+  };
+
   return (
-    <S.BucketListContainer>
-      <S.Row>
-        <S.BucketListTitle>버킷리스트</S.BucketListTitle>
-        <S.AddBucketList>추가하기 +</S.AddBucketList>
-      </S.Row>
-      <S.BucketListLine />
-      <S.BucketList>
-        <S.Bucket>
-          <S.BucketNumber>1</S.BucketNumber>
-          <S.BucketContent>번지점프 하고말테야</S.BucketContent>
-        </S.Bucket>
-        <S.Bucket>
-          <S.BucketNumber>2</S.BucketNumber>
-          <S.BucketContent>가족들과 함께 한달 동안 세계일주 해보는 것이 소원입니다</S.BucketContent>
-        </S.Bucket>
-        <S.Bucket>
-          <S.BucketNumber>3</S.BucketNumber>
-          <S.BucketContent>제주도 가서 루지타보고 싶어요..</S.BucketContent>
-        </S.Bucket>
-        <S.Bucket>
-          <S.BucketNumber>4</S.BucketNumber>
-          <S.BucketContent>버킷리스트 작성하기</S.BucketContent>
-        </S.Bucket>
-      </S.BucketList>
-    </S.BucketListContainer>
+    <>
+      <S.BucketListContainer>
+        <S.Row>
+          <S.BucketListTitle>버킷리스트</S.BucketListTitle>
+          <S.AddBucketList onClick={() => setShowForm(true)}>추가하기 +</S.AddBucketList>
+        </S.Row>
+        <S.BucketListLine />
+        <S.BucketList>
+          {bucketlist.map((item, index) => (
+            <S.Bucket key={index}>
+              <S.BucketNumber>{index + 1}</S.BucketNumber>
+              <S.BucketContent>{item.bucketlist}</S.BucketContent>
+            </S.Bucket>
+          ))}
+        </S.BucketList>
+      </S.BucketListContainer>
+      {showForm && (
+        <>
+          <S.backWrapping onClick={() => setShowForm(false)} />
+          <S.NewEventForm>
+            <S.FormContent>
+              <S.FormTitle>버킷리스트 추가</S.FormTitle>
+              <S.FormText>가족의 버킷리스트</S.FormText>
+              <S.contentContainer>
+                <S.EventInputStyle 
+                  type="text"
+                  value={newBucket}
+                  onChange={(e) => setNewBucket(e.target.value)}
+                  placeholder="당신의 버킷리스트를 입력해주세요"
+                />
+              </S.contentContainer>
+              <S.row>
+                <S.BucketListCloseButton onClick={() => setShowForm(false)}>닫기</S.BucketListCloseButton>
+                <S.BucketListAddButton onClick={handleAddBucketList}>버킷리스트 추가</S.BucketListAddButton>
+              </S.row>
+            </S.FormContent>
+          </S.NewEventForm>
+        </>
+      )}
+    </>
   );
 }
 
