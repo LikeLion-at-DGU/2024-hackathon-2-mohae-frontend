@@ -24,7 +24,6 @@ const Modal = styled.div`
   max-width: 500px;
   width: 90%;
   height: 600px;
-
   overflow-y: auto; /* 스크롤 가능하게 설정 */
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
   position: relative;
@@ -315,31 +314,7 @@ const PhotoPlus = () => {
   };
 
   const handleUpload = () => {
-    if (!isFormValid) return;
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("detailTitle", detailTitle);
-
-    photos.forEach((photo, index) => {
-      formData.append(`photo${index}`, photo);
-    });
-
-    formData.append("tags", JSON.stringify(tags));
-
-    fetch("/upload", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        // 업로드 성공 후 처리 로직
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        // 오류 처리 로직
-      });
+    // Upload logic would go here
   };
 
   const closeModal = () => {
