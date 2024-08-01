@@ -34,6 +34,7 @@ const router = createBrowserRouter([
       { path: "/Main", element: <Main /> },
       { path: "/MHealthcareChallenge", element: <MHealthcareChallenge /> },
       { path: "/CulturePage", element: <CulturePage /> },
+      { path: "/Mypage", element: <MyPage /> },
     ],
   },
 ]);

@@ -37,3 +37,5 @@ const ADBar = () => {
         </>
     );
 };
+
+export default ADBar;
