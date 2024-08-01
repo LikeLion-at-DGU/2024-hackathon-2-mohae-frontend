@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,9 @@ const Overlay = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  overflow-y: hidden; /* 추가된 부분 */
+
+  /* overflow-y: scroll; */
 `;
 
 const Modal = styled.div`
@@ -31,6 +34,7 @@ const Modal = styled.div`
   display: flex;
   flex-direction: column;
   /* overflow-y: scroll; */
+  overflow-y: scroll; /* 추가된 부분 */
 `;
 
 const SmallModal = styled.div`
@@ -57,7 +61,7 @@ const SecondModal = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 1002; /* 다른 모달들 위에 표시되도록 설정 */
+  z-index: 1002;
   position: relative;
 `;
 
@@ -145,9 +149,12 @@ const PostText = styled.p`
 `;
 
 const Image = styled.img`
-  width: 100%;
+  width: 31.2rem;
+  min-height: 500px;
   border-radius: 10px;
   margin-bottom: 20px;
+  background: blue;
+  border: 1px solid red;
 `;
 
 const Line = styled.div`
@@ -159,8 +166,8 @@ const Line = styled.div`
 
 const CommentSection = styled.div`
   flex: 1;
-  overflow-y: auto;
   padding-bottom: 80px;
+  /* overflow-y: auto; 추가된 부분 */
 `;
 
 const CommentList = styled.div`
@@ -287,7 +294,7 @@ const PhotoDetail = ({ photoId, closeModal }) => {
             ref={iconRef}
           />
         </PostInfo>
-        <Image src="image-url" alt="Post image" />
+        <Image />
         <PostText>가족사진찍었습니다.</PostText>
         <Line></Line>
         <CommentSection>
@@ -336,14 +343,6 @@ const PhotoDetail = ({ photoId, closeModal }) => {
               <Folder>
                 <FontAwesomeIcon icon={faFolder} size="3x" />
                 <FolderName>맛집</FolderName>
-              </Folder>
-              <Folder>
-                <FontAwesomeIcon icon={faFolder} size="3x" />
-                <FolderName>추억</FolderName>
-              </Folder>
-              <Folder>
-                <FontAwesomeIcon icon={faFolder} size="3x" />
-                <FolderName>가족사진</FolderName>
               </Folder>
             </FolderList>
             <Button>폴더 이동하기</Button>

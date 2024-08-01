@@ -129,10 +129,10 @@ const PhotoPost = () => {
               >
                 전체보기
               </S.Item>
-              <S.SectionTitle>연도별</S.SectionTitle>
+              {/* <S.SectionTitle>연도별</S.SectionTitle>
               <S.Item>2024</S.Item>
               <S.Item>2023</S.Item>
-              <S.Item>2022</S.Item>
+              <S.Item>2022</S.Item> */}
             </S.ItemList>
           </S.Section>
           <S.Section>
