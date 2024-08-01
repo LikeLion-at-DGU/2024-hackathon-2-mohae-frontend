@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import uploadImg from "../../assets/imgplus.png";
+import uploadImg from "../../assets/imgplus.png"; // 업로드한 이미지 경로
 
 const Overlay = styled.div`
   position: fixed;
@@ -24,7 +24,8 @@ const Modal = styled.div`
   max-width: 500px;
   width: 90%;
   height: 600px;
-  overflow-y: auto;
+
+  overflow-y: auto; /* 스크롤 가능하게 설정 */
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
   position: relative;
   display: flex;
@@ -36,14 +37,18 @@ const GalleryButton = styled.div`
   text-align: center;
   font-family: "NanumSquare Neo";
   font-size: 15px;
+  font-style: normal;
   font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.18px;
+  display: flex;
   width: 80px;
   height: 40px;
-  display: flex;
   justify-content: center;
   align-items: center;
-  background: #2d539e;
+  gap: 10px;
   border-radius: 5px;
+  background: #2d539e;
   margin-bottom: 50px;
 `;
 
@@ -51,13 +56,23 @@ const TitleInputText = styled.p`
   color: #000;
   font-family: NanumSquareRound;
   font-size: 17px;
+  font-style: normal;
   font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.23px;
   margin-bottom: 10px;
 `;
 
 const TitleInput = styled.input`
+  display: flex;
   width: 90%;
+  height: 20px;
   padding: 14px 22px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
   border-radius: 10px;
   border: 2px solid #ededed;
 `;
@@ -66,13 +81,23 @@ const DetailTitleInputText = styled.p`
   color: #000;
   font-family: NanumSquareRound;
   font-size: 17px;
+  font-style: normal;
   font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.23px;
   margin-bottom: 10px;
 `;
 
 const DetailTitleInput = styled.input`
+  display: flex;
   width: 90%;
+  height: 20px;
   padding: 14px 22px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
   border-radius: 10px;
   border: 2px solid #ededed;
 `;
@@ -85,7 +110,10 @@ const CustomPhotoButtonText = styled.p`
   color: #000;
   font-family: NanumSquareRound;
   font-size: 17px;
+  font-style: normal;
   font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.23px;
   margin-bottom: -10px;
 `;
 
@@ -107,13 +135,23 @@ const TagText = styled.p`
   color: #000;
   font-family: NanumSquareRound;
   font-size: 17px;
+  font-style: normal;
   font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.23px;
   margin-bottom: 10px;
 `;
 
 const TagInput = styled.input`
+  display: flex;
   width: 90%;
+  height: 20px;
   padding: 14px 22px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
   border-radius: 10px;
   border: 2px solid #ededed;
 `;
@@ -148,13 +186,18 @@ const RemoveButton = styled.button`
   padding: 10px;
   justify-content: center;
   align-items: center;
+  gap: 10px;
   border-radius: 15px;
   border: 2px solid #2d539e;
   background: #fff;
   color: #2d539e;
+  text-align: center;
   font-family: NanumSquareRound;
   font-size: 17px;
+  font-style: normal;
   font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.23px;
 `;
 
 const PhotoCount = styled.div`
@@ -182,14 +225,20 @@ const PreviewImage = styled.img`
 
 const UploadButton = styled.button`
   color: #fff;
+  text-align: center;
   font-family: NanumSquareRound;
   font-size: 17px;
+  font-style: normal;
   font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.23px;
   display: flex;
   width: 150px;
   height: 30px;
+  padding: 10px;
   justify-content: center;
   align-items: center;
+  gap: 10px;
   border-radius: 10px;
   border: none;
   background: ${(props) => (props.disabled ? "#CCCCCC" : "#2d539e")};
@@ -219,7 +268,6 @@ const PhotoPlus = () => {
   const [tagInput, setTagInput] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
 
-  // 폼이 유효한지 확인
   useEffect(() => {
     setIsFormValid(
       title.trim() !== "" &&
@@ -229,17 +277,14 @@ const PhotoPlus = () => {
     );
   }, [title, detailTitle, photos, tags]);
 
-  // 제목 변경
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
 
-  // 상세 제목 변경
   const handleDetailTitleChange = (event) => {
     setDetailTitle(event.target.value);
   };
 
-  // 사진 파일 변경
   const handlePhotoChange = (event) => {
     const files = Array.from(event.target.files);
     const updatedPhotos = [...photos, ...files];
@@ -250,12 +295,10 @@ const PhotoPlus = () => {
     setPreviewSrcs(previews);
   };
 
-  // 태그 입력 변경
   const handleTagInputChange = (event) => {
     setTagInput(event.target.value);
   };
 
-  // 태그 입력 확인 (Enter 키 입력 시)
   const handleTagKeyPress = (event) => {
     if (
       event.key === "Enter" &&
@@ -267,34 +310,42 @@ const PhotoPlus = () => {
     }
   };
 
-  // 태그 제거
   const handleRemoveTag = (index) => {
     setTags(tags.filter((_, i) => i !== index));
   };
 
-  // 사진 업로드 시 로컬 상태에 저장 (서버 요청 없음)
   const handleUpload = () => {
     if (!isFormValid) return;
 
-    const uploadedData = {
-      title,
-      detailTitle,
-      photos,
-      tags,
-    };
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("detailTitle", detailTitle);
 
-    console.log("Uploaded Data:", uploadedData);
-    // 여기서 업로드된 데이터를 처리하는 로직을 추가할 수 있습니다.
-    // 예: 로컬 스토리지에 저장, 화면에 표시 등
-    alert("사진이 등록되었습니다!");
+    photos.forEach((photo, index) => {
+      formData.append(`photo${index}`, photo);
+    });
+
+    formData.append("tags", JSON.stringify(tags));
+
+    fetch("/upload", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        // 업로드 성공 후 처리 로직
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // 오류 처리 로직
+      });
   };
 
-  // 모달 닫기
   const closeModal = () => {
-    navigate(-1);
+    navigate(0);
   };
 
-  // 파일 선택 대화 상자 열기
   const openFileDialog = () => {
     fileInputRef.current.click();
   };

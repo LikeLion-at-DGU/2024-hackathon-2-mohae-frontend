@@ -127,37 +127,12 @@ const PhotoPlus = () => {
   const handleUpload = () => {
     if (!isFormValid) return;
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("detailTitle", detailTitle);
-
-    photos.forEach((photo, index) => {
-      formData.append(`photo${index}`, photo);
-    });
-
-    formData.append("tags", JSON.stringify(tags));
-
-    fetch("/upload", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        // 업로드 성공 후 처리 로직
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        // 오류 처리 로직
-      });
+    // API 통신 부분을 제거하였습니다.
+    console.log("Form data is valid and ready to be uploaded.");
   };
 
   const closeModal = () => {
     navigate(-1);
-  };
-
-  const openFileDialog = () => {
-    fileInputRef.current.click();
   };
 
   return (

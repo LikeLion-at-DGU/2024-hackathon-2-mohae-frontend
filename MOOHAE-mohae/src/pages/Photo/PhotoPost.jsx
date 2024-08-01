@@ -2,10 +2,23 @@ import React, { useState } from "react";
 import GalleryFrame from "../../components/GalleryFrame";
 import * as S from "./PhotoPoststyled";
 import arrow from "../../assets/arrow.png";
-import { Link } from "react-router-dom";
 import PhotoPlus from "./PhotoPlus";
+import ReactModal from "react-modal";
+import { useNavigate } from "react-router-dom";
+import PhotoDetail from "../../components/PhotoDetail";
+
+ReactModal.setAppElement("#root");
 
 const PhotoPost = () => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const navigate = useNavigate("/");
+
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+  //   navigate("/"); // 모달 닫힌 후 PhotoPost 페이지로 이동
+  // };
+
+  // 포토디테일 모달창 띄우기
   // 예시 이미지 데이터 배열, 각 이미지에 폴더 정보 포함
   const [images, setImages] = useState([
     { src: "image1.jpg", folder: "all" },
@@ -85,9 +98,27 @@ const PhotoPost = () => {
 
   return (
     <div>
-      <Link to="/PhotoPlus">
-        <S.Margin>추가하기 +</S.Margin>
-      </Link>
+      <S.Margin onClick={openModal}>추가하기 +</S.Margin>
+      <ReactModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={{
+          overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)" },
+          content: {
+            padding: 0,
+            border: "none",
+            background: "none",
+            overflow: "visible",
+            position: "unset",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          },
+        }}
+      >
+        <PhotoPlus closeModal={closeModal} />
+      </ReactModal>
       <S.All>
         <S.Menubar>
           <S.Section>
@@ -127,7 +158,6 @@ const PhotoPost = () => {
           </S.Section>
         </S.Menubar>
         <S.Right>
-          {/* 필터링된 이미지들을 화면에 보여주는 부분 */}
           {filteredImages.map((image, index) => (
             <GalleryFrame
               key={index}
@@ -138,7 +168,6 @@ const PhotoPost = () => {
           ))}
         </S.Right>
       </S.All>
-      {/* 페이지 맨 위로 스크롤하는 화살표 아이콘 */}
       <S.Arrow onClick={scrollToTop} src={arrow} alt="Sample"></S.Arrow>
     </div>
   );
