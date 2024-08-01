@@ -106,7 +106,7 @@ const Navigator = () => {
                 
             
                 <NavBlockBottom>
-                    <StyledLink to="Culture">
+                    <StyledLink to="CulturePage">
                         <NavMenu>
                             <img className = "Menuimg" src="/src/assets/img/NavCulture.png" alt="error loading pic" />
                         </NavMenu>

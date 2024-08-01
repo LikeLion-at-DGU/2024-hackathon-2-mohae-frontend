@@ -19,7 +19,11 @@ const PageStyle = createGlobalStyle`
 function CulturePage() {
     return (
         <>
-            <p>나는 바보입니다.</p>
+            <ADBar/>
+            <div class="textWraaper">카테고리</div>
+            <CategoryBar/>
+            <div class="textWraaper">모해 PICK</div>
+            
         </>
     );
 }
