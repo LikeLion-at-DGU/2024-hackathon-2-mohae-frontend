@@ -1,7 +1,7 @@
 import React, { useState, useNavigate } from "react";
 import styled from "styled-components";
-import good from "./../assets/good.png";
-import realheart from "./../assets/realheart.png";
+import good from "./../assets/binstar.png";
+import realheart from "./../assets/star.png";
 import PhotoDetail from "./PhotoDetail";
 import ReactModal from "react-modal";
 
@@ -172,7 +172,7 @@ const GalleryFrame = ({ src, onLikeToggle, isLiked }) => {
         </ReactModal>
         <ImgFrame>
           <StyledImageWrapper onClick={handleLikeClick}>
-            <StyledImage src={isLiked ? good : realheart} alt="좋아요 이미지" />
+            <StyledImage src={isLiked ? realheart : good} alt="좋아요 이미지" />
           </StyledImageWrapper>
         </ImgFrame>
         <UnderImg>

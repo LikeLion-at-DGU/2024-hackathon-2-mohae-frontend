@@ -11,12 +11,13 @@ ReactModal.setAppElement("#root");
 
 const PhotoPost = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const navigate = useNavigate("/");
+  const navigate = useNavigate();
 
   const openModal = () => setModalIsOpen(true);
-  const closeModal = () => setModalIsOpen(false);
-  //   navigate("/"); // 모달 닫힌 후 PhotoPost 페이지로 이동
-  // };
+  const closeModal = () => {
+    setModalIsOpen(false);
+    navigate("/"); // 모달 닫힌 후 PhotoPost 페이지로 이동
+  };
 
   // 포토디테일 모달창 띄우기
   // 예시 이미지 데이터 배열, 각 이미지에 폴더 정보 포함
@@ -129,10 +130,10 @@ const PhotoPost = () => {
               >
                 전체보기
               </S.Item>
-              {/* <S.SectionTitle>연도별</S.SectionTitle>
+              <S.SectionTitle>연도별</S.SectionTitle>
               <S.Item>2024</S.Item>
               <S.Item>2023</S.Item>
-              <S.Item>2022</S.Item> */}
+              <S.Item>2022</S.Item>
             </S.ItemList>
           </S.Section>
           <S.Section>
