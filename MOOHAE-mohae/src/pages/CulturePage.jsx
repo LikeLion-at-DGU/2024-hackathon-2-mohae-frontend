@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+import { createGlobalStyle } from "styled-components";
+
 const PageStyle = createGlobalStyle`
     body {
         background-color: #F7F8FB;
@@ -14,13 +16,12 @@ const PageStyle = createGlobalStyle`
     }
 `;
 
-function HomePage() {
+function CulturePage() {
     return (
         <>
-        <PageStyle />
-        <MainPage/>
+            <p>나는 바보입니다.</p>
         </>
     );
 }
 
-export default HomePage;
+export default CulturePage;

@@ -134,7 +134,7 @@ const Header = () => {
         <StyledLink to="PhotoPost">
           <CategoryTitle>가족 사진첩</CategoryTitle>
         </StyledLink>
-        <StyledLink to="/">
+        <StyledLink to="CulturePage">
           <CategoryTitle>문화생활</CategoryTitle>
         </StyledLink>
       </HeaderWrap2>

@@ -13,6 +13,7 @@ import PhotoPlus from "./pages/Photo/PhotoPlus";
 import PhotoDetail from "./components/PhotoDetail";
 import Main from "./pages/PhotoBook/Main";
 import MHealthcareChallenge from "./components/CHealthChallenge/MHealthChallenge";
+import CulturePage from "./pages/CulturePage";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       { path: "/PhotoDetail", element: <PhotoDetail /> },
       { path: "/Main", element: <Main /> },
       { path: "/MHealthcareChallenge", element: <MHealthcareChallenge /> },
+      { path: "/CulturePage",element: <CulturePage />},
     ],
   },
 ]);

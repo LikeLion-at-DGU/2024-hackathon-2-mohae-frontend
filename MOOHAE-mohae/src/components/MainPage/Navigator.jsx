@@ -96,7 +96,7 @@ const Navigator = () => {
 
                 </NavBlockBottom>
                 <NavBlockTop>
-                <StyledLink to="Gallery">
+                <StyledLink to="PhotoPost">
 
                     <NavMenu>
                         <img class = "Menuimg" src="/src/assets/img/NavPic.png" alt="error loading pic" />
