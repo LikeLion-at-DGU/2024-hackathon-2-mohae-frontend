@@ -243,6 +243,8 @@ const SubmitButton = styled.button`
   }
 `;
 
+// 위에 스타일링 하는 부분
+
 const PhotoDetail = ({ photoId, closeModal }) => {
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
