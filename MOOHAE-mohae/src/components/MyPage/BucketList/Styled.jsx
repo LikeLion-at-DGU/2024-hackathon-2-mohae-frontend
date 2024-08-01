@@ -12,13 +12,12 @@ const fadeIn = keyframes`
 export const BucketListContainer = styled.div`
   display: flex;
   width: 1044px;
-  margin-top: 2rem;
   flex-direction: column;
   gap: 2rem;
   padding: 2rem 3rem;
   background-color: #FFF;
   border-radius: 1.25rem;
-
+  margin-bottom: 2rem;
   max-height: 400px;
   overflow-y: scroll;
 `;

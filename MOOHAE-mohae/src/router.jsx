@@ -35,8 +35,12 @@ const router = createBrowserRouter([
       { path: "/Main", element: <Main /> },
       { path: "/MHealthcareChallenge", element: <MHealthcareChallenge /> },
       { path: "/CulturePage", element: <CulturePage /> },
+<<<<<<< HEAD
       { path: "/Apply", element: <Apply /> },
       // { path: "/MyPage", element: <MyPage /> },
+=======
+      { path: "/Mypage", element: <MyPage /> },
+>>>>>>> OTJ
     ],
   },
 ]);

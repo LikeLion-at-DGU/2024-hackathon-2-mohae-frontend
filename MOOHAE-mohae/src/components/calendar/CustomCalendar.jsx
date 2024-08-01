@@ -46,14 +46,13 @@ const CustomCalendar = () => {
 
   const FetchDateData = async () => {
     try {
-      // JWT 인증 토큰은 쿠키를 통해 자동으로 전송됨
       const response = await API.get('/cal/events/list/');
       console.log(response.data);
       setEvents(response.data);
     } catch (error) {
       console.log('fetch error:', error);
     }
-  };
+  };1
 
   useEffect(() => {
     FetchDateData();
@@ -63,18 +62,20 @@ const CustomCalendar = () => {
     try {
       const eventData = {
         title: newEventTitle,
-        start: newEventStartDate.toISOString(),
-        end: newEventEndDate.toISOString(),
-        participants: setSelectedParticipants,
+        start: newEventStartDate.toString(),
+        end: newEventEndDate.toString(),
+        participants: selectedParticipants,
       };
+    
+      const response = await API.post('/cal/events/', eventData);
   
-      const response = await API.post('/cal/events/list/', eventData);
-
+      FetchDateData();
     } catch (error) {
       console.error(error);
-      alert('post Failure');
+      alert('Post 실패');
     }
   };
+  
 
   const handleEvent = () => {
     PostDateData();
@@ -94,12 +95,23 @@ const CustomCalendar = () => {
 
   const renderEvents = (date) => {
     return events
-      .filter(event => date >= event.start && date <= event.end)
+      .filter(event => {
+        const eventStart = new Date(event.start);
+        const eventEnd = new Date(event.end);
+  
+        const eventStartDate = new Date(eventStart.getFullYear(), eventStart.getMonth(), eventStart.getDate());
+        const eventEndDate = new Date(eventEnd.getFullYear(), eventEnd.getMonth(), eventEnd.getDate());
+        const currentDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  
+        // 이벤트가 해당 날짜 범위에 있는지 확인
+        const isInDateRange = currentDate >= eventStartDate && currentDate <= eventEndDate;
+  
+        return isInDateRange;
+      })
       .map((event, index) => {
-        // 시작날 하루 빼주는 걸 어떻게 하는지 모르겠다..ㅠ
-        const isStart = date.toDateString() === new Date(event.start.getTime() + 86400000).toDateString();
-        const isEnd = date.toDateString() === new Date(event.end.getTime()).toDateString();
-
+        const isStart = date.toDateString() === new Date(event.start).toDateString();
+        const isEnd = date.toDateString() === new Date(event.end).toDateString();
+  
         return (
           <S.EventTile
             key={index}
@@ -132,16 +144,21 @@ const CustomCalendar = () => {
   };
 
   const handleDateClick = (date) => {
-  if (selectedDate && selectedDate.toDateString() === date.toDateString()) {
-    setSelectedDate(null);
-    setShowDetails(false);
-  } else {
     setSelectedDate(date);
-    const event = events.filter(event => date >= event.start && date <= event.end);
-    setSelectedEvent(event);
+    const eventsForSelectedDate = events.filter(event => {
+      const eventStart = new Date(event.start);
+      const eventEnd = new Date(event.end);
+
+      const eventStartDate = new Date(eventStart.getFullYear(), eventStart.getMonth(), eventStart.getDate());
+      const eventEndDate = new Date(eventEnd.getFullYear(), eventEnd.getMonth(), eventEnd.getDate());
+      const selectedDateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  
+      return selectedDateOnly >= eventStartDate && selectedDateOnly <= eventEndDate;
+    });
+    setSelectedEvent(eventsForSelectedDate);
     setShowDetails(true);
-  }
-};
+  };
+  
 
   const CloseDetails = () => {
     setShowDetails(false);
@@ -377,29 +394,19 @@ const CustomCalendar = () => {
               {selectedEvent.length > 0 ? (
                 selectedEvent.map((event, index) => (
                   <div key={index} style={{ backgroundColor: event.color }}>
-                    {event.title}
-                    {event.start.getFullYear() === event.end.getFullYear() && event.start.getMonth() === event.end.getMonth() && event.start.getDate() + 1 === event.end.getDate() ? (
-                      <p>{event.allDay ? "하루종일" : `${event.start.getHours()}:${event.start.getMinutes()} ~ ${event.end.getHours()}:${event.end.getMinutes()}`}</p>
-                    ) : (
-                      <p>{event.allDay ? `${event.start.getFullYear()}.${event.start.getMonth() + 1}.${event.start.getDate() + 1} ~ ${event.end.getFullYear()}.${event.end.getMonth() + 1}.${event.end.getDate()}` : `${event.start.getFullYear()}.${event.start.getMonth() + 1}.${event.start.getDate()} ${event.start.getHours()}:${event.start.getMinutes()} ~ ${event.end.getFullYear()}.${event.end.getMonth() + 1}.${event.end.getDate()} ${event.end.getHours()}:${event.end.getMinutes()}`}</p>
-                    )}
+                    <h3>{event.title}</h3>
+                    <p>{event.start}</p>
+                    <p>{event.end}</p>
                   </div>
                 ))
               ) : (
                 <div>일정 없음</div>
               )}
             </S.ScheduleStyle>
-            <div>
-              {dateEmojis[selectedDate.toDateString()]?.length === 0 ? '이모지 없음' : dateEmojis[selectedDate.toDateString()]?.map((item, idx) => (
-                <div key={idx}>
-                  <span>{item.emoji}</span>
-                  <span>{item.emojiText}</span>
-                </div>
-              ))}
-            </div>
           </S.SideContainer>
         </S.SideSchedules>
       )}
+
     </>
   );
 }

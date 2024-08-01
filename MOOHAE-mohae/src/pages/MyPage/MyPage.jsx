@@ -6,6 +6,7 @@ import * as S from "./Styled";
 import EditProfile from "../../components/MyPage/EditProfile/EditProfile";
 import EditFamily from "../../components/MyPage/EditFamily/EditFamily";
 import BucketList from "../../components/MyPage/BucketList/BucketList";
+import LikeList from "../../components/MyPage/LikeList/LikeList"
 
 const MyPage = () => {
   return (
@@ -16,6 +17,7 @@ const MyPage = () => {
       <S.BackEffect>
         <EditFamily />
         <BucketList />
+        <LikeList />
         <div style={{marginBottom: "2rem"}} />
       </S.BackEffect>
     </>

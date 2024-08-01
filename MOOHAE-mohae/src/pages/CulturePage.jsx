@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+import ADBar from "../components/CulturePage/ADBar";
+import CategoryBar from "../components/CulturePage/CategoryBar";
+
 import { createGlobalStyle } from "styled-components";
 
 const PageStyle = createGlobalStyle`

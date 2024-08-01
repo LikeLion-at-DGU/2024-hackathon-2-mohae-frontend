@@ -19,6 +19,7 @@ export const EditFamilyContainer = styled.div`
   padding: 2rem 3rem;
   background-color: #FFF;
   border-radius: 1.25rem;
+  margin-bottom: 2rem;
 `;
 
 export const EditFamilyTitle = styled.div`
