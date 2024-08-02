@@ -9,6 +9,10 @@ const Container = styled.div`
   flex-shrink: 0;
   margin-bottom: 20px;
   /* border: 1px solid pink; */
+
+  @media (max-width: 359px) {
+    width: 320px;
+  }
 `;
 
 const P = styled.div`
@@ -20,6 +24,10 @@ const P = styled.div`
   font-weight: 700;
   line-height: normal;
   letter-spacing: -0.46px;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 const TagContainer = styled.div`
@@ -27,17 +35,28 @@ const TagContainer = styled.div`
   height: 45px;
   display: flex;
   gap: 10px;
+
+  @media (max-width: 359px) {
+    width: 340px;
+    height: 3rem;
+    align-items: center;
+  }
 `;
 
 const Image = styled.img`
   width: 45px;
   height: 45px;
   margin-top: -9px;
+
+  @media (max-width: 359px) {
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-top: 0;
+  }
 `;
 
 const Tag = styled.div`
   text-align: center;
-  width: 150px;
   height: 20px;
   color: ${(props) => (props.active ? "#FFF" : "#9f9f9f")}; /* 텍스트 색상 */
   font-family: NanumSquareRound;
@@ -60,6 +79,10 @@ const Tag = styled.div`
     background-color: #f0f0f0; // 클릭 시 배경색 변경
     box-shadow: 10px 10px 15px; // 클릭 시 크기 변화
   }
+  @media (max-width: 359px) {
+    font-size: 0.5rem;
+    padding: 0.125rem 0.325rem;
+  }
 `;
 
 const UnderContainer = styled.div`
@@ -69,6 +92,12 @@ const UnderContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
+  @media (max-width: 359px) {
+    width: 320px;
+    height: 440px;
+    overflow-y: scroll;
+    justify-content: center;
+  }
 `;
 
 const MHealthcareChallenge = () => {

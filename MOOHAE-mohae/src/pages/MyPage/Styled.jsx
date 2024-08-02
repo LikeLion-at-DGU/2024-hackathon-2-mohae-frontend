@@ -17,6 +17,13 @@ export const PageStyle = createGlobalStyle`
   }
 `;
 
+export const DIV = styled.div`
+  margin-bottom: 2rem;
+  @media (max-width: 359px) {
+    margin-bottom: 1rem;
+  }
+`;
+
 export const BackEffect = styled.div`
   display: flex;
   padding-top: 2rem;
@@ -24,4 +31,9 @@ export const BackEffect = styled.div`
   width: 1440px;
   align-items: center;
   background: linear-gradient(120deg, #E1EAFF 0%, #FFF 52.4%, #DCFAFC 100%);
+
+  @media (max-width: 359px) {
+    padding-top: 0rem;
+    width: 360px;
+  }
 `;

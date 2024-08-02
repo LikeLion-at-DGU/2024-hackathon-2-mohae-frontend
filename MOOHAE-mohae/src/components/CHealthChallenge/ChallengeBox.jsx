@@ -11,7 +11,11 @@ const Nemo = styled.div`
   align-items: center;
   border-radius: 10px;
   background: #fff;
-  box-shadow: 1px 3px 10px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 1px 3px 3px 0px rgba(0, 0, 0, 0.25);
+  @media (max-width: 359px) {
+    justify-content: center;
+    width: 280px;
+  }
 `;
 
 const Nemo1 = styled.div`
@@ -26,13 +30,22 @@ const Left = styled.div`
   width: 150px;
   height: 155px;
   /* border: 1px solid blue; */
+  @media (max-width: 359px) {
+    width: 80px;
+  }
 `;
 
 const Right = styled.div`
-  width: 372px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
   height: 155px;
   /* border: 1px solid green; */
   margin-left: 10px;
+  @media (max-width: 359px) {
+    width: 180px;
+  }
 `;
 
 const Icon = styled.div`
@@ -42,6 +55,10 @@ const Icon = styled.div`
   justify-content: center;
   align-items: center;
   /* background-color: blue; // 확인용 */
+  @media (max-width: 359px) {
+    width: 50px;
+    height: 50px;
+  }
 `;
 
 const Imgofuser = styled.div`
@@ -52,6 +69,9 @@ const Imgofuser = styled.div`
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.3px;
+  @media (max-width: 359px) {
+    font-size: 0.625rem;
+  }
 `;
 
 const Participation = styled.div`
@@ -62,6 +82,10 @@ const Participation = styled.div`
   align-items: center;
   /* background-color: pink; */
   /* margin-left: 7px; */
+  
+  @media (max-width: 359px) {
+    width: 100%;
+  }
 `;
 
 const Radiusofuser = styled.div`
@@ -73,6 +97,13 @@ const Radiusofuser = styled.div`
   justify-content: center;
   align-items: center;
   margin-left: 10px;
+
+  @media (max-width: 359px) {
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 1.5rem;
+    margin-left: 0.5rem;
+  }
 `;
 
 const ChallengeTitle = styled.div`
@@ -85,6 +116,10 @@ const ChallengeTitle = styled.div`
   line-height: normal;
   letter-spacing: -0.42px;
   margin-top: 0px;
+
+  @media (max-width: 359px) {
+    font-size: 1rem;
+  }
 `;
 
 const ChallengeDate = styled.div`
@@ -97,6 +132,10 @@ const ChallengeDate = styled.div`
   line-height: normal;
   letter-spacing: -0.32px;
   margin-top: -10px;
+
+  @media (max-width: 359px) {
+    font-size: 0.625rem; 
+  }
 `;
 
 const PLeft = styled.div`
@@ -108,6 +147,10 @@ const PRight = styled.div`
   display: flex;
   gap: 8px;
   margin-right: 10px;
+
+  @media (max-width: 359px) {
+    margin-right: 0.125rem; 
+  }
 `;
 const PRight1 = styled.div`
   color: #2d539e;
@@ -125,6 +168,11 @@ const PRight1 = styled.div`
   gap: 10px;
   border-radius: 30px;
   background: #ebf1ff;
+
+  @media (max-width: 359px) {
+    font-size: 0.625rem;
+  }
+  
 `;
 const PRight2 = styled.div`
   color: #de0000;
@@ -142,6 +190,9 @@ const PRight2 = styled.div`
   gap: 10px;
   border-radius: 30px;
   background: #ffebe1;
+  @media (max-width: 359px) {
+    font-size: 0.625rem;
+  }
 `;
 
 const Apply = styled.div`
@@ -166,6 +217,10 @@ const Apply = styled.div`
   &:active {
     background-color: #f0f0f0; // 클릭 시 배경색 변경
     transform: scale(0.95); // 클릭 시 크기 변화
+  }
+
+  @media (max-width: 359px) {
+    font-size: 0.875rem;
   }
 `;
 

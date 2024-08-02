@@ -21,6 +21,10 @@ const HeaderContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 auto; /* 중앙 정렬 */
+
+  @media (max-width: 359px) {
+    max-width: 340px;
+  }
 `;
 
 const Top = styled.div`
@@ -28,7 +32,11 @@ const Top = styled.div`
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
+
+  @media (max-width: 359px) {
+    padding: 0;
+  }
 `;
 
 const ButtonwithIcon = styled.div`
@@ -43,9 +51,14 @@ const ButtonwithIcon = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration-line: underline;
+  }
 
   @media (max-width: 359px) {
-    font-size: 0.75rem;
+    font-size: 0.625rem;
   }
 `;
 
@@ -60,6 +73,8 @@ const HeaderWrap2 = styled.div`
 
   @media (max-width: 359px) {
     gap: 1rem;
+    max-width: 344px;
+    padding: 0.25rem 0.5rem;
   }
 `;
 
@@ -73,7 +88,7 @@ const MOHAEsytle = styled.h1`
   line-height: normal;
 
   @media (max-width: 359px) {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 `;
 
@@ -88,6 +103,10 @@ const CategoryTitle = styled.div`
   &:hover {
     color: #2d539e;
     font-weight: 1000;
+  }
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
   }
 `;
 

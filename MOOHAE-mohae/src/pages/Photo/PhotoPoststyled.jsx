@@ -49,7 +49,7 @@ export const Menubar = styled.div`
   font-weight: 800;
   line-height: normal;
   letter-spacing: -0.23px;
-  z-index: 1000;
+  /* z-index: 1000; */
 `;
 
 export const Section = styled.div`

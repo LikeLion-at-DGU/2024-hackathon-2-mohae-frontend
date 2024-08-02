@@ -35,6 +35,8 @@ const router = createBrowserRouter([
       { path: "/Main", element: <Main /> },
       { path: "/MHealthcareChallenge", element: <MHealthcareChallenge /> },
       { path: "/CulturePage", element: <CulturePage /> },
+      { path: "/Apply", element: <Apply /> },
+      { path: "/Mypage", element: <MyPage /> },
       { path: "/CulturePage/Detail", element: <DetailPage /> }, // CulturePage의 DetailPage 라우트 추가
 
     ],

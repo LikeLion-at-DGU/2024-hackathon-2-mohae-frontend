@@ -24,7 +24,7 @@ export const ScheduleContainer = styled.div`
 
   @media (max-width: 359px) {
     width: 280px;
-    padding: 0.125rem 0.5rem 0.5rem 0.5rem;
+    padding: 0rem 0.5rem 0.5rem 0.5rem;
     margin-top: 0.5rem;
     border-radius: 0.5rem;
   }
@@ -38,7 +38,7 @@ export const ScheduleText = styled.p`
   font-weight: 700;
 
   @media (max-width: 359px) {
-    font-size: 0.75rem;
+    font-size: 0.5rem;
   }
 `;
 
@@ -59,8 +59,8 @@ export const ScheduleBox = styled.div`
   background-color: #FFF;
 
   @media (max-width: 359px) {
-    height: 2.5rem;
-    padding: 0.25rem 0.375rem;
+    height: 1.75rem;
+    padding: 0.25rem 0.25rem;
   }
 `;
 
@@ -72,7 +72,7 @@ export const ScheduleToday = styled.div`
   font-weight: 800;
 
   @media (max-width: 359px) {
-    font-size: 0.75rem;
+    font-size: 0.5rem;
     font-weight: 700;
   }
 `;
@@ -81,6 +81,11 @@ export const ScheduleRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  @media (max-width: 359px) {
+    flex-direction: column;
+    gap: 0.125rem;
+  }
 `;
 
 export const ScheduleTitle = styled.div`
@@ -91,7 +96,7 @@ export const ScheduleTitle = styled.div`
   font-weight: 700;
 
   @media (max-width: 359px) {
-    font-size: 0.5rem;
+    font-size: 0.375rem;
   }
 `;
 
@@ -103,7 +108,7 @@ export const ScheduleTime = styled.div`
   font-weight: 700;
 
   @media (max-width: 359px) {
-    font-size: 0.5rem;
+    font-size: 0.375rem;
   }
 `;
 
