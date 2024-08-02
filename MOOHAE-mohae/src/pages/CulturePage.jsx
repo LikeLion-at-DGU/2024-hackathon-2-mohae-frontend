@@ -1,8 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-
-import { createGlobalStyle } from "styled-components";
+import React, { useState } from "react";
+import styled, { createGlobalStyle } from "styled-components";
+import ADBar from "../components/CulturePage/ADBar";
+import CategoryBar from "../components/CulturePage/CategoryBar";
+import Entertainment from "../components/CulturePage/Entertainment";
+import Activity from "../components/CulturePage/Activity";
+import Travel from "../components/CulturePage/Travle"; // Travel 컴포넌트를 가져옵니다
+import Education from "../components/CulturePage/Education";
+import DetailPage from "../components/CulturePage/DetailPage";
 
 const PageStyle = createGlobalStyle`
     body {
@@ -16,14 +20,44 @@ const PageStyle = createGlobalStyle`
     }
 `;
 
+const BackEffect = styled.div`
+    display: flex;
+    padding-top: 2rem;
+    flex-direction: column;
+    width: 100vw;
+    min-height: 100vh; 
+    align-items: center;
+    background: linear-gradient(120deg, #e1eaff 0%, #fff 52.4%, #dcfafc 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+`;
+
 function CulturePage() {
+    const [selectedCategory, setSelectedCategory] = useState(0);
+
+    const renderContent = () => {
+        switch (selectedCategory) {
+            case 0:
+                return <Entertainment />;
+            case 1:
+                return <Travel />;
+            case 2:
+                return <Activity />;
+            case 3: 
+                return <Education/>
+            default:
+                return <Entertainment />;
+        }
+    };
+
     return (
         <>
-            <ADBar/>
-            <div class="textWraaper">카테고리</div>
-            <CategoryBar/>
-            <div class="textWraaper">모해 PICK</div>
-            
+            <PageStyle />
+            <BackEffect>
+                <ADBar />
+                <CategoryBar setSelectedCategory={setSelectedCategory} />
+                {renderContent()}
+            </BackEffect>
         </>
     );
 }

@@ -16,6 +16,7 @@ import MHealthcareChallenge from "./components/CHealthChallenge/MHealthChallenge
 import CulturePage from "./pages/CulturePage";
 import Apply from "./components/CHealthChallenge/Apply";
 import MyPage from "./pages/MyPage/MyPage";
+import DetailPage from "./components/CulturePage/DetailPage"; // DetailPage 추가
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,8 @@ const router = createBrowserRouter([
       { path: "/Main", element: <Main /> },
       { path: "/MHealthcareChallenge", element: <MHealthcareChallenge /> },
       { path: "/CulturePage", element: <CulturePage /> },
+      { path: "/CulturePage/Detail", element: <DetailPage /> }, // CulturePage의 DetailPage 라우트 추가
+
     ],
   },
 ]);
