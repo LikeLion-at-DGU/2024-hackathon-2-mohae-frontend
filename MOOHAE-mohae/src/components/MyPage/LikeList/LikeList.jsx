@@ -13,15 +13,15 @@ const LikeList = () => {
       <S.LikeListHeaders>
         <S.LikeLikeHeader
           onClick={handleShowBuy}
-          isSelected={selectedTab === 'buy'}
+          $isSelected={selectedTab === 'buy'}
           >구매내역</S.LikeLikeHeader>
         <S.LikeLikeHeader
           onClick={handleShowCulture}
-          isSelected={selectedTab === 'culture'}
+          $isSelected={selectedTab === 'culture'}
           >최근 본 문화생활</S.LikeLikeHeader>
         <S.LikeLikeHeader
           onClick={handleShowLearn}
-          isSelected={selectedTab === 'learn'}
+          $isSelected={selectedTab === 'learn'}
           >배울 거리 찜 내역</S.LikeLikeHeader>
       </S.LikeListHeaders>
       <S.LikeListContainer>
@@ -68,8 +68,8 @@ const LikeList = () => {
                   <S.hi>
                     <S.BuyMoney>여행입니다</S.BuyMoney>
                     <S.BuyTitle>부제</S.BuyTitle>
-                    <S.BuySubTitle>작성자</S.BuySubTitle>
                   </S.hi>
+                  <S.BuySubTitle>작성자</S.BuySubTitle>
                 </S.Column>
               </S.Row>
             </S.BuyDetail>
@@ -82,8 +82,8 @@ const LikeList = () => {
                   <S.hi>
                     <S.BuyMoney>여행 또 갑니다.</S.BuyMoney>
                     <S.BuyTitle>부제 2</S.BuyTitle>
-                    <S.BuySubTitle>작성자 2</S.BuySubTitle>
                   </S.hi>
+                  <S.BuySubTitle>작성자 2</S.BuySubTitle>
                 </S.Column>
               </S.Row>
             </S.BuyDetail>
@@ -100,8 +100,8 @@ const LikeList = () => {
                   <S.hi>
                     <S.BuyMoney>오늘 배울거리1</S.BuyMoney>
                     <S.BuyTitle>부제 1</S.BuyTitle>
-                    <S.BuySubTitle>작성자 1</S.BuySubTitle>
                   </S.hi>
+                  <S.BuySubTitle>작성자 1</S.BuySubTitle>
                 </S.Column>
               </S.Row>
             </S.BuyDetail>
@@ -114,8 +114,8 @@ const LikeList = () => {
                   <S.hi>
                     <S.BuyMoney>오늘 배울거리2</S.BuyMoney>
                     <S.BuyTitle>부제 2</S.BuyTitle>
-                    <S.BuySubTitle>작성자 2</S.BuySubTitle>
                   </S.hi>
+                  <S.BuySubTitle>작성자 2</S.BuySubTitle>
                 </S.Column>
               </S.Row>
             </S.BuyDetail>

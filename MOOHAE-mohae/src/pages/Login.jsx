@@ -40,17 +40,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 1.25rem;
   font-family: Arial, sans-serif;
-  min-height: 100vh;
   width: 100%;
   overflow: auto;
   @media (max-width: 359px) {
-    width: 360px;
+    width: 300px;
     padding: 10px;
     justify-content: center;
-    margin: 0 auto;
-    border: 1px solid pink;
   }
 `;
 
@@ -69,7 +66,11 @@ const UnderText = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin-bottom: 20px;
+  margin: 10px 0px;
+  @media (max-width: 359px) {
+    font-size: 0.750rem;
+    font-weight: 400;
+  }
 `;
 
 const Nemo = styled.div`
@@ -82,7 +83,7 @@ const Nemo = styled.div`
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   @media (max-width: 359px) {
-    width: 100%;
+    width: calc(100%);
     padding: 10px;
     flex-shrink: 0;
     border-radius: 25px;
@@ -107,12 +108,12 @@ const First = styled.div`
     height: 24px;
     flex-shrink: 0;
     color: #000;
-    font-family: NanumSquareRound;
-    font-size: 22px;
+    font-family: 'NanumSquareRound';
+    font-size: 1rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin-top: 20px;
+    margin-bottom: 0.25rem;
   }
 `;
 
@@ -137,7 +138,7 @@ const Label = styled.label`
     align-self: stretch;
     color: #000;
     font-family: NanumSquareRound;
-    font-size: 20px;
+    font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -162,6 +163,10 @@ const InputWrapper = styled.div`
   width: 311px;
   display: flex;
   align-items: center;
+
+  @media (max-width: 359px) {
+    width: 100%;
+  }
 `;
 
 const Input = styled.input`
@@ -192,6 +197,10 @@ const ButtonContainer = styled.div`
   width: 100%;
   gap: 10px;
   margin-top: 20px;
+
+  @media (max-width: 359px) {
+    margin-top: 0.625rem;
+  }
 `;
 
 const Button = styled.button`
@@ -211,12 +220,27 @@ const Button = styled.button`
   border: none;
   padding: 7px 55px;
   gap: 5px;
+
+  &:hover {
+    background-color: #1D3E7F;
+  }
+
+  @media (max-width: 359px) {
+    font-size: 1rem;
+    padding: 0.375rem 3rem;
+    width: 180px;
+    height: 2rem;
+  }
 `;
 
 const Button1 = styled(Button)`
   background: #ffffff;
   border: 1px solid #2d539e;
   color: #2d539e;
+
+  &:hover {
+    background-color: #F0F0F0;
+  }
 `;
 
 const Find = styled.div`
@@ -236,6 +260,11 @@ const Find = styled.div`
   &:disabled {
     cursor: not-allowed;
   }
+
+  @media (max-width: 359px) {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
 `;
 
 const KAKAO = styled.p`
@@ -248,6 +277,12 @@ const KAKAO = styled.p`
   line-height: normal;
   margin-top: 20px;
   margin-bottom: 10px;
+
+  @media (max-width: 359px) {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
 `;
 
 const KakakoButton = styled.div`
@@ -267,6 +302,13 @@ const KakakoButton = styled.div`
 
   &:hover {
     background-color: #fdd835;
+  }
+
+  @media (max-width: 359px) {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    height: 2rem;
+    width: 10rem;
   }
 `;
 

@@ -53,14 +53,14 @@ const Hospital = () => {
   };
 
   return (
-    <>
+    <S.bigBox>
       <S.HospitalTitle>병원진료 예약</S.HospitalTitle>
       <S.HospitalContent>
-        <img src={Calendar} alt="Calendar" style={{ width: 35, height: 35 }} />
+        <S.IMG src={Calendar} alt="Calendar" />
         {today.getMonth() + 1}월
       </S.HospitalContent>
+      <S.AddEventButton onClick={() => setShowForm(true)}>일정 추가</S.AddEventButton>
       <S.HospitalContainer>
-        <S.AddEventButton onClick={() => setShowForm(true)}>일정 추가</S.AddEventButton>
         <S.HospitalHeader>
           {dayWeek.map((day, index) => {
             const isToday = day.toDateString() === today.toDateString();
@@ -148,7 +148,7 @@ const Hospital = () => {
           </>
         )}
       </S.HospitalContainer>
-    </>
+    </S.bigBox>
   );
 };
 

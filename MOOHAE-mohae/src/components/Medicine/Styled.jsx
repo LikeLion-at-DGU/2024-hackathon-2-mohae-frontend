@@ -14,16 +14,67 @@ export const MedicineContainers = styled.div`
   display: flex;
   width: 1140px;
   position: relative;
-  overflow-x: scroll;
   white-space: nowrap;
   gap: 1rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 359px) {
+    width: 320px;
+  }
+`;
+
+export const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const IMG = styled.img`
+  width: 50px;
+  height: 50px;
+
+  @media (max-width: 359px) {
+    width: 1rem;
+    height: 1rem;
+  }
+`;
+
+export const MedicineTitle1 = styled.div`
+  color: #000;
+
+  font-family: "NanumSquareRound";
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
+`;
+
+export const MedicineContent = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  color: #2d539e;
+
+  font-family: "NanumSquareRound";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.5rem;
+  }
 `;
 
 export const MedicineContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 332px;
+  overflow-x: scroll;
 
 
   background-color: #FFF;
@@ -40,16 +91,20 @@ export const MedicineHeader = styled.div`
   align-items: center;
 
   padding: 1rem 1rem 0.5rem 1rem;
+
+  @media (max-width: 359px) {
+    padding: 0rem;
+  }
 `;
 
-export const MedicineWho = styled.p`
+export const MedicineWho = styled.div`
   color: #4081ff;
   font-family: 'NanumSquareRound';
   font-size: 1.25rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-`
+`;
 
 export const MoreDetail = styled.p`
   color: #989898;
@@ -101,7 +156,7 @@ export const Check = styled.div`
   gap: 0.75rem;
 `;
 
-export const CheckTime = styled.p`
+export const CheckTime = styled.div`
   color: #2d539e;
   text-align: center;
   font-family: 'NanumSquareRound';
@@ -190,19 +245,25 @@ export const AddButton = styled.div`
   display: flex;
   position: absolute;
   right: 0;
-  top: -3rem;
   color: #9f9f9f;
   text-align: center;
   font-family: 'NanumSquareRound';
   font-size: 1.5rem;
   font-style: normal;
   font-weight: 800;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 export const Realative = styled.div`
   width: 1140px;
   display: flex;
   position: relative;
+  @media (max-width: 359px) {
+    width: 360px;
+  }
 `;
 
 export const backWrapping = styled.div`
@@ -232,13 +293,17 @@ export const NewEventForm = styled.div`
   z-index: 1000;
 
   animation: ${fadeIn} 0.3s ease-in-out;
+
+  @media (max-width: 359px) {
+    min-width: 300px;
+  }
 `;
 
 export const FormContent = styled.div`
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  gap: 1rem;
+  gap: 1.5rem;
 `;
 
 export const row = styled.div`
@@ -292,6 +357,11 @@ export const EventInputStyle = styled.input`
   font-size: 1rem;
   font-family: "NanumSquareRound";
   padding: 0.344rem 0rem;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+    margin-left: 10px;
+  }
 `;
 
 export const FormText = styled.div`

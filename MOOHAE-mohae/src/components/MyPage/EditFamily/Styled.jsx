@@ -20,6 +20,13 @@ export const EditFamilyContainer = styled.div`
   background-color: #FFF;
   border-radius: 1.25rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 359px) {
+    width: 300px;
+    padding: 0.5rem 1rem;
+
+    gap: 0.625rem;
+  }
 `;
 
 export const EditFamilyTitle = styled.div`
@@ -30,6 +37,10 @@ export const EditFamilyTitle = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 export const EditFamilyLine = styled.div`
@@ -43,6 +54,11 @@ export const EditFamilyList = styled.div`
   flex-direction: row;
   gap: 2rem;
   align-items: center;
+
+  @media (max-width: 359px) {
+    gap: 1rem;
+    overflow-x: scroll;
+  }
 `;
 
 export const EditFamily = styled.div`
@@ -60,6 +76,12 @@ export const FamilyProfile = styled.div`
   height: 5rem;
   border-radius: 5rem;
   background-color: #000;
+
+  @media (max-width: 359px) {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 3rem;
+  }
 `;
 
 export const FamilyName = styled.div`
@@ -71,6 +93,10 @@ export const FamilyName = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.875rem;
+  }
 `;
 
 export const AddFamily = styled.div`
@@ -81,12 +107,20 @@ export const AddFamily = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.875rem;
+  }
 `;
 
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  @media (max-width: 359px) {
+    align-items: center;
+  }
 `;
 
 export const backWrapping = styled.div`
@@ -116,6 +150,10 @@ export const NewEventForm = styled.div`
   z-index: 1000;
 
   animation: ${fadeIn} 0.3s ease-in-out;
+
+  @media (max-width: 359px) {
+    min-width: 300px;
+  }
 `;
 
 export const FormContent = styled.div`
@@ -152,6 +190,13 @@ export const InviteCode = styled.div`
   font-style: normal;
   font-weight: 800;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    border-radius: 1.5rem;
+    padding: 1rem 3rem;
+    margin: 0rem;
+    font-size: 1.5rem;
+  }
 `;
 
 export const Icons = styled.div`
@@ -178,4 +223,8 @@ export const IconText = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.875rem;
+  }
 `;

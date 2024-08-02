@@ -19,7 +19,12 @@ export const BucketListContainer = styled.div`
   border-radius: 1.25rem;
   margin-bottom: 2rem;
   max-height: 400px;
-  overflow-y: scroll;
+
+  @media (max-width: 359px) {
+    width: 300px;
+    padding: 0.5rem 1rem;
+    gap: 0.625rem;
+  }
 `;
 
 export const BucketListTitle = styled.div`
@@ -30,6 +35,10 @@ export const BucketListTitle = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 export const AddBucketList = styled.div`
@@ -40,6 +49,10 @@ export const AddBucketList = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.875rem;
+  }
 `;
 
 export const Row = styled.div`
@@ -58,6 +71,12 @@ export const BucketList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  overflow-y: scroll;
+
+  @media (max-width: 359px) {
+    gap: 0.875rem;
+    height: 5rem;
+  }
 `;
 
 export const Bucket = styled.div`
@@ -73,6 +92,12 @@ export const Bucket = styled.div`
   border: 2px solid #EDEDED;
 
   background: #F0F0F0;
+
+  @media (max-width: 359px) {
+    width: calc(100% - 2rem);
+    height: 1.5rem;
+    padding: 0.5rem 0.75rem;
+  }
 `;
 
 export const BucketNumber = styled.div`
@@ -84,6 +109,10 @@ export const BucketNumber = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 2.5rem;
+  }
 `;
 
 export const BucketContent = styled.div`
@@ -94,6 +123,10 @@ export const BucketContent = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.875rem;
+  }
 `;
 
 export const backWrapping = styled.div`
@@ -123,6 +156,10 @@ export const NewEventForm = styled.div`
   z-index: 1000;
 
   animation: ${fadeIn} 0.3s ease-in-out;
+
+  @media (max-width: 359px) {
+    min-width: 300px;
+  }
 `;
 
 export const FormContent = styled.div`
@@ -176,7 +213,6 @@ export const contentContainer = styled.div`
 `;
 
 export const EventInputStyle = styled.input`
-  margin-left: 30px;
   display: flex;
   width: 100%;
   border: none;

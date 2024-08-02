@@ -9,6 +9,16 @@ const fadeIn = keyframes`
   }
 `;
 
+export const bigBox = styled.div`
+  display: flex;
+  width: 1140px;
+  flex-direction: column;
+  position: relative;
+
+  @media (max-width: 359px) {
+    width: 320px;
+  }
+`;
 
 export const HospitalContainer = styled.div`
   display: flex;
@@ -16,6 +26,11 @@ export const HospitalContainer = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+
+  @media (max-width: 359px) {
+    width: 320px;
+    overflow-x: scroll;
+  }
 `;
 
 export const HospitalHeader = styled.div`
@@ -33,6 +48,20 @@ export const HospitalTitle = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
+`;
+
+export const IMG = styled.img`
+  width: 35px;
+  height: 35px;
+
+  @media (max-width: 359px) {
+    width: 1rem;
+    height: 1rem; 
+  }
 `;
 
 export const HospitalContent = styled.div`
@@ -53,6 +82,13 @@ export const HospitalContent = styled.div`
   font-size: 1.25rem;
   font-style: normal;
   font-weight: 700;
+
+  @media (max-width: 359px) {
+    margin-top: 0.5rem;
+    width: 70px;
+    gap: 0.375rem;
+    font-size: 0.75rem;
+  }
 `;
 
 export const CalendarBody = styled.div`
@@ -60,12 +96,18 @@ export const CalendarBody = styled.div`
   width: 100%;
   height: 250px;
   overflow-y: scroll;
+  @media (max-width: 359px) {
+    height: 120px;
+  }
 `;
 
 export const DayContainer = styled.div`
   flex: 1;
   min-height: 150px;
   position: relative;
+  @media (max-width: 359px) {
+    min-height: 50px; 
+  }
 `;
 
 export const DayHeader = styled.div`
@@ -86,6 +128,11 @@ export const DayHeader = styled.div`
 
   background-color: ${props => props.isToday ? '#2d539e' : 'inherit'};
   color: ${props => props.isToday ? '#fff' : '#000'};
+
+  @media (max-width: 359px) {
+    font-size: 0.625rem;
+    margin-bottom: 0;
+  }
 `;
 
 export const Event = styled.div`
@@ -104,12 +151,17 @@ export const Event = styled.div`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  @media (max-width: 359px) {
+    padding: 0.25rem;
+    min-height: 30px;
+    margin: 0.125rem;
+  }
 `;
 
 export const AddEventButton = styled.button`
   margin: 10px;
   padding: 10px 20px;
-  top: -4rem;
   right: 0;
   position: absolute;
   background-color: #2d539e;
@@ -117,6 +169,11 @@ export const AddEventButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
+
+  @media (max-width: 359px) {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
 `;
 
 export const NewEventForm = styled.div`
@@ -135,6 +192,10 @@ export const NewEventForm = styled.div`
   z-index: 1000;
 
   animation: ${fadeIn} 0.3s ease-in-out;
+
+  @media (max-width: 359px) {
+    min-width: 300px;
+  }
 `;
 
 export const backWrapping = styled.div`
@@ -157,6 +218,10 @@ export const DateSelectInput = styled.input`
 
   border: none;
   outline: none;
+
+  @media (max-width: 359px) {
+    width: 212px;
+  }
 `;
 
 export const FormContent = styled.div`
@@ -201,6 +266,10 @@ export const NoDate = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    margin-top: 0.5rem;
+  }
 `;
 
 export const EventTime = styled.div`
@@ -211,6 +280,10 @@ export const EventTime = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.375rem;
+  }
 `;
 
 export const EventTitle = styled.div`
@@ -221,6 +294,10 @@ export const EventTitle = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.375rem;
+  }
 `;
 
 export const EventInputStyle = styled.input`
@@ -231,6 +308,10 @@ export const EventInputStyle = styled.input`
   font-size: 1rem;
   font-family: "NanumSquareRound";
   padding: 0.344rem 0rem;
+
+  @media (max-width: 359px) {
+    margin-left: 0;
+  }
 `;
 
 

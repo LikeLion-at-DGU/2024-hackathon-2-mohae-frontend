@@ -44,6 +44,10 @@ export const Body = styled.div`
   flex-direction: column;
   width: 100%;
   align-items: center;
+
+  @media (max-width: 359px) {
+    width: 320px;
+  }
 `;
 
 export const CalendarContainer = styled.div`
@@ -63,6 +67,10 @@ export const CalendarContainer = styled.div`
   }
 `;
 
+export const Icon = styled.div`
+  
+`;
+
 export const CalendarLine = styled.div`
   display: flex;
   position: relative;
@@ -72,8 +80,9 @@ export const CalendarLine = styled.div`
   width: calc(100% + 80px);
 
   @media (max-width: 359px) {
-    top: 40px;
-    width: calc(100% + 48px);
+    top: 32px;
+    left: -10px;
+    width: calc(100% + 18px);
   }
 `;
 
@@ -83,12 +92,13 @@ export const CalendarHeader = styled.div`
   justify-content: flex-end;
   position: absolute;
   right: 40px;
-  top: 30px;
+  top: 20px;
   gap: 0.5rem;
 
   @media (max-width: 359px) {
-    right: 20px;
-    top: 10px;
+    right: 10px;
+    top: 4px;
+    gap: 0.375rem;
   }
 `;
 
@@ -105,8 +115,13 @@ export const TodayButton = styled.button`
   cursor: pointer;
   border-radius: 5px;
 
+  &:hover {
+    background-color: #1D3E7F;
+  }
+
   @media (max-width: 359px) {
-    font-size: 0.875rem;
+    font-size: 0.625rem;
+    padding: 0.25rem 0.5rem;
   }
 `;
 
@@ -120,7 +135,7 @@ export const AddEventButton = styled.button`
   
 
   &:hover {
-    
+    color: #1D3E7F
   }
 
   @media (max-width: 359px) {
@@ -135,7 +150,7 @@ export const CalendarMonthYear = styled.div`
   font-family: "NanumSquareRound";
 
   @media (max-width: 359px) {
-    font-size: 0.75rem;
+    font-size: 0.5rem;
   }
 `;
 
@@ -151,13 +166,17 @@ export const CustomCalendar = styled.div`
     outline: none;
     flex-direction: column;
     align-items: flex-start;
+
+    @media (max-width: 359) {
+      border: none;
+    }
   }
 
   .react-calendar__viewContainer {
     margin-top: 20px;
 
     @media (max-width: 359px) {
-      margin-top: 0.5rem;
+      margin-top: 0.25rem;
     }
   }
 
@@ -184,8 +203,13 @@ export const CustomCalendar = styled.div`
     color: #2D539E;
     background-color: inherit;
 
+    &:hover {
+      color: #1D3E7F;
+      font-weight: 500;
+    }
+
     @media (max-width: 359px) {
-      font-size: 1.5rem;
+      font-size: 1rem;
     }
   }
 
@@ -199,8 +223,13 @@ export const CustomCalendar = styled.div`
     font-size: 1.5rem;
     font-weight: 700;
 
+    &:hover {
+      color: #1D3E7F;
+      font-weight: 800;
+    }
+
     @media (max-width: 359px) {
-      font-size: 1.25rem;
+      font-size: 0.75rem;
     }
   }
 
@@ -220,6 +249,12 @@ export const CustomCalendar = styled.div`
     font-family: "NanumSquareRound";
     color: #2D539E;
     margin-bottom: 0.5rem;
+
+    @media (max-width: 359px) {
+      font-size: 0.5rem;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
   }
   
   .current-month-sunday {
@@ -261,7 +296,7 @@ export const CustomCalendar = styled.div`
     border: 1px solid #E8E8E8;
 
     @media (max-width: 359px) {
-      min-height: 2.5rem;
+      min-height: 3.5rem;
       min-width: 30px;
       padding: 0.1em;
       font-size: 0.375rem;
@@ -308,22 +343,22 @@ export const EventTile = styled.div`
   color: white;
   padding: 2px;
   height: 0.75rem;
-  margin-left: ${({ isStart, isEnd }) =>
-    isStart && isEnd ? '0.25rem' :
-    isStart ? '0.25rem' :
-    isEnd ? '' : ''};
-  margin-right: ${({ isStart, isEnd }) =>
-    isStart && isEnd ? '0.25rem' :
-    isStart ? '' :
-    isEnd ? '0.25rem' : ''};
-  width: ${({ isStart, isEnd }) =>
-    isStart && isEnd ? 'calc(100% - 0.5rem)' :
-    isStart ? '100%' :
-    isEnd ? 'calc(100% - 0.25rem)' : '100%'};
-  border-radius: ${({ isStart, isEnd }) => 
-    isStart && isEnd ? '10px' : 
-    isStart ? '10px 0 0 10px' : 
-    isEnd ? '0px 10px 10px 0px ' : '0'};
+  margin-left: ${(props) =>
+    props.$isStart && props.$isEnd ? '0.125rem' :
+    props.$isStart ? '0.125rem' :
+    props.$isEnd ? '' : ''};
+  margin-right: ${(props) =>
+    props.$isStart && props.$isEnd ? '0.125rem' :
+    props.$isStart ? '' :
+    props.$isEnd ? '0.125rem' : ''};
+  width: ${(props) =>
+    props.$isStart && props.$isEnd ? 'calc(100% - 0.375rem)' :
+    props.$isStart ? '100%' :
+    props.$isEnd ? 'calc(100% - 0.375rem)' : '100%'};
+  border-radius: ${(props) => 
+    props.$isStart && props.$isEnd ? '10px' : 
+    props.$isStart ? '10px 0 0 10px' : 
+    props.$isEnd ? '0px 10px 10px 0px ' : '0'};
   position: relative;
   margin-bottom: 2px; // 타일 간의 간격 추가
   display: flex;
@@ -339,22 +374,29 @@ export const EventTile = styled.div`
   }
 
   @media (max-width: 359px) {
-    margin-left: ${({ isStart, isEnd }) =>
-      isStart && isEnd ? '0.125rem' :
-      isStart ? '0.125rem' :
-      isEnd ? '' : ''};
-    margin-right: ${({ isStart, isEnd }) =>
-      isStart && isEnd ? '0.125rem' :
-      isStart ? '' :
-      isEnd ? '0.125rem' : ''};
-    width: ${({ isStart, isEnd }) =>
-      isStart && isEnd ? 'calc(100% - 0.25rem)' :
-      isStart ? '100%' :
-      isEnd ? 'calc(100% - 0.125rem)' : '100%'};
-    border-radius: ${({ isStart, isEnd }) => 
-      isStart && isEnd ? '10px' : 
-      isStart ? '10px 0 0 10px' : 
-      isEnd ? '0px 10px 10px 0px ' : '0'};
+    margin-left: ${(props) =>
+      props.$isStart && props.$isEnd ? '0.0625rem' :
+      props.$isStart ? '0.0625rem' :
+      props.$isEnd ? '' : ''};
+    margin-right: ${(props) =>
+      props.$isStart && props.isEnd ? '0.0625rem' :
+      props.$isStart ? '' :
+      props.$isEnd ? '0.0625rem' : ''};
+    width: ${(props) =>
+      props.$isStart && props.$isEnd ? 'calc(100% - 0.375rem)' :
+      props.$isStart ? '100%' :
+      props.$isEnd ? 'calc(100% - 0.375rem)' : '100%'};
+    border-radius: ${(props) => 
+      props.$isStart && props.$isEnd ? '10px' : 
+      props.$isStart ? '10px 0 0 10px' : 
+      props.$isEnd ? '0px 10px 10px 0px ' : '0'};
+
+      
+    height: 0.4rem;
+    
+    span {
+      font-size: 0.375rem;
+    }
   }
 `;
 
@@ -381,6 +423,10 @@ export const NewEventForm = styled.div`
   z-index: 1000;
 
   animation: ${fadeIn} 0.3s ease-in-out;
+
+  @media (max-width: 359px) {
+    min-width: 300px;
+  }
 `;
 
 export const contentContainer = styled.div`
@@ -395,6 +441,10 @@ export const contentContainer = styled.div`
 
   border: 2px solid #EDEDED;
   border-radius: 10px;
+  
+  @media (max-width: 359px) {
+    padding: 0.25rem;
+  }
 `;
 
 export const backWrapping = styled.div`
@@ -436,6 +486,11 @@ export const EventContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  @media (max-width: 359px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 export const TimeSelectContainer = styled.div`
@@ -495,6 +550,11 @@ export const EventInputStyle = styled.input`
   font-size: 1rem;
   font-family: "NanumSquareRound";
   padding: 0.344rem 0rem;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+    margin-left: 10px;
+  }
 `;
 
 export const EventSelectStyle = styled.select`
@@ -505,6 +565,10 @@ export const EventSelectStyle = styled.select`
   font-size: 1rem;
   font-family: "NanumSquareRound";
   padding: 0.344rem 0rem;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 export const DateSelectInput = styled.input`
@@ -525,7 +589,7 @@ export const ToggleContainer = styled.div`
   width: 50px;
   height: 25px;
   border-radius: 25px;
-  background-color: ${({ isActive }) => (isActive ? '#4CAF50' : '#ccc')};
+  background-color: ${(props) => props.$isActive ? '#4CAF50' : '#ccc'};
   cursor: pointer;
   transition: background-color 0.3s;
 `;
@@ -533,7 +597,7 @@ export const ToggleContainer = styled.div`
 export const ToggleCircle = styled.div`
   position: absolute;
   top: 2px;
-  left: ${({ isActive }) => (isActive ? '26px' : '2px')};
+  left: ${(props) => props.$isActive ? '26px' : '2px'};
   width: 21px;
   height: 21px;
   border-radius: 50%;

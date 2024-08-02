@@ -23,6 +23,11 @@ export const EditProfileContainer = styled.div`
   background-color: #FFF;
   border-radius: 1.25rem;
   border: 2.5px solid #D9D9D9;
+
+  @media (max-width: 359px) {
+    width: 8rem;
+    padding: 1rem 4.5rem;
+  }
 `;
 
 export const EditProfileImage = styled.div`
@@ -31,6 +36,21 @@ export const EditProfileImage = styled.div`
   position: relative;
   border-radius: 7.75rem;
   background-color: #000;
+
+  @media (max-width: 359px) {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 4.5rem;
+  }
+`;
+
+export const IMG = styled.img`
+  width: 3rem;
+  height: 3rem;
+  @media (max-width: 359px) {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 `;
 
 export const EditProfileLogo = styled.div`
@@ -45,6 +65,10 @@ export const EditProfileContent = styled.div`
   align-items: center;
   gap: 0.625rem;
   align-self: stretch;
+
+  @media (max-width: 359px) {
+    gap: 0.375rem;
+  }
 `;
 
 export const EditProfileName = styled.div`
@@ -56,6 +80,10 @@ export const EditProfileName = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.875rem;
+  }
 `;
 
 export const EditProfileText = styled.div`
@@ -67,6 +95,10 @@ export const EditProfileText = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 
@@ -99,6 +131,10 @@ export const NewEventForm = styled.div`
   z-index: 1000;
 
   animation: ${fadeIn} 0.3s ease-in-out;
+
+  @media (max-width: 359px) {
+    min-width: 300px;
+  }
 `;
 
 export const FormContent = styled.div`

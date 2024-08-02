@@ -3,10 +3,9 @@ import Calendar from 'react-calendar';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { PiPencilSimple , PiCalendarBlank } from "react-icons/pi";
+import { PiPencilSimple, PiCalendarBlank } from "react-icons/pi";
 import { TbPencilPlus } from "react-icons/tb";
 import { IoPersonCircleOutline } from "react-icons/io5";
-
 
 import { API } from '../../api';
 
@@ -15,6 +14,8 @@ import * as S from "./Styled";
 const CustomCalendar = () => {
   const [date, setDate] = useState(new Date());
   const [events, setEvents] = useState([]);
+  const [familyId, setFamilyId] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   const [activeStartDate, setActiveStartDate] = useState(new Date());
 
@@ -31,7 +32,7 @@ const CustomCalendar = () => {
   ]);
 
   const [showForm, setShowForm] = useState(false);
-  
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
@@ -39,43 +40,80 @@ const CustomCalendar = () => {
   const [dateEmojis, setDateEmojis] = useState({});
 
   const [selectedParticipants, setSelectedParticipants] = useState([]);
-  const [availableParticipants, setAvailableParticipants] = useState([
-    "Alice", "Bob", "Charlie"
-  ]);
+  const [availableParticipants, setAvailableParticipants] = useState([]);
 
+  const FetchUserId = async () => {
+    try {
+      const response = await API.get('/accounts/profile/');
+      console.log("userId response", response.data);
+      setUserId(response.data.user.id); // user 객체 내의 id 가져오기
+    } catch (error) {
+      console.log('fetch user id error:', error);
+    }
+  };
 
   const FetchDateData = async () => {
     try {
       const response = await API.get('/cal/events/list/');
-      console.log(response.data);
+      console.log("event List", response.data);
       setEvents(response.data);
     } catch (error) {
-      console.log('fetch error:', error);
+      console.log('fetch events error:', error);
     }
-  };1
+  };
+
+  const FetchPartiData = async () => {
+    try {
+      const response = await API.get('/users/family/');
+      console.log("family response", response.data);
+      const participants = response.data.flatMap(family => {
+        const familyMemberIds = family.profiles.map(profile => profile.user);
+        if (familyMemberIds.includes(userId)) {
+          setFamilyId(family.family_id);
+          console.log("familyId", family.family_id);
+        }
+        return family.profiles.map(profile => ({
+          nickname: profile.nickname,
+          user_id: profile.user
+        }));
+      });
+      setAvailableParticipants(participants);
+    } catch (error) {
+      console.log('fetch participants error:', error);
+    }
+  };
 
   useEffect(() => {
-    FetchDateData();
-  }, []);
+    const fetchData = async () => {
+      await FetchUserId();
+      if (userId) {
+        await FetchPartiData();
+        await FetchDateData();
+      }
+    };
+    fetchData();
+  }, [userId]);
 
   const PostDateData = async () => {
     try {
       const eventData = {
         title: newEventTitle,
-        start: newEventStartDate.toString(),
-        end: newEventEndDate.toString(),
-        participants: selectedParticipants,
+        start: newEventStartDate.toISOString(),
+        end: newEventEndDate.toISOString(),
+        participants: selectedParticipants.map(p => p.user_id),
       };
-    
+
+      console.log("posting eventData", eventData);
+      
       const response = await API.post('/cal/events/', eventData);
-  
+
+      console.log("post response", response.data);
       FetchDateData();
     } catch (error) {
-      console.error(error);
+      console.error('Post error', error);
       alert('Post 실패');
     }
   };
-  
 
   const handleEvent = () => {
     PostDateData();
@@ -98,32 +136,30 @@ const CustomCalendar = () => {
       .filter(event => {
         const eventStart = new Date(event.start);
         const eventEnd = new Date(event.end);
-  
+
         const eventStartDate = new Date(eventStart.getFullYear(), eventStart.getMonth(), eventStart.getDate());
         const eventEndDate = new Date(eventEnd.getFullYear(), eventEnd.getMonth(), eventEnd.getDate());
         const currentDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  
-        // 이벤트가 해당 날짜 범위에 있는지 확인
+        
         const isInDateRange = currentDate >= eventStartDate && currentDate <= eventEndDate;
-  
+
         return isInDateRange;
       })
       .map((event, index) => {
         const isStart = date.toDateString() === new Date(event.start).toDateString();
         const isEnd = date.toDateString() === new Date(event.end).toDateString();
-  
+
         return (
           <S.EventTile
             key={index}
-            data-isstart={isStart}
-            data-isend={isEnd}
+            $isStart={isStart}
+            $isEnd={isEnd}
           >
             <span>{isStart ? `${event.title}` : ''}</span>
           </S.EventTile>
         );
       });
   };
-  
 
   const renderEmojis = (date) => {
     const dateString = date.toDateString();
@@ -152,13 +188,12 @@ const CustomCalendar = () => {
       const eventStartDate = new Date(eventStart.getFullYear(), eventStart.getMonth(), eventStart.getDate());
       const eventEndDate = new Date(eventEnd.getFullYear(), eventEnd.getMonth(), eventEnd.getDate());
       const selectedDateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  
+
       return selectedDateOnly >= eventStartDate && selectedDateOnly <= eventEndDate;
     });
     setSelectedEvent(eventsForSelectedDate);
     setShowDetails(true);
   };
-  
 
   const CloseDetails = () => {
     setShowDetails(false);
@@ -168,7 +203,7 @@ const CustomCalendar = () => {
     const today = new Date();
     setActiveStartDate(today);
     setDate(today);
-    
+
     setShowDetails(false);
     setShowEmojiForm(false);
   };
@@ -188,17 +223,18 @@ const CustomCalendar = () => {
       }
     }
     return null;
-  };  
+  };
 
   const handleParticipantChange = (e) => {
-    const selectedParticipant = e.target.value;
+    const selectedUserId = parseInt(e.target.value);
+    const selectedParticipant = availableParticipants.find(participant => participant.user_id === selectedUserId);
     if (selectedParticipant && !selectedParticipants.includes(selectedParticipant)) {
       setSelectedParticipants([...selectedParticipants, selectedParticipant]);
     }
   };
 
   const removeParticipant = (participant) => {
-    setSelectedParticipants(selectedParticipants.filter(p => p !== participant));
+    setSelectedParticipants(selectedParticipants.filter(p => p.user_id !== participant.user_id));
   };
 
   return (
@@ -208,7 +244,7 @@ const CustomCalendar = () => {
           <S.CalendarContainer>
             <S.CalendarLine />
             <S.CalendarHeader>
-              <S.AddEventButton onClick={() => setShowForm(!showForm)}><TbPencilPlus size={30}/></S.AddEventButton>
+              <S.AddEventButton onClick={() => setShowForm(!showForm)}><S.Icon><TbPencilPlus /></S.Icon></S.AddEventButton>
               <S.TodayButton onClick={handleTodayClick}>Today</S.TodayButton>
             </S.CalendarHeader>
             <S.CustomCalendar>
@@ -230,7 +266,6 @@ const CustomCalendar = () => {
                 next2Label=""
                 minDetail="year"
                 formatDay={(locale, date) => date.getDate().toString()}
-                // 오늘 날짜로 가기 설정
                 activeStartDate={activeStartDate === null ? undefined : activeStartDate}
                 onActiveStartDateChange={({ activeStartDate }) =>
                   setActiveStartDate(activeStartDate)
@@ -268,12 +303,12 @@ const CustomCalendar = () => {
           )}
           {showForm && (
             <>
-              <S.backWrapping onClick={() => setShowForm(false)}/>
+              <S.backWrapping onClick={() => setShowForm(false)} />
               <S.NewEventForm>
                 <S.FormContent>
                   <S.FormTitle>새 일정 추가</S.FormTitle>
                   <S.contentContainer>
-                    <PiPencilSimple color="#2D539E" size={25}/>
+                    <PiPencilSimple color="#2D539E" size={25} />
                     <S.EventInputStyle
                       type="text"
                       value={newEventTitle}
@@ -283,8 +318,8 @@ const CustomCalendar = () => {
                   </S.contentContainer>
                   <S.contentContainer>
                     <S.ToggleLabel>하루종일</S.ToggleLabel>
-                    <S.ToggleContainer data-isactive={allDay} onClick={toggleAllDay}>
-                      <S.ToggleCircle data-isactive={allDay} />
+                    <S.ToggleContainer $isActive={allDay} onClick={toggleAllDay}>
+                      <S.ToggleCircle $isActive={allDay} />
                     </S.ToggleContainer>
                   </S.contentContainer>
                   <S.EventContainer>
@@ -292,7 +327,7 @@ const CustomCalendar = () => {
                       <S.contentContainer>
                         <DatePicker
                           showIcon
-                          icon={<PiCalendarBlank color="#2D539E"/>}
+                          icon={<PiCalendarBlank color="#2D539E" style={{ position: 'absolute', top: '-2px' }} />}
                           selected={newEventStartDate}
                           value={newEventStartDate}
                           onChange={(date) => setNewEventStartDate(date)}
@@ -305,7 +340,7 @@ const CustomCalendar = () => {
                       <S.contentContainer>
                         <DatePicker
                           showIcon
-                          icon={<PiCalendarBlank color="#2D539E"/>}
+                          icon={<PiCalendarBlank color="#2D539E" style={{ position: 'absolute', top: '-2px' }} />}
                           selected={newEventStartDate}
                           value={newEventStartDate}
                           onChange={(date) => setNewEventStartDate(date)}
@@ -323,7 +358,7 @@ const CustomCalendar = () => {
                       <S.contentContainer>
                         <DatePicker
                           showIcon
-                          icon={<PiCalendarBlank color="#2D539E"/>}
+                          icon={<PiCalendarBlank color="#2D539E" style={{ position: 'absolute', top: '-2px' }} />}
                           selected={newEventEndDate}
                           value={newEventEndDate}
                           onChange={(date) => setNewEventEndDate(date)}
@@ -336,7 +371,7 @@ const CustomCalendar = () => {
                       <S.contentContainer>
                         <DatePicker
                           showIcon
-                          icon={<PiCalendarBlank color="#2D539E"/>}
+                          icon={<PiCalendarBlank color="#2D539E" style={{ position: 'absolute', top: '-2px' }} />}
                           selected={newEventEndDate}
                           value={newEventEndDate}
                           onChange={(date) => setNewEventEndDate(date)}
@@ -358,8 +393,8 @@ const CustomCalendar = () => {
                     >
                       <option value="">참가자 선택</option>
                       {availableParticipants.map((participant, index) => (
-                        <option key={index} value={participant}>
-                          {participant}
+                        <option key={index} value={participant.user_id}>
+                          {participant.nickname}
                         </option>
                       ))}
                     </S.EventSelectStyle>
@@ -367,7 +402,7 @@ const CustomCalendar = () => {
                   <div>
                     {selectedParticipants.map((participant, index) => (
                       <S.SelectedParticipant key={index}>
-                        {participant}
+                        {participant.nickname}
                         <S.RemoveParticipant onClick={() => removeParticipant(participant)}>X</S.RemoveParticipant>
                       </S.SelectedParticipant>
                     ))}
@@ -403,6 +438,14 @@ const CustomCalendar = () => {
                 <div>일정 없음</div>
               )}
             </S.ScheduleStyle>
+            <S.ScheduleStyle>
+              {dateEmojis[selectedDate.toDateString()]?.length === 0 ? '이모지 없음' : dateEmojis[selectedDate.toDateString()]?.map((item, idx) => (
+                <div key={idx}>
+                  <span>{item.emoji}</span>
+                  <span>{item.emojiText}</span>
+                </div>
+              ))}
+            </S.ScheduleStyle>
           </S.SideContainer>
         </S.SideSchedules>
       )}
@@ -412,96 +455,3 @@ const CustomCalendar = () => {
 }
 
 export default CustomCalendar;
-
-
-// const [color, setColor] = useState('');
-// const [availColor, setAvailColor] = useState([
-//   'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'
-// ]);
-// const [newEventCategory, setNewEventCategory] = useState('');
-
-// const [categories, setCategories] = useState([]);
-
-// const handleCategoryChange = (e) => {
-//   const selectedCategory = categories.find(category => category.name === e.target.value);
-//   if (selectedCategory) {
-//     setNewEventCategory(selectedCategory.name);
-//     setColor(selectedCategory.color);
-//   } else {
-//     setNewEventCategory(e.target.value);
-//     setColor('');
-//   }
-// };
-
-
-// const addEvent = () => {
-//   let startDate = new Date(newEventStartDate);
-//   let endDate = new Date(newEventEndDate);
-
-//   if (!allDay) {
-//     startDate.setHours(newEventStartDate.getHours(), newEventStartDate.getMinutes());
-//     endDate.setHours(newEventEndDate.getHours(), newEventEndDate.getMinutes());
-//   }
-
-//   if (endDate < startDate) {
-//     endDate = startDate;
-//   }
-
-//   // 시작날짜를 하루 안빼면 이상해지더라고요.. 나중에 고칠게요
-//   startDate.setDate(startDate.getDate() - 1);
-
-//   // const eventColor = categories.find(cat => cat.name === newEventCategory)?.color || color;
-
-//   setEvents([...events, {
-//     start: startDate,
-//     end: endDate,
-//     title: newEventTitle,
-//     allDay,
-//     // category: newEventCategory,
-//     // color: eventColor,
-//   }]);
-
-//   // if (!categories.some(category => category.name === newEventCategory)) {
-//   //   setCategories([...categories, { name: newEventCategory, color: eventColor }]);
-//   // }
-
-//   setNewEventTitle('');
-//   setNewEventStartDate(new Date());
-//   setNewEventEndDate(new Date());
-// };
-
-
-
-/* <div>
-  <label>누가?:</label>
-  <select value={newEventCategory} onChange={handleCategoryChange}>
-    <option value="">새로운 모해?</option>
-    {categories.map((category, index) => (
-      <option key={index} value={category.name}>{category.name}</option>
-    ))}
-  </select>
-  {!categories.some(category => category.name === newEventCategory) && (
-    <>
-      <input
-        type="text"
-        value={newEventCategory}
-        onChange={(e) => setNewEventCategory(e.target.value)}
-        placeholder="누가 모해?"
-      />
-    </>
-  )}
-  {!categories.some(category => category.name === newEventCategory) && (
-    <>
-      <select 
-        value={color} 
-        onChange={(e) => setColor(e.target.value)}>
-        <option value="">색상 선택</option>
-        {availColor.filter(c => !events.some(event => event.color === c)).map((color, index) => (
-          <option key={index} value={color}>
-            {color}
-          </option>
-        ))}
-      </select>
-    </>
-  )}  
-</div> */

@@ -51,7 +51,7 @@ export const CalendarFilterText = styled.p`
   font-weight: 800;
 
   @media (max-width: 359px) {
-    font-size: 0.75rem;
+    font-size: 0.5rem;
   }
 `;
 
@@ -77,8 +77,10 @@ export const CalendarFilterContentAll = styled.div`
   font-style: normal;
   font-weight: 700;
 
+  cursor: pointer;
+
   @media (max-width: 359px) {
-    font-size: 0.75rem;
+    font-size: 0.5rem;
   }
 `;
 
@@ -97,8 +99,11 @@ export const CalendarFilterContentDe = styled.div`
   background-color: #FFF;
   border-radius: 100px;
 
+  cursor: pointer;
+
   @media (max-width: 359px) {
-    font-size: 0.625rem;
+    font-size: 0.5rem;
+    padding: 0.25rem 0.75rem;
   }
 
   // background-color: #2D539E;

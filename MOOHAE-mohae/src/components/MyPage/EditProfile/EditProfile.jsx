@@ -29,7 +29,7 @@ const EditProfile = () => {
     <>
       <S.EditProfileContainer>
         <S.EditProfileImage>
-          <S.EditProfileLogo><img src={Camera} alt="Camera" style={{ width: 40, height: 40 }} /></S.EditProfileLogo>
+          <S.EditProfileLogo><S.IMG src={Camera} alt="Camera" /></S.EditProfileLogo>
         </S.EditProfileImage>
         <S.EditProfileContent>
           <S.EditProfileName>{information[0].name}</S.EditProfileName>
