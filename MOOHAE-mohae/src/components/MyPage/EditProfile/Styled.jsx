@@ -95,6 +95,8 @@ export const EditProfileText = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  
+  cursor: pointer;
 
   @media (max-width: 359px) {
     font-size: 0.75rem;
@@ -202,6 +204,8 @@ export const EventInputStyle = styled.input`
   font-size: 1rem;
   font-family: "NanumSquareRound";
   padding: 0.344rem 0rem;
+
+  outline: none;
 `;
 
 export const FormText = styled.div`

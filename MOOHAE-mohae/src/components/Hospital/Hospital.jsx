@@ -43,7 +43,6 @@ const Hospital = () => {
     fetchPatient();
   }, []);
   
-
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const dayWeek = Array.from({ length: 7 }, (_, i) => {
@@ -77,8 +76,10 @@ const Hospital = () => {
   };
 
   const handlePatientChange = (e) => {
+    console.log(e.target.value);
     const selectedUserId = parseInt(e.target.value);
     setNewEvent({ ...newEvent, patient: selectedUserId });
+    console.log("Selected patient:", selectedUserId);
   };
 
   const handleSubmit = async (e) => {
@@ -161,10 +162,10 @@ const Hospital = () => {
         {showForm && (
           <>
             <S.backWrapping onClick={() => setShowForm(false)} />
-            <S.NewEventForm onSubmit={handleSubmit}>
+            <S.NewEventForm>
               <S.FormContent>
                 <S.FormTitle>병원진료 예약</S.FormTitle>
-                <S.FormText>제목:</S.FormText>
+                <S.FormText>병명</S.FormText>
                 <S.contentContainer>
                   <S.EventInputStyle
                     type="text"
@@ -174,7 +175,7 @@ const Hospital = () => {
                     required
                   />
                 </S.contentContainer>
-                <S.FormText>장소:</S.FormText>
+                <S.FormText>진료 장소</S.FormText>
                 <S.contentContainer>
                   <S.EventInputStyle
                     type="text"
@@ -184,7 +185,7 @@ const Hospital = () => {
                     required
                   />
                 </S.contentContainer>
-                <S.FormText>시작 시간:</S.FormText>
+                <S.FormText>진료 시간</S.FormText>
                 <S.contentContainer>
                   <DatePicker
                     selected={newEvent.appointment_datetime}
@@ -197,7 +198,7 @@ const Hospital = () => {
                     customInput={<S.DateSelectInput />}
                   />
                 </S.contentContainer>
-                <S.FormText>참가자:</S.FormText>
+                <S.FormText>진료자</S.FormText>
                 <S.contentContainer>
                   <IoPersonCircleOutline color="#2D539E" size={25} />
                   <S.EventSelectStyle
@@ -215,7 +216,7 @@ const Hospital = () => {
                 </S.contentContainer>
                 <S.row>
                   <S.HospitalCloseButton onClick={() => setShowForm(false)}>닫기</S.HospitalCloseButton>
-                  <S.HospitalAddButton type="submit">추가</S.HospitalAddButton>
+                  <S.HospitalAddButton onClick={handleSubmit}>추가</S.HospitalAddButton>
                 </S.row>
               </S.FormContent>
             </S.NewEventForm>

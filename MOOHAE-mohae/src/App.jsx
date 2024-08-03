@@ -10,10 +10,10 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   transform-origin: top;
-  transform: scale(0.7916);
+  zoom: 0.7916;
 
   @media (max-width: 359px) {
-    transform: scale(0.95);
+    zoom: 0.95;
   }
 `;
 
@@ -35,6 +35,7 @@ const Layout = () => {
 
   return (
     <>
+
       <Container>
         <Wrapper>
           {showHeader && <Header />}
@@ -42,6 +43,7 @@ const Layout = () => {
         </Wrapper>
       </Container>
       <Footer />
+
     </>
   );
 };

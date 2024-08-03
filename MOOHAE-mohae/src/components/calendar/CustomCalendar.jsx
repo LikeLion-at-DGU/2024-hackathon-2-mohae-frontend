@@ -46,7 +46,7 @@ const CustomCalendar = () => {
     try {
       const response = await API.get('/accounts/profile/');
       console.log("userId response", response.data);
-      setUserId(response.data.user.id); // user 객체 내의 id 가져오기
+      setUserId(response.data.user.id);
     } catch (error) {
       console.log('fetch user id error:', error);
     }
