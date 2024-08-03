@@ -7,7 +7,6 @@ import {
   faFolderOpen,
 } from "@fortawesome/free-solid-svg-icons";
 import { fetchFolders } from "../../api/getFolder";
-import { API } from "../../api"; // 추가: API 인스턴스 가져오기
 
 // 스타일 컴포넌트 정의
 const Overlay = styled.div`
@@ -121,9 +120,10 @@ const HeaderIcon = styled.img`
   margin-right: 10px;
 `;
 
-const HeaderTitle = styled.h2`
+const HeaderTitle = styled.div`
   font-size: 14px;
   color: #333;
+  font-weight: bold;
   margin: 0;
 `;
 
@@ -145,6 +145,13 @@ const PostContent = styled.div`
   justify-content: space-between;
 `;
 
+const PostTitle = styled.div`
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 10px;
+  font-weight: bold;
+`;
+
 const PostText = styled.p`
   font-size: 16px;
   color: #333;
@@ -156,8 +163,6 @@ const Image = styled.img`
   min-height: 500px;
   border-radius: 10px;
   margin-bottom: 20px;
-  background: blue;
-  border: 1px solid red;
 `;
 
 const Line = styled.div`
@@ -169,7 +174,7 @@ const Line = styled.div`
 
 const CommentSection = styled.div`
   flex: 1;
-  padding-bottom: 80px;
+  /* padding-bottom: 80px; */
 `;
 
 const CommentList = styled.div`
@@ -245,7 +250,7 @@ const SubmitButton = styled.button`
   }
 `;
 
-const PhotoDetail = ({ photoId, closeModal }) => {
+const PhotoDetail = ({ photoData, closeModal }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
@@ -265,30 +270,8 @@ const PhotoDetail = ({ photoId, closeModal }) => {
       }
     };
 
-    const fetchPhotoDetail = async () => {
-      try {
-        const response = await API.get(`/gallery/photos/${photoId}`);
-        setData(response.data);
-      } catch (error) {
-        console.error("사진 정보를 불러오는 중 오류 발생:", error);
-      }
-    };
-
     loadFolders();
-    fetchPhotoDetail();
-  }, [photoId]);
-
-  const deletePhoto = async () => {
-    try {
-      const response = await API.delete(`/gallery/photos/${photoId}`);
-      console.log("삭제가 완료되었습니다", response);
-      window.location.reload(); // 페이지 새로고침
-
-      // closeModal();
-    } catch (error) {
-      console.error("삭제가 완료되지 않았습니다", error);
-    }
-  };
+  }, []);
 
   const handleNewCommentChange = (e) => {
     setNewComment(e.target.value);
@@ -322,12 +305,12 @@ const PhotoDetail = ({ photoId, closeModal }) => {
         <CloseButton onClick={closeModal}>&times;</CloseButton>
         <Header>
           <HeaderIcon src="icon-url" alt="icon" />
-          <HeaderTitle>2024년 7월 31일 18:15</HeaderTitle>
+          <HeaderTitle>{photoData.date}</HeaderTitle>
         </Header>
         <PostInfo>
           <Avatar src="avatar-url" alt="avatar" />
           <PostContent>
-            <PostText>구도욱</PostText>
+            <PostText>{photoData.profile.nickname}</PostText>
           </PostContent>
           <FontAwesomeIcon
             icon={faSliders}
@@ -336,8 +319,9 @@ const PhotoDetail = ({ photoId, closeModal }) => {
             ref={iconRef}
           />
         </PostInfo>
-        <Image />
-        <PostText>가족사진찍었습니다.</PostText>
+        <Image src={photoData.image} alt="photo" />
+        <PostTitle>{photoData.title}</PostTitle>
+        <PostText>{photoData.description}</PostText>
         <Line></Line>
         <CommentSection>
           <CommentList>
@@ -365,7 +349,9 @@ const PhotoDetail = ({ photoId, closeModal }) => {
           <CloseButton onClick={() => setIsSettingsModalOpen(false)}>
             &times;
           </CloseButton>
-          <Button onClick={deletePhoto}>사진 삭제하기</Button>
+          <Button onClick={() => setIsSettingsModalOpen(false)}>
+            사진 삭제하기
+          </Button>
           <Button onClick={handleMoveFolderClick}>폴더 이동하기</Button>
         </SmallModal>
       )}

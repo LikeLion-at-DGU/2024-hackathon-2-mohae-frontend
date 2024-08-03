@@ -138,8 +138,18 @@ const GalleryFrame = ({
 }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [liked, setLiked] = useState(isLiked);
+  const [modalData, setModalData] = useState(null);
 
-  const openModal = () => setModalIsOpen(true);
+  const openModal = async () => {
+    try {
+      const response = await API.get(`/gallery/photos/${photoId}`);
+      setModalData(response.data);
+      setModalIsOpen(true);
+    } catch (error) {
+      console.error("Failed to fetch photo details:", error);
+    }
+  };
+
   const closeModal = () => setModalIsOpen(false);
 
   const handleLikeClick = async (e) => {
@@ -198,7 +208,11 @@ const GalleryFrame = ({
           },
         }}
       >
-        <PhotoDetail photoId={photoId} closeModal={closeModal} />
+        {modalData ? (
+          <PhotoDetail photoData={modalData} closeModal={closeModal} />
+        ) : (
+          <div>Loading...</div>
+        )}
       </ReactModal>
     </>
   );

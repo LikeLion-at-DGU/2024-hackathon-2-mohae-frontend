@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import uploadImg from "../../assets/imgplus.png"; // 업로드한 이미지 경로
-import { API } from "../../api"; // API 인스턴스 불러오기
+import uploadImg from "../../assets/imgplus.png";
+import { API } from "../../api";
 
 const Overlay = styled.div`
   position: fixed;
@@ -191,7 +191,7 @@ const PhotoPlus = () => {
   const fileInputRef = useRef(null);
   const [title, setTitle] = useState("");
   const [detailTitle, setDetailTitle] = useState("");
-  const [photo, setPhoto] = useState(null); // 단일 파일로 변경
+  const [photo, setPhoto] = useState(null);
   const [previewSrc, setPreviewSrc] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -210,7 +210,7 @@ const PhotoPlus = () => {
     setDetailTitle(event.target.value);
   };
 
-  const handlePhotoChange = (event) => {
+  const handlePhotoChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
       setPhoto(file);
@@ -220,29 +220,24 @@ const PhotoPlus = () => {
   };
 
   const handleUpload = async () => {
-    const formData = new FormData();
-    formData.append("title", title);
-    // formData.append("image", photo);
-    formData.append("description", detailTitle);
-    formData.append("status", "Y");
+    if (photo) {
+      try {
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("description", detailTitle);
+        formData.append("image", photo);
 
-    try {
-      const response = await API.post("/gallery/photos/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log("업로드에 성공하였습니다", response.data);
+        const response = await API.post("/gallery/photos", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
-      setTitle("");
-      setDetailTitle("");
-      setPhoto(null);
-      setPreviewSrc("");
-      setErrorMessage("");
-      navigate("/");
-    } catch (error) {
-      console.error("Error uploading data", error);
-      setErrorMessage("업로드 중 오류가 발생했습니다. 다시 시도해주세요.");
+        console.log("폼데이터: ", response.data);
+        window.location.reload();
+      } catch (error) {
+        console.error("Error uploading data", error);
+      }
     }
   };
 
