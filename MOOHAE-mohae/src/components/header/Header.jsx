@@ -99,6 +99,7 @@ const CategoryTitle = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  font-size: 1.5rem;
 
   &:hover {
     color: #2d539e;
@@ -126,10 +127,10 @@ const Header = () => {
         <StyledLink to="/">
           <MOHAEsytle>MOHAE</MOHAEsytle>
         </StyledLink>
-        <StyledLink to="Login">
+        <StyledLink to="mypage">
           <ButtonwithIcon>
             <BiSolidUser size={30} />
-            로그인
+            마이페이지
           </ButtonwithIcon>
         </StyledLink>
       </Top>

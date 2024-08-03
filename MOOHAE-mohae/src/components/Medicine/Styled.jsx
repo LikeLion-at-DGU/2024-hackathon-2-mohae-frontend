@@ -17,6 +17,7 @@ export const MedicineContainers = styled.div`
   white-space: nowrap;
   gap: 1rem;
   margin-bottom: 2rem;
+  overflow-x: scroll;
 
   @media (max-width: 359px) {
     width: 320px;
@@ -52,6 +53,22 @@ export const MedicineTitle1 = styled.div`
   }
 `;
 
+export const CenterWord = styled.div`
+  display: flex;
+  color: #9E9E9E;
+
+  font-family: "NanumSquareRound";
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 2rem;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
+`;
+
 export const MedicineContent = styled.div`
   display: flex;
   align-items: center;
@@ -74,13 +91,15 @@ export const MedicineContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 332px;
-  overflow-x: scroll;
 
 
   background-color: #FFF;
   border-radius: 1.25rem;
 
   box-shadow: 0.5px 1px 2px 0px rgba(0, 0, 0, 0.25);
+  @media (max-width: 359px) {
+    width: 200px;
+  }
 `;
 
 export const MedicineHeader = styled.div`
@@ -93,7 +112,7 @@ export const MedicineHeader = styled.div`
   padding: 1rem 1rem 0.5rem 1rem;
 
   @media (max-width: 359px) {
-    padding: 0rem;
+    padding: 1rem;
   }
 `;
 
@@ -104,6 +123,10 @@ export const MedicineWho = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 1rem;
+  }
 `;
 
 export const MoreDetail = styled.p`
@@ -113,7 +136,11 @@ export const MoreDetail = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-`
+
+  @media (max-width: 359px) {
+    font-size: 0.625rem;
+  }
+`;
 
 export const MedicineTitle = styled.div`
   display: flex;
@@ -121,6 +148,11 @@ export const MedicineTitle = styled.div`
   gap: 10px;
 
   padding: 0rem 1rem 0rem 1rem;
+
+  @media (max-width: 359px) {
+    padding: 0rem 0rem 0rem 1rem;
+    gap: 0.25rem;
+  }
 `;
 
 export const ProfileImage = styled.div`
@@ -129,6 +161,12 @@ export const ProfileImage = styled.div`
 
   border-radius: 3.125rem;
   background-color: rebeccapurple;
+
+  @media (max-width: 359px) {
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 2rem;
+  }
 `;
 
 export const MedicineNotice = styled.p`
@@ -139,6 +177,10 @@ export const MedicineNotice = styled.p`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.5rem;
+  }
 `;
 
 export const Checks = styled.div`
@@ -147,6 +189,9 @@ export const Checks = styled.div`
 
   justify-content: center;
   gap: 2.25rem;
+  @media (max-width: 359px) {
+    gap: 1rem;
+  }
 `;
 
 export const Check = styled.div`
@@ -154,6 +199,10 @@ export const Check = styled.div`
   flex-direction: column;
 
   gap: 0.75rem;
+
+  @media (max-width: 359px) {
+    gap: 0.5rem;
+  }
 `;
 
 export const CheckTime = styled.div`
@@ -164,6 +213,10 @@ export const CheckTime = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.625rem;
+  }
 `;
 
 export const CheckCircle = styled.div`
@@ -180,6 +233,11 @@ export const CheckCircle = styled.div`
 
   &:hover {
     background-color : #1D3E7F;
+  }
+
+  @media (max-width: 359px) {
+    width: 1.375rem;
+    height: 1.375rem;
   }
 `;
 
@@ -198,6 +256,11 @@ export const CheckNoCircle = styled.div`
   &:hover {
     background-color: #F0F0F0;
   }
+
+  @media (max-width: 359px) {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
 `;
 
 export const CheckBar = styled.div`
@@ -205,6 +268,10 @@ export const CheckBar = styled.div`
   width: 300px;
   margin: 1rem;
   position: relative;
+
+  @media (max-width: 359px) {
+    width: 168px;
+  }
 `;
 
 export const CheckBarAll = styled.div`
@@ -213,6 +280,11 @@ export const CheckBarAll = styled.div`
   height: 5px;
   border: 20px;
   background-color: #D9D9D9;
+
+  @media (max-width: 359px) {
+    width: 168px;
+    height: 3px;
+  }
 `;
 
 export const CheckBar33 = styled.div`
@@ -221,6 +293,10 @@ export const CheckBar33 = styled.div`
   height: 5px;
   border: 20px;
   background-color: #2D539e;
+
+  @media (max-width: 359px) {
+    height: 3px;
+  }
 `;
 
 export const CheckBar66 = styled.div`
@@ -230,6 +306,10 @@ export const CheckBar66 = styled.div`
   height: 5px;
   border: 20px;
   background-color: #2D539e;
+
+  @media (max-width: 359px) {
+    height: 3px; 
+  }
 `;
 
 export const CheckBar100 = styled.div`
@@ -239,12 +319,17 @@ export const CheckBar100 = styled.div`
   height: 5px;
   border: 20px;
   background-color: #2D539e;
+
+  @media (max-width: 359px) {
+    height: 3px;
+  }
 `;
 
 export const AddButton = styled.div`
   display: flex;
   position: absolute;
   right: 0;
+  top: -4rem;
   color: #9f9f9f;
   text-align: center;
   font-family: 'NanumSquareRound';
@@ -267,14 +352,21 @@ export const Realative = styled.div`
 `;
 
 export const backWrapping = styled.div`
-  width: 100%;
+  width: 130%;
   height: 100%;
   position: fixed;
   top: 0;
-  left: 0;
+  left: -15%;
 
   z-index: 100;
   background: rgba(159, 159, 159, 0.50);
+
+  @media (max-width: 359px) {
+    width: 106%;
+    position: fixed;
+    top: 0;
+    left: -3%;
+  }
 `;
 
 export const NewEventForm = styled.div`
@@ -383,4 +475,17 @@ export const FormTitle = styled.div`
   line-height: normal;
 
   margin-bottom: 1rem;
+`;
+
+import { FaCheck } from "react-icons/fa"
+
+export const StyFaCheck = styled(FaCheck)`
+  width: 40px;
+  height: 40px;
+  color: #FFF;
+
+  @media (max-width: 359px) {
+    width: 22px;
+    height: 22px;
+  }
 `;

@@ -28,12 +28,11 @@ export const BackEffect = styled.div`
   display: flex;
   padding-top: 2rem;
   flex-direction: column;
-  width: 1440px;
+  width: 130%;
   align-items: center;
-  background: linear-gradient(120deg, #E1EAFF 0%, #FFF 52.4%, #DCFAFC 100%);
+  background: linear-gradient(120deg, #e1eaff 0%, #fff 52.4%, #dcfafc 100%);
 
   @media (max-width: 359px) {
-    padding-top: 0rem;
-    width: 360px;
+    width: 105%;
   }
 `;

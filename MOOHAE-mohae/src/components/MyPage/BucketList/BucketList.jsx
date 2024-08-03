@@ -1,21 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as S from "./Styled";
+import { API } from '../../../api';
 
 const BucketList = () => {
   const [showForm, setShowForm] = useState(false);
   const [newBucket, setNewBucket] = useState('');
 
-  const [bucketlist, setBucketlist] = useState([
-    { bucketlist: '나는 놀러가야지' }
-  ]);
+  const [bucketlist, setBucketlist] = useState([]);
 
-  const handleAddBucketList = () => {
-    setBucketlist(prevList => [
-      ...prevList,
-      { bucketlist: newBucket }
-    ]);
-    setNewBucket('');
-    setShowForm(false);
+  useEffect(() => {
+    const fetchBucketList = async () => {
+      try {
+        const response = await API.get('/users/bucketlists');
+        setBucketlist(response.data);
+      } catch (error) {
+        console.error('Failed to fetch bucket list:', error);
+      }
+    };
+
+    fetchBucketList();
+  }, []);
+
+  const handleAddBucketList = async () => {
+    try {
+      const response = await API.post('/users/bucketlists', { bucketlist: newBucket });
+      setBucketlist(prevList => [
+        ...prevList,
+        response.data
+      ]);
+      setNewBucket('');
+      setShowForm(false);
+    } catch (error) {
+      console.error('Failed to add bucket list:', error);
+    }
+  };
+
+  const handleDeleteBucket = async (id) => {
+    try {
+      await API.delete(`/users/bucketlists/${id}`);
+      setBucketlist(bucketlist.filter(item => item.id !== id));
+    } catch (error) {
+      console.error('Failed to delete bucket list:', error);
+    }
   };
 
   return (
@@ -31,6 +57,7 @@ const BucketList = () => {
             <S.Bucket key={index}>
               <S.BucketNumber>{index + 1}</S.BucketNumber>
               <S.BucketContent>{item.bucketlist}</S.BucketContent>
+              <S.RemoveParticipant onClick={() => handleDeleteBucket(item.id)}>X</S.RemoveParticipant>
             </S.Bucket>
           ))}
         </S.BucketList>

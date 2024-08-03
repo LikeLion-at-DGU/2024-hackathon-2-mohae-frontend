@@ -23,9 +23,9 @@ function CulturePage() {
     return (
         <>
             <ADBar/>
-            <div class="textWraaper">카테고리</div>
+            <div className="textWraaper">카테고리</div>
             <CategoryBar/>
-            <div class="textWraaper">모해 PICK</div>
+            <div className="textWraaper">모해 PICK</div>
             
         </>
     );

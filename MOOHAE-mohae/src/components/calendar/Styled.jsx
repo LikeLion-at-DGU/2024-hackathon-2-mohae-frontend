@@ -448,14 +448,21 @@ export const contentContainer = styled.div`
 `;
 
 export const backWrapping = styled.div`
-  width: 100%;
+  width: 130%;
   height: 100%;
   position: fixed;
   top: 0;
-  left: 0;
+  left: -15%;
 
   z-index: 100;
   background: rgba(159, 159, 159, 0.50);
+
+  @media (max-width: 359px) {
+    width: 106%;
+    position: fixed;
+    top: 0;
+    left: -3%;
+  }
 `;
 
 export const CloseButton = styled.button`
@@ -666,6 +673,7 @@ export const DateStyle = styled.div`
 
 export const ScheduleStyle = styled.div`
   display: flex;
+  flex-direction: column;
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-family: "NanumSquareRound";
