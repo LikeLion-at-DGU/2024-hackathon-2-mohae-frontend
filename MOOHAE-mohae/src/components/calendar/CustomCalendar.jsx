@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import { PiPencilSimple, PiCalendarBlank } from "react-icons/pi";
 import { TbPencilPlus } from "react-icons/tb";
-import { IoPersonCircleOutline } from "react-icons/io5";
+import { IoPersonCircleOutline, IoTrashOutline } from "react-icons/io5";
 
 import { API } from '../../api';
 
@@ -46,7 +46,7 @@ const CustomCalendar = () => {
     try {
       const response = await API.get('/accounts/profile/');
       console.log("userId response", response.data);
-      setUserId(response.data.user.id); // user 객체 내의 id 가져오기
+      setUserId(response.data.user.id);
     } catch (error) {
       console.log('fetch user id error:', error);
     }
@@ -64,19 +64,14 @@ const CustomCalendar = () => {
 
   const FetchPartiData = async () => {
     try {
-      const response = await API.get('/users/family/');
+      const response = await API.get('/users/family');
       console.log("family response", response.data);
-      const participants = response.data.flatMap(family => {
-        const familyMemberIds = family.profiles.map(profile => profile.user);
-        if (familyMemberIds.includes(userId)) {
-          setFamilyId(family.family_id);
-          console.log("familyId", family.family_id);
-        }
-        return family.profiles.map(profile => ({
+      const participants = response.data.flatMap(family => 
+        family.profiles.map(profile => ({
           nickname: profile.nickname,
           user_id: profile.user
-        }));
-      });
+        }))
+      );
       setAvailableParticipants(participants);
     } catch (error) {
       console.log('fetch participants error:', error);
@@ -101,6 +96,7 @@ const CustomCalendar = () => {
         start: newEventStartDate.toISOString(),
         end: newEventEndDate.toISOString(),
         participants: selectedParticipants.map(p => p.user_id),
+        family_id: familyId,
       };
 
       console.log("posting eventData", eventData);
@@ -118,6 +114,16 @@ const CustomCalendar = () => {
   const handleEvent = () => {
     PostDateData();
     setShowForm(false);
+  };
+
+  const deleteEvent = async (eventId) => {
+    try {
+      await API.delete(`/cal/events/${eventId}/delete/`);
+      setEvents(events.filter(event => event.event_id !== eventId));
+      setShowDetails(false);
+    } catch (error) {
+      console.error('Failed to delete event:', error);
+    }
   };
 
   const addEmojiToDate = () => {
@@ -235,6 +241,11 @@ const CustomCalendar = () => {
 
   const removeParticipant = (participant) => {
     setSelectedParticipants(selectedParticipants.filter(p => p.user_id !== participant.user_id));
+  };
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+    return new Date(dateString).toLocaleString('en', options);
   };
 
   return (
@@ -430,8 +441,9 @@ const CustomCalendar = () => {
                 selectedEvent.map((event, index) => (
                   <div key={index} style={{ backgroundColor: event.color }}>
                     <h3>{event.title}</h3>
-                    <p>{event.start}</p>
-                    <p>{event.end}</p>
+                    <p>{formatDate(event.start)} ~ {formatDate(event.end)}</p>
+                    <p>참가자: {event.participants.map(pid => availableParticipants.find(p => p.user_id === pid)?.nickname || '알 수 없음').join(', ')}</p>
+                    <IoTrashOutline onClick={() => deleteEvent(event.event_id)} style={{ cursor: 'pointer' }} />
                   </div>
                 ))
               ) : (

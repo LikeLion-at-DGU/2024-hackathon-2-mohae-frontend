@@ -199,14 +199,21 @@ export const NewEventForm = styled.div`
 `;
 
 export const backWrapping = styled.div`
-  width: 100%;
+  width: 130%;
   height: 100%;
   position: fixed;
   top: 0;
-  left: 0;
+  left: -15%;
 
   z-index: 100;
   background: rgba(159, 159, 159, 0.50);
+
+  @media (max-width: 359px) {
+    width: 106%;
+    position: fixed;
+    top: 0;
+    left: -3%;
+  }
 `;
 
 export const DateSelectInput = styled.input`
@@ -369,3 +376,33 @@ export const FormTitle = styled.div`
 
   margin-bottom: 1rem;
 `;
+
+export const EventSelectStyle = styled.select`
+  margin-left: 30px;
+  display: flex;
+  width: 100%;
+  border: none;
+  font-size: 1rem;
+  font-family: "NanumSquareRound";
+  padding: 0.344rem 0rem;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
+`;
+
+export const SelectedParticipant = styled.div`
+  display: inline-block;
+  margin-right: 8px;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+`;
+
+export const RemoveParticipant = styled.div`
+  display: inline-block;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #2d539e;
+`;
+

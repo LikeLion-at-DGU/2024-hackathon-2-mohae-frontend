@@ -95,6 +95,8 @@ export const EditProfileText = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  
+  cursor: pointer;
 
   @media (max-width: 359px) {
     font-size: 0.75rem;
@@ -105,14 +107,21 @@ export const EditProfileText = styled.div`
 
 
 export const backWrapping = styled.div`
-  width: 100%;
+  width: 130%;
   height: 100%;
   position: fixed;
   top: 0;
-  left: 0;
+  left: -15%;
 
   z-index: 100;
   background: rgba(159, 159, 159, 0.50);
+
+  @media (max-width: 359px) {
+    width: 106%;
+    position: fixed;
+    top: 0;
+    left: -3%;
+  }
 `;
 
 export const NewEventForm = styled.div`
@@ -195,6 +204,8 @@ export const EventInputStyle = styled.input`
   font-size: 1rem;
   font-family: "NanumSquareRound";
   padding: 0.344rem 0rem;
+
+  outline: none;
 `;
 
 export const FormText = styled.div`

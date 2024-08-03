@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       { path: "/Signup", element: <Signup /> },
       { path: "/Login", element: <LoginPage /> },
       // { path: "/Gallery", element: <Gallery /> }, // 추가된 부분
-      { path: "/Date", element: <DatePage /> }, // 중복된 Date 제거
+      { path: "/Date", element: <DatePage /> },
       { path: "/HealthCare", element: <HealthCarePage /> },
       { path: "/PhotoPost", element: <PhotoPost /> },
       { path: "/PhotoPlus", element: <PhotoPlus /> },

@@ -1,4 +1,4 @@
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 const fadeIn = keyframes`
   from {
@@ -29,7 +29,6 @@ export const BucketListContainer = styled.div`
 
 export const BucketListTitle = styled.div`
   color: #000;
-
   font-family: 'NanumSquareRound';
   font-size: 1.75rem;
   font-style: normal;
@@ -43,7 +42,6 @@ export const BucketListTitle = styled.div`
 
 export const AddBucketList = styled.div`
   color: #9F9F9F;
-
   font-family: 'NanumSquareRound';
   font-size: 1.5rem;
   font-style: normal;
@@ -87,22 +85,48 @@ export const Bucket = styled.div`
   padding: 1rem 1.5rem;
   gap: 1rem;
   align-items: center;
-
   border-radius: 0.625rem;
   border: 2px solid #EDEDED;
-
-  background: #F0F0F0;
+  background: ${props => props.completed ? '#D3D3D3' : '#F0F0F0'};
+  position: relative;
 
   @media (max-width: 359px) {
     width: calc(100% - 2rem);
     height: 1.5rem;
     padding: 0.5rem 0.75rem;
   }
+
+  &:hover .actions {
+    display: flex;
+  }
+`;
+
+export const inputBucket = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: calc(100% - 3.5rem);
+  height: 4rem;
+  padding: 1rem 1.5rem;
+  gap: 1rem;
+  align-items: center;
+  border-radius: 0.625rem;
+  border: 2px dashed #EDEDED;
+  background: inherit;
+  position: relative;
+
+  @media (max-width: 359px) {
+    width: calc(100% - 2rem);
+    height: 1.5rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  &:hover .actions {
+    display: flex;
+  }
 `;
 
 export const BucketNumber = styled.div`
   color: #2D539E;
-
   text-align: center;
   font-family: "Nanum Pen Script";
   font-size: 4.375rem;
@@ -117,35 +141,65 @@ export const BucketNumber = styled.div`
 
 export const BucketContent = styled.div`
   color: #000;
-
   font-family: 'NanumSquareRound';
   font-size: 1.5rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  ${props =>
+    props.completed &&
+    css`
+      text-decoration: line-through;
+    `}
 
   @media (max-width: 359px) {
     font-size: 0.875rem;
   }
 `;
 
+export const Actions = styled.div`
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+`;
+
+export const ActionButton = styled.button`
+  background: none;
+  border: none;
+  color: #2D539E;
+  font-size: 1.5rem;
+  cursor: pointer;
+
+  &:hover {
+    color: #000;
+  }
+`;
+
 export const backWrapping = styled.div`
-  width: 100%;
+  width: 130%;
   height: 100%;
   position: fixed;
   top: 0;
-  left: 0;
-
+  left: -15%;
   z-index: 100;
   background: rgba(159, 159, 159, 0.50);
+
+  @media (max-width: 359px) {
+    width: 106%;
+    position: fixed;
+    top: 0;
+    left: -3%;
+  }
 `;
 
 export const NewEventForm = styled.div`
   position: fixed;
-
   top: 50%;
   left: 50%;
-
   transform: translate(-50%, -50%);
   background: white;
   border: 1px solid #ccc;
@@ -154,7 +208,6 @@ export const NewEventForm = styled.div`
   min-width: 500px;
   max-width: 90%;
   z-index: 1000;
-
   animation: ${fadeIn} 0.3s ease-in-out;
 
   @media (max-width: 359px) {
@@ -177,9 +230,8 @@ export const row = styled.div`
 export const BucketListCloseButton = styled.button`
   background-color: #FFF;
   color: #2D539E;
-  border: 1px solid  ;
+  border: 1px solid;
   padding: 5px 10px;
-
   border-radius: 5px;
   width: 45%;
   font-size: 1rem;
@@ -190,9 +242,7 @@ export const BucketListAddButton = styled.button`
   color: #FFF;
   border: none;
   padding: 5px 10px;
-
   border: 1px solid #2D539E;
-
   border-radius: 5px;
   width: 45%;
   font-size: 1rem;
@@ -202,12 +252,9 @@ export const contentContainer = styled.div`
   display: flex;
   text-align: center;
   padding: 0.5rem;
-
   align-items: center;
   justify-content: space-between;
-
   flex-direction: row;
-
   border: 2px solid #EDEDED;
   border-radius: 10px;
 `;
@@ -216,9 +263,11 @@ export const EventInputStyle = styled.input`
   display: flex;
   width: 100%;
   border: none;
-  font-size: 1rem;
+  font-size: 1.25rem;
   font-family: "NanumSquareRound";
   padding: 0.344rem 0rem;
+  outline: none;
+  background-color: inherit;
 `;
 
 export const FormText = styled.div`
@@ -232,7 +281,6 @@ export const FormText = styled.div`
 
 export const FormTitle = styled.div`
   color: #000;
-
   font-family: 'NanumSquareRound';
   font-size: 1.5rem;
   font-style: normal;
