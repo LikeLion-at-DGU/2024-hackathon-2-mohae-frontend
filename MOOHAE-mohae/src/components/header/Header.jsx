@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { BiSolidUser } from "react-icons/bi";
@@ -112,6 +112,8 @@ const CategoryTitle = styled.div`
 `;
 
 const Header = () => {
+  const location = useLocation();
+  const showHeaderfilter = location.pathname !== "/";
   return (
     <HeaderContainer>
       <Top>
@@ -134,20 +136,22 @@ const Header = () => {
           </ButtonwithIcon>
         </StyledLink>
       </Top>
-      <HeaderWrap2>
-        <StyledLink to="Date">
-          <CategoryTitle>일정</CategoryTitle>
-        </StyledLink>
-        <StyledLink to="HealthCare">
-          <CategoryTitle>건강</CategoryTitle>
-        </StyledLink>
-        <StyledLink to="PhotoPost">
-          <CategoryTitle>가족 사진첩</CategoryTitle>
-        </StyledLink>
-        <StyledLink to="CulturePage">
-          <CategoryTitle>문화생활</CategoryTitle>
-        </StyledLink>
-      </HeaderWrap2>
+      {showHeaderfilter && 
+        <HeaderWrap2>
+          <StyledLink to="Date">
+            <CategoryTitle>일정</CategoryTitle>
+          </StyledLink>
+          <StyledLink to="HealthCare">
+            <CategoryTitle>건강</CategoryTitle>
+          </StyledLink>
+          <StyledLink to="PhotoPost">
+            <CategoryTitle>가족 사진첩</CategoryTitle>
+          </StyledLink>
+          <StyledLink to="CulturePage">
+            <CategoryTitle>문화생활</CategoryTitle>
+          </StyledLink>
+        </HeaderWrap2>
+      }
     </HeaderContainer>
   );
 };

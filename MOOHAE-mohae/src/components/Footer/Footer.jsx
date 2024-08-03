@@ -1,11 +1,18 @@
 import React, { useState } from "react";
+
 import { API } from "../../api";
+
 import * as S from "./Styled";
 
+import { FaTimes } from "react-icons/fa";
+
 const Footer = () => {
-  const [response, setResponse] = useState('');
+  const [responses, setResponses] = useState([]);
   const [audioFile, setAudioFile] = useState(null);
   const [question, setQuestion] = useState('');
+
+  const [showemoji, setShowemoji] = useState(true);
+  const [showform, setShowform] = useState(false);
 
   const handleAudioChange = (event) => {
     setAudioFile(event.target.files[0]);
@@ -40,7 +47,8 @@ const Footer = () => {
           'Content-Type': 'multipart/form-data'
         }
       });
-      setResponse(res.data.answer);
+      setResponses(prevResponses => [...prevResponses, { question, answer: res.data.answer }]);
+      setQuestion('');
       speakText(res.data.answer);
     } catch (error) {
       console.error('Error:', error);
@@ -70,14 +78,79 @@ const Footer = () => {
     window.speechSynthesis.speak(utterance);
   };
 
+  const handleshowform = () => {
+    setShowemoji(false);
+    setShowform(true);
+  };
+
+  const handleshowemoji = () => {
+    setShowemoji(true);
+    setShowform(false);
+  };
+
   return (
-    <S.Container>
-      <input type="file" accept="audio/*" onChange={handleAudioChange} />
-      <textarea value={question} onChange={handleQuestionChange} placeholder="Type your question or use the microphone" />
-      <S.Dongurami onClick={startRecognition}>녹음시작</S.Dongurami>
-      <S.Dongurami onClick={handleUpload}>업로드후답변</S.Dongurami>
-      <p>답변: {response}</p>
-    </S.Container>
+    <>
+      {showemoji && (
+        <S.Container>
+          <S.MomoIcon onClick={handleshowform}>o</S.MomoIcon>
+        </S.Container>
+      )}
+      {showform && (
+        <S.Container>
+          <S.FormBox>
+            <S.HeadBox>
+              <S.MomoIcon2 style={{width: '3.75rem', height: '3.75rem', fontSize:'4.875rem', borderRadius:'1.125rem', boxShadow: 'none'}}>o</S.MomoIcon2>
+              <S.Column>
+                <S.Text1>모모 챗봇</S.Text1>
+                <S.Text2>모모에게 무엇이든지 물어보세요</S.Text2>
+              </S.Column>
+            </S.HeadBox>
+            <S.HeadBody>
+              <S.Column style={{gap: '1rem'}}>
+                <S.TextContainer>
+                  <S.MomoIcon2 style={{width: '1.875rem', height: '1.75rem', fontSize:'2.5rem', borderRadius:'0.625rem', boxShadow: 'none'}}>o</S.MomoIcon2>
+                  <S.TextContain>
+                    <S.MomoText1>가족 건강 소셜 플랫폼, MOHAE</S.MomoText1>
+                    <S.MomoText2>모해는 가족이 서로의 일상에 스며드는 가족 친화 플랫폼 입니다.</S.MomoText2>
+                    <S.MomoTextBox>
+                      <S.MomoText3>🧐 모해에 어떤 서비스가 있나요?</S.MomoText3>
+                      <S.MomoText3>👨 부모님이랑 무엇을 할까요?</S.MomoText3>
+                      <S.MomoText3>💪 건강챌린지는 어떻게 하나요?</S.MomoText3>
+                    </S.MomoTextBox>
+                  </S.TextContain>
+                </S.TextContainer>
+                {responses.map((response, index) => (
+                  <>
+                    <S.TextContainer key={index}>
+                      <S.TextContain2>
+                        <S.MomoText4>{response.question}</S.MomoText4>
+                      </S.TextContain2>
+                      <S.MomoIcon2 style={{width: '1.875rem', height: '1.75rem', fontSize:'2.5rem', borderRadius:'0.625rem', boxShadow: 'none'}}>o</S.MomoIcon2>
+                    </S.TextContainer>
+                    <S.TextContainer key={index}>
+                    <S.MomoIcon2 style={{width: '1.875rem', height: '1.75rem', fontSize:'2.5rem', borderRadius:'0.625rem', boxShadow: 'none'}}>o</S.MomoIcon2>
+                      <S.TextContain2>
+                        <S.MomoText2>{response.answer}</S.MomoText2>
+                      </S.TextContain2>
+                    </S.TextContainer>
+                  </>
+                ))}
+              </S.Column>
+            </S.HeadBody>
+            <S.HeadFooter>
+              <S.TextBox
+                value={question}
+                onChange={handleQuestionChange}
+                placeholder="메시지를 입력해주세요."
+              />
+              <S.StyledMD onClick={startRecognition} />
+              <S.StyledRI onClick={handleUpload} />
+            </S.HeadFooter>
+          </S.FormBox>
+          <S.XIcon onClick={handleshowemoji}><FaTimes /></S.XIcon>
+        </S.Container>
+      )}
+    </>
   );
 };
 

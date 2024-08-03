@@ -34,13 +34,15 @@ const Layout = () => {
   const showHeader = location.pathname !== "/PhotoPlus";
 
   return (
-    <Container>
-      <Wrapper>
-        {showHeader && <Header />}
-        <Outlet />
-        <Footer />
-      </Wrapper>
-    </Container>
+    <>
+      <Container>
+        <Wrapper>
+          {showHeader && <Header />}
+          <Outlet />
+        </Wrapper>
+      </Container>
+      <Footer />
+    </>
   );
 };
 
