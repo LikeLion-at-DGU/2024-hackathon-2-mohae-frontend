@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom"; // useNavigate import
+import { API } from '../../api';
 
 const Container = styled.div`
     padding: 20px;
@@ -62,7 +63,7 @@ const Card = styled.div`
     gap: 15px;
 `;
 
-const Image = styled.div`
+const Image = styled.img`
     width: 415px;
     height: 238px;
     background-color: #FFFFFF;
@@ -84,7 +85,7 @@ const Location = styled.div`
     color: #2D539E80;
     background-color: #EBF1FF;
     border-radius: 10px;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 `;
 
 const Title = styled.div`
@@ -97,10 +98,39 @@ const Title = styled.div`
     width: 100%;
 `;
 
-const Distance = styled.div`
-    font-size: 23px;
+const Description = styled.div`
+    font-size: 18px;
+    margin-bottom: 10px;
+`;
+
+const Date = styled.div`
+    font-size: 18px;
     color: #2D539E;
-    font-weight: regular;
+    margin-bottom: 10px;
+`;
+
+const Price = styled.div`
+    font-size: 18px;
+    color: #2D539E;
+    margin-bottom: 10px;
+`;
+
+const AvailableSlots = styled.div`
+    font-size: 18px;
+    color: #2D539E;
+    margin-bottom: 10px;
+`;
+
+const Category = styled.div`
+    font-size: 18px;
+    color: #2D539E;
+    margin-bottom: 10px;
+`;
+
+const Subcategory = styled.div`
+    font-size: 18px;
+    color: #2D539E;
+    margin-bottom: 10px;
 `;
 
 const tabs = [
@@ -109,113 +139,69 @@ const tabs = [
     { label: "호캉스", key: "Hotel" },
 ];
 
-const cardData = {
-    Local: [
-        {
-            link: "https://korean.visitkorea.or.kr/detail/cs_detail_cos.do?cotid=ab55816c-23f1-4918-95b0-7af407c56bbc&big_category=C01&mid_category=C0115&big_area=6",
-            location: "부산 해운대구",
-            title: "해운대를 지나 문탠로드를 걷다",
-            distance: "코스 총 거리 11.5km",
-        },
-        {
-            link: "https://korean.visitkorea.or.kr/detail/cs_detail_cos.do?cotid=ab55816c-23f1-4918-95b0-7af407c56bbc&big_category=C01&mid_category=C0115&big_area=6",
-            location: "부산 해운대구",
-            title: "해파랑길(부산, 울산 구간)",
-            distance: "코스 총 거리 76.1km",
-        },
-    ],
-    Abroad: [
-        {
-            link: "https://travel.interpark.com/tour/goods?baseGoodsCd=A3018487",
-            location: "유럽 스위스",
-            title: "[베스트셀러/W트립] 스위스 9일, 전일정 4성호텔, 융프라우/마테호른/리기산/알레치빙하",
-            distance: "7박9일",
-        },
-        {
-            link: "https://travel.interpark.com/tour/goods?baseGoodsCd=A6016918",
-            location: "오사카",
-            title: "오사카3일,오사카/교토+1일자유 /시내호텔 2연박",
-            distance: "2박3일",
-        },
-        {
-            link: "https://travel.interpark.com/tour/goods?baseGoodsCd=A3018561",
-            location: "스페인/포르투갈",
-            title: "[W트립]스페인/포르투갈 9일, 아시아나항공, 전일정 4성급+3박 5성급 숙박",
-            distance: "7박9일",
-        },
-        {
-            link: "https://travel.interpark.com/tour/goods?baseGoodsCd=A1037244",
-            location: "푸꾸옥",
-            title: "[W트립] 푸꾸옥 5일, 숲속뷰 M빌리지 리조트, 성인1인당 유심칩 제공",
-            distance: "3박5일",
-        },
-    ],
-    
-    Hotel: [
-        {
-            link: "https://www.yeogi.com/domestic-accommodations/69729?checkIn=2024-08-02&checkOut=2024-08-03&personal=2",
-            location: "속초",
-            title: "체스터톤스 호텔",
-            distance: "강원 속초시 교동 1024-1",
-        },
-        {
-            link: "https://www.yeogi.com/domestic-accommodations/7444?checkIn=2024-08-02&checkOut=2024-08-03&personal=2",
-            location: "속초",
-            title: "라마다 속초",
-            distance: "강원 속초시 대포동 939",
-        },
-        {
-            link: "https://www.yeogi.com/domestic-accommodations/6429?checkIn=2024-08-02&checkOut=2024-08-03&personal=2",
-            location: "속초",
-            title: "마레몬스 호텔",
-            distance: "강원 속초시 대포동 245-5",
-        },
-        {
-            link: "https://www.yeogi.com/domestic-accommodations/70213?checkIn=2024-08-02&checkOut=2024-08-03&personal=2",
-            location: "속초",
-            title: "어반스테이 속초등대해변",
-            distance: "강원 속초시 영랑동 148-45",
-        },
-    ],
-};
+
 
 const Travel = () => {
     const [activeTab, setActiveTab] = useState("Local");
     const navigate = useNavigate();
-
+    const [userId, setUserId] = useState(null);
+    const [activities, setActivities] = useState([]);
     const handleCardClick = (card) => {
         // DetailPage로 card의 정보를 state로 전달하며 이동
         navigate("/CulturePage/Detail", { state: { card } });
     };
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await API.get('/accounts/profile/');
+                console.log("userId response", response.data);
+                setUserId(response.data.user.id);
+
+                if (response.data.user.id) {
+                    const activitiesResponse = await API.get('/culture/activities');
+                    console.log("Activity response", activitiesResponse.data);
+                    setActivities(activitiesResponse.data);
+                }
+            } catch (error) {
+                console.log('fetch data error:', error);
+            }
+        };
+        fetchData();
+    }, []);
 
     return (
         <Container>
-            <TabMenu>
-                {tabs.map((tab) => (
-                    <TabItem
-                        key={tab.key}
-                        active={activeTab === tab.key}
-                        onClick={() => setActiveTab(tab.key)}
-                    >
-                        {tab.label}
-                    </TabItem>
-                ))}
-            </TabMenu>
-            <CardContainer>
-                {(cardData[activeTab] || []).map((card, index) => (
-                    <CardLink key={index} onClick={() => handleCardClick(card)}>
-                        <Card>
-                            <Image alt="card image" />
-                            <TextContainer>
-                                <Location>{card.location}</Location>
-                                <Title>{card.title}</Title>
-                                <Distance>{card.distance}</Distance>
-                            </TextContainer>
-                        </Card>
-                    </CardLink>
-                ))}
-            </CardContainer>
-        </Container>
+        <TabMenu>
+            {tabs.map((tab) => (
+                <TabItem
+                    key={tab.key}
+                    active={activeTab === tab.key}
+                    onClick={() => setActiveTab(tab.key)}
+                >
+                    {tab.label}
+                </TabItem>
+            ))}
+        </TabMenu>
+        <CardContainer>
+            {activities.map((activity, index) => (
+                <CardLink key={index} onClick={() => handleCardClick(card)}>
+                    <Card>
+                        <Image src={activity.thumbnail} alt="card image" />
+                        <TextContainer>
+                            <Title>{activity.title || "Blank_title"}</Title>
+                            <Description>{activity.description || "Blank_description"}</Description>
+                            <Date>{activity.date ? `날짜: ${new Date(activity.date).toLocaleDateString()}` : "Blank_date"}</Date>
+                            <Price>{activity.price !== undefined ? `가격: ${activity.price} 원` : "Blank_price"}</Price>
+                            <AvailableSlots>{activity.available_slots !== undefined ? `남은 자리: ${activity.available_slots}` : "Blank_slots"}</AvailableSlots>
+                            <Category>{activity.category !== undefined ? `카테고리 ID: ${activity.category}` : "Blank_category"}</Category>
+                            <Subcategory>{activity.subcategory !== undefined ? `하위 카테고리 ID: ${activity.subcategory}` : "Blank_subcategory"}</Subcategory>
+                        </TextContainer>
+                    </Card>
+                </CardLink>
+            ))}
+        </CardContainer>
+    </Container>
     );
 };
 

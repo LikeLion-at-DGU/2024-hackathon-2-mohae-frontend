@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { API } from '../../api';
 
 const Container = styled.div`
     padding: 20px;
@@ -52,7 +53,7 @@ const Card = styled.div`
     align-items: center;
     padding: 12px 15px;
     width: 445px;
-    height: 407px;
+    height: auto;
     background-color: #f5f5f5;
     border-radius: 20px;
     overflow: hidden;
@@ -60,7 +61,7 @@ const Card = styled.div`
     gap: 15px;
 `;
 
-const Image = styled.div`
+const Image = styled.img`
     width: 415px;
     height: 238px;
     background-color: #FFFFFF;
@@ -70,7 +71,6 @@ const Image = styled.div`
 const TextContainer = styled.div`
     padding: 5px;
     width: 415px;
-    height: 135px;
     overflow: hidden;
 `;
 
@@ -82,7 +82,7 @@ const Location = styled.div`
     color: #2D539E80;
     background-color: #EBF1FF;
     border-radius: 10px;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 `;
 
 const Title = styled.div`
@@ -95,16 +95,47 @@ const Title = styled.div`
     width: 100%;
 `;
 
-const Distance = styled.div`
-    font-size: 16px;
-    color: #2D539E;
-    font-weight: regular;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100%; /* 혹은 원하는 너비로 설정 */
+const Description = styled.div`
+    font-size: 18px;
+    margin-bottom: 10px;
 `;
 
+const Date = styled.div`
+    font-size: 18px;
+    color: #2D539E;
+    margin-bottom: 10px;
+`;
+
+const Price = styled.div`
+    font-size: 18px;
+    color: #2D539E;
+    margin-bottom: 10px;
+`;
+
+const AvailableSlots = styled.div`
+    font-size: 18px;
+    color: #2D539E;
+    margin-bottom: 10px;
+`;
+
+const Category = styled.div`
+    font-size: 18px;
+    color: #2D539E;
+    margin-bottom: 10px;
+`;
+
+const Subcategory = styled.div`
+    font-size: 18px;
+    color: #2D539E;
+    margin-bottom: 10px;
+`;
+
+const PostButton = styled.button`
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+`;
 
 const tabs = [
     { label: "영화", key: "Movie" },
@@ -112,113 +143,47 @@ const tabs = [
     { label: "미술", key: "Art" },
 ];
 
-const cardData = {
-    Movie: [
-        {
-            link: "http://www.cgv.co.kr/movies/detail-view/?midx=883896",
-            location: "현재 상영중",
-            title: "슈퍼배드 4",
-            distance: "감독 : 크리스 리노드 ,  패트릭 들라주 / 배우 : 스티브 카렐 ,  크리스틴 위그",
-        },
-        {
-            link: "http://www.cgv.co.kr/movies/detail-view/?midx=88437",
-            location: "현재 상영중",
-            title: "파일럿",
-            distance: "감독 : 김한결 / 프로듀서 : 염은하 / 배우 : 조정석 ,  이주명",
-        },
-        {
-            link: "http://www.cgv.co.kr/movies/detail-view/?midx=87864",
-            location: "현재 상영중",
-            title: "인사이드 아웃2",
-            distance: "감독 : 켈시 만 / 배우 : 에이미 포엘러 ,  마야 호크 ",
-        },
-    ],
-    Show: [
-        {
-            link: "https://tickets.interpark.com/goods/24006741#",
-            location: "뮤지컬",
-            title: "〈어쩌면 해피엔딩〉 2024",
-            distance: "예스24스테이지 1관",
-        },
-        {
-            link: "https://tickets.interpark.com/goods/24006741#",
-            location: "뮤지컬",
-            title: "〈어쩌면 해피엔딩〉 2024",
-            distance: "예스24스테이지 1관",
-        },{
-            link: "https://tickets.interpark.com/goods/24006741#",
-            location: "뮤지컬",
-            title: "〈어쩌면 해피엔딩〉 2024",
-            distance: "예스24스테이지 1관",
-        },{
-            link: "https://tickets.interpark.com/goods/24006741#",
-            location: "뮤지컬",
-            title: "〈어쩌면 해피엔딩〉 2024",
-            distance: "예스24스테이지 1관",
-        },{
-            link: "https://tickets.interpark.com/goods/24006741#",
-            location: "뮤지컬",
-            title: "〈어쩌면 해피엔딩〉 2024",
-            distance: "예스24스테이지 1관",
-        },{
-            link: "https://tickets.interpark.com/goods/24006741#",
-            location: "뮤지컬",
-            title: "〈어쩌면 해피엔딩〉 2024",
-            distance: "예스24스테이지 1관",
-        },{
-            link: "https://tickets.interpark.com/goods/24006741#",
-            location: "뮤지컬",
-            title: "〈어쩌면 해피엔딩〉 2024",
-            distance: "예스24스테이지 1관",
-        },{
-            link: "https://tickets.interpark.com/goods/24006741#",
-            location: "뮤지컬",
-            title: "〈어쩌면 해피엔딩〉 2024",
-            distance: "예스24스테이지 1관",
-        },
-    ],
-    Art: [
-        {
-            link: "https://tickets.interpark.com/goods/24005553",
-            location: "동대문디자인플라자 뮤지엄",
-            title: "헬로키티 50주년 특별전",
-            distance: "2024.04.13 ~2024.08.13",
-        },{
-            link: "https://tickets.interpark.com/goods/24005553",
-            location: "동대문디자인플라자 뮤지엄",
-            title: "헬로키티 50주년 특별전",
-            distance: "2024.04.13 ~2024.08.13",
-        },{
-            link: "https://tickets.interpark.com/goods/24005553",
-            location: "동대문디자인플라자 뮤지엄",
-            title: "헬로키티 50주년 특별전",
-            distance: "2024.04.13 ~2024.08.13",
-        },{
-            link: "https://tickets.interpark.com/goods/24005553",
-            location: "동대문디자인플라자 뮤지엄",
-            title: "헬로키티 50주년 특별전",
-            distance: "2024.04.13 ~2024.08.13",
-        },{
-            link: "https://tickets.interpark.com/goods/24005553",
-            location: "동대문디자인플라자 뮤지엄",
-            title: "헬로키티 50주년 특별전",
-            distance: "2024.04.13 ~2024.08.13",
-        },{
-            link: "https://tickets.interpark.com/goods/24005553",
-            location: "동대문디자인플라자 뮤지엄",
-            title: "헬로키티 50주년 특별전",
-            distance: "2024.04.13 ~2024.08.13",
-        },{
-            link: "https://tickets.interpark.com/goods/24005553",
-            location: "동대문디자인플라자 뮤지엄",
-            title: "헬로키티 50주년 특별전",
-            distance: "2024.04.13 ~2024.08.13",
-        },
-    ],
-};
-
 const Entertainment = () => {
     const [activeTab, setActiveTab] = useState("Movie");
+    const [userId, setUserId] = useState(null);
+    const [activities, setActivities] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await API.get('/accounts/profile/');
+                console.log("userId response", response.data);
+                setUserId(response.data.user.id);
+
+                if (response.data.user.id) {
+                    const activitiesResponse = await API.get('/culture/activities');
+                    console.log("Activity response", activitiesResponse.data);
+                    setActivities(activitiesResponse.data);
+                }
+            } catch (error) {
+                console.log('fetch data error:', error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const handlePostActivity = async () => {
+        const newActivity = {
+            title: "젭알 올라가라 짱구야",
+            description: "우ㅜ아 이뿐눈나다",
+            hyperlink: "https://www.youtube.com/watch?v=1U2vTeZklbw",
+        };
+
+        try {
+            
+            const response = await API.post('/culture/activities', newActivity);
+            console.log('POST 요청 성공:', response.data);
+            const updatedActivitiesResponse = await API.get('/culture/activities');
+            setActivities(updatedActivitiesResponse.data);
+        } catch (error) {
+            console.error('POST 요청 실패:', error.response ? error.response.data : error.message);
+        }
+    };
 
     return (
         <Container>
@@ -234,19 +199,26 @@ const Entertainment = () => {
                 ))}
             </TabMenu>
             <CardContainer>
-                {cardData[activeTab].map((card, index) => (
-                    <CardLink href={card.link} target="_blank" key={index}>
-                        <Card>
-                            <Image alt="card image" />
-                            <TextContainer>
-                                <Location>{card.location}</Location>
-                                <Title>{card.title}</Title>
-                                <Distance>{card.distance}</Distance>
-                            </TextContainer>
-                        </Card>
-                    </CardLink>
-                ))}
+                {activities
+                    .filter(activity => activity.category === 3) // category가 3인 데이터만 필터링
+                    .map((activity, index) => (
+                        <CardLink href="#" target="_blank" key={index}>
+                            <Card>
+                                <Image src={activity.thumbnail} alt="card image" />
+                                <TextContainer>
+                                    <Title>{activity.title || "Blank_title"}</Title>
+                                    <Description>{activity.description || "Blank_description"}</Description>
+                                    <Date>{activity.date ? `날짜: ${new Date(activity.date).toLocaleDateString()}` : "Blank_date"}</Date>
+                                    <Price>{activity.price !== undefined ? `가격: ${activity.price} 원` : "Blank_price"}</Price>
+                                    <AvailableSlots>{activity.available_slots !== undefined ? `남은 자리: ${activity.available_slots}` : "Blank_slots"}</AvailableSlots>
+                                    <Category>{activity.category !== undefined ? `카테고리 ID: ${activity.category}` : "Blank_category"}</Category>
+                                    <Subcategory>{activity.subcategory !== undefined ? `하위 카테고리 ID: ${activity.subcategory}` : "Blank_subcategory"}</Subcategory>
+                                </TextContainer>
+                            </Card>
+                        </CardLink>
+                    ))}
             </CardContainer>
+            <PostButton onClick={handlePostActivity}>새 활동 추가</PostButton>
         </Container>
     );
 };

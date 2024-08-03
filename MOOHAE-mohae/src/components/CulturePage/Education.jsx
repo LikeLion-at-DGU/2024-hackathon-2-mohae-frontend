@@ -72,7 +72,7 @@ const Card = styled.div`
     gap: 15px;
 `;
 
-const Image = styled.div`
+const Image = styled.img`
     width: 432px;
     height: 256px;
     background-color: #FFFFFF;
@@ -132,19 +132,6 @@ const cardData = {
             title: "기계로 주문할 때 당황하지 않는 방법. 키오스크 사용법",
             distance: "디지털 거북이",
         },
-        {
-            link: "https://www.youtube.com/watch?v=F2qdVZPxpLA&t=261s",
-            location: "키오스크 사용법",
-            title: "기계로 주문할 때 당황하지 않는 방법. 키오스크 사용법",
-            distance: "디지털 거북이",
-        },
-        {
-            link: "https://www.youtube.com/watch?v=F2qdVZPxpLA&t=261s",
-            location: "키오스크 사용법",
-            title: "기계로 주문할 때 당황하지 않는 방법. 키오스크 사용법",
-            distance: "디지털 거북이",
-        },
-        // ... other movie data
     ],
     Hobby: [
         {

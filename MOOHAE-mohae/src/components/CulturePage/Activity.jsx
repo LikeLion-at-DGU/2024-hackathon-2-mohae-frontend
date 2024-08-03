@@ -60,7 +60,7 @@ const Card = styled.div`
     gap: 15px;
 `;
 
-const Image = styled.div`
+const Image = styled.img`
     width: 415px;
     height: 238px;
     background-color: #FFFFFF;
@@ -146,50 +146,8 @@ const cardData = {
             title: "김해 롯데워터파크 골드2시즌 이용권 ",
             distance: "경상남도 김해시 장유로 555",
         },
-        {
-            link: "https://leisure-web.yanolja.com/leisure/10128152",
-            location: "부산",
-            title: "김해 롯데워터파크 골드2시즌 이용권 ",
-            distance: "경상남도 김해시 장유로 555",
-        },
-        {
-            link: "https://leisure-web.yanolja.com/leisure/10128152",
-            location: "부산",
-            title: "김해 롯데워터파크 골드2시즌 이용권 ",
-            distance: "경상남도 김해시 장유로 555",
-        },
-        {
-            link: "https://leisure-web.yanolja.com/leisure/10128152",
-            location: "부산",
-            title: "김해 롯데워터파크 골드2시즌 이용권 ",
-            distance: "경상남도 김해시 장유로 555",
-        },
     ],
     Temapark: [
-        {
-            link: "https://www.museum.go.kr/site/main/home",
-            location: "박물관",
-            title: "국립중앙박물관",
-            distance: "서울시 용산구 서빙고로 137",
-        },
-        {
-            link: "https://www.museum.go.kr/site/main/home",
-            location: "박물관",
-            title: "국립중앙박물관",
-            distance: "서울시 용산구 서빙고로 137",
-        },
-        {
-            link: "https://www.museum.go.kr/site/main/home",
-            location: "박물관",
-            title: "국립중앙박물관",
-            distance: "서울시 용산구 서빙고로 137",
-        },
-        {
-            link: "https://www.museum.go.kr/site/main/home",
-            location: "박물관",
-            title: "국립중앙박물관",
-            distance: "서울시 용산구 서빙고로 137",
-        },
         {
             link: "https://www.museum.go.kr/site/main/home",
             location: "박물관",

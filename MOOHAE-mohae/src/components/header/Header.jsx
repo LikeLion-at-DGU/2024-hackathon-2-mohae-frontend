@@ -21,7 +21,7 @@ const HeaderContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 auto; /* 중앙 정렬 */
-
+  padding-bottom: 10px;
   @media (max-width: 359px) {
     max-width: 340px;
   }
