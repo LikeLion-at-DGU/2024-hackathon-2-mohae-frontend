@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { API } from '../../api';  // API 모듈 가져오기
 
 const Container = styled.div`
     padding: 20px;
@@ -49,8 +50,6 @@ const CardContainer = styled.div`
     margin: 0 auto; 
     justify-content: center; 
 `;
-
-
 
 const CardLink = styled.a`
     text-decoration: none;
@@ -124,37 +123,28 @@ const tabs = [
     { label: "요리", key: "Cook" },
 ];
 
-const cardData = {
-    Life: [
-        {
-            link: "https://www.youtube.com/watch?v=F2qdVZPxpLA&t=261s",
-            location: "키오스크 사용법",
-            title: "기계로 주문할 때 당황하지 않는 방법. 키오스크 사용법",
-            distance: "디지털 거북이",
-        },
-    ],
-    Hobby: [
-        {
-            link: "https://www.youtube.com/watch?v=xbP-AGGoQuc",
-            location: "악기 배워보기",
-            title: "10분 만에 누구나 악보 보는 법 [음악기초]",
-            distance: "클래식타벅스",
-        },
-        // ... other show data
-    ],
-    Cook: [
-        {
-            link: "https://www.youtube.com/watch?v=j7s9VRsrm9o",
-            location: "요리 배우기",
-            title: "대파 듬뿍! 삼겹살로 만든 '대파 제육볶음'",
-            distance: "백종원 PAIK JONG WON",
-        },
-        // ... other art data
-    ],
-};
-
 const Education = () => {
     const [activeTab, setActiveTab] = useState("Life");
+    const [activities, setActivities] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await API.get('/culture/activities');
+                const filteredActivities = response.data.filter(activity => 
+                    activity.category && activity.category.name === '배울거리'
+                );
+                setActivities(filteredActivities);
+            } catch (error) {
+                console.log('fetch data error:', error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const filteredActivitiesByTab = activities.filter(activity => 
+        activity.subcategory && activity.subcategory.name === activeTab
+    );
 
     return (
         <Container>
@@ -170,16 +160,15 @@ const Education = () => {
                 ))}
             </TabMenu>
             <Box>
-                
                 <CardContainer>
-                    {cardData[activeTab].map((card, index) => (
-                        <CardLink href={card.link} target="_blank" key={index}>
+                    {filteredActivitiesByTab.map((activity, index) => (
+                        <CardLink href={activity.hyperlink} target="_blank" key={index}>
                             <Card>
-                                <Image alt="card image" />
+                                <Image src={activity.thumbnail} alt="card image" />
                                 <TextContainer>
-                                    <Location>{card.location}</Location>
-                                    <Title>{card.title}</Title>
-                                    <Distance>{card.distance}</Distance>
+                                    <Location>{activity.location || "Unknown location"}</Location>
+                                    <Title>{activity.title || "Blank_title"}</Title>
+                                    <Distance>{activity.distance || "Unknown distance"}</Distance>
                                 </TextContainer>
                             </Card>
                         </CardLink>

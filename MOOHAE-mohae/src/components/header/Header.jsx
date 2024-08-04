@@ -126,7 +126,7 @@ const Header = () => {
             긴급
           </ButtonwithIcon>
         </StyledLink>
-        <StyledLink to="/">
+        <StyledLink to="/HomePage">
           <MOHAEsytle>MOHAE</MOHAEsytle>
         </StyledLink>
         <StyledLink to="mypage">

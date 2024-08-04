@@ -68,7 +68,7 @@
             <Navigator />
             <AboutMohae />
         </LeftBlock>
-        <RightBlock>
+        {/* <RightBlock>
             <SidebarButton activeButton={activeButton} setActiveButton={handleButtonClick} />
             <div className={`content ${visibleContent === "today" ? "visible" : ""}`}>
             {visibleContent === "today" && <SidebarDaily />}
@@ -76,7 +76,7 @@
             <div className={`content ${visibleContent === "week" ? "visible" : ""}`}>
             {visibleContent === "week" && <SidebarWeekly />}
             </div>
-        </RightBlock>
+        </RightBlock> */}
         </Container>
     );
     };

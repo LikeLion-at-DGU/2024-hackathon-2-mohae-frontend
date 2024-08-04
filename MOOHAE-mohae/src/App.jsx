@@ -1,9 +1,8 @@
-import { styled, ThemeProvider } from "styled-components";
-
+import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
-
+import styled, { ThemeProvider } from "styled-components";
 import Header from "./components/header/Header";
-import Footer from "./components/Footer/Footer"
+import Footer from "./components/Footer/Footer";
 
 const Container = styled.div`
   display: flex;
@@ -31,11 +30,11 @@ const Wrapper = styled.div`
 
 const Layout = () => {
   const location = useLocation();
-  const showHeader = location.pathname !== "/PhotoPlus";
+  const hideHeaderRoutes = ["/PhotoPlus", "/"]; // 헤더를 숨길 경로들
+  const showHeader = !hideHeaderRoutes.includes(location.pathname);
 
   return (
     <>
-
       <Container>
         <Wrapper>
           {showHeader && <Header />}
@@ -43,7 +42,6 @@ const Layout = () => {
         </Wrapper>
       </Container>
       <Footer />
-
     </>
   );
 };
