@@ -271,12 +271,12 @@ const PhotoDetail = ({ photoData, closeModal }) => {
     };
 
     loadFolders();
-    fetchComments();
-  }, []);
+    fetchComments(photoData.id); // photoData.id를 이용해 댓글을 가져옵니다.
+  }, [photoData.id]);
 
-  const fetchComments = async () => {
+  const fetchComments = async (photoId) => {
     try {
-      const response = await API.get(`/gallery/comments`);
+      const response = await API.get(`/gallery/photos/${photo_id}`);
       setComments(response.data);
     } catch (error) {
       console.error("댓글 불러오기 실패: ", error);
@@ -292,7 +292,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
       console.log(response);
       alert("댓글이 작성되었습니다!!!");
       setNewComment("");
-      fetchComments();
+      fetchComments(photoData.id); // 댓글 작성 후 다시 댓글을 가져옵니다.
     } catch (error) {
       console.error("댓글 작성에 실패했습니다 ", error);
       throw error;
@@ -321,6 +321,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
     try {
       await API.post(`/gallery/albums/${folder}/photos`, {
         photo_id: photoData.id,
+        status: "Y",
       });
       alert(`사진이 ${folder} 폴더로 이동되었습니다.`);
       setIsMoveFolderModalOpen(false);
@@ -334,7 +335,6 @@ const PhotoDetail = ({ photoData, closeModal }) => {
     try {
       await API.delete(`/gallery/photos/${photoData.id}`);
       alert("사진이 삭제되었습니다.");
-
       closeModal(); // 삭제 후 모달 닫기
       window.location.reload();
     } catch (error) {
@@ -348,7 +348,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
       <Modal>
         <CloseButton onClick={closeModal}>&times;</CloseButton>
         <Header>
-          {/* <HeaderIcon src="icon-url" alt="icon" /> */}
+          <HeaderIcon src="icon-url" alt="icon" />
           <HeaderTitle>{photoData.date}</HeaderTitle>
         </Header>
         <PostInfo>
