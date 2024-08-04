@@ -112,8 +112,8 @@ export const Arrow = styled.img`
   width: 50px;
   height: 50px;
   position: fixed;
-  bottom: 30px;
-  right: 50px;
+  bottom: 50px;
+  right: 170px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 

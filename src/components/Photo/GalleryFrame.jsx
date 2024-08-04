@@ -158,9 +158,9 @@ const GalleryFrame = ({
 
     try {
       if (liked) {
-        await API.delete(`/gallery/photos/${photoId}/unfavorite`);
+        await API.delete(`/gallery/favorites/${photo_id}/unfavorite`);
       } else {
-        await API.post(`/gallery/photos/${photoId}/favorite`);
+        await API.post(`/gallery/favorites/${photo_id}/favorite`);
       }
       setLiked(!liked); // 상태 변경
       onLikeToggle(photoId); // 부모 컴포넌트에 상태 변경 알림
@@ -178,7 +178,7 @@ const GalleryFrame = ({
         </StyledImageWrapper>
 
         <UnderImg>
-          <Re>댓글</Re>
+          {/* <Re>댓글</Re> */}
           <When>2024-07-25</When>
         </UnderImg>
         <Under>

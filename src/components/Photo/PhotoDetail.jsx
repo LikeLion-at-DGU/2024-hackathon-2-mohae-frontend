@@ -22,7 +22,7 @@ const Overlay = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  overflow-y: hidden; /* 추가된 부분 */
+  overflow-y: hidden;
 `;
 
 const Modal = styled.div`
@@ -36,7 +36,7 @@ const Modal = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll; /* 추가된 부분 */
+  overflow-y: scroll;
 `;
 
 const SmallModal = styled.div`
@@ -46,8 +46,8 @@ const SmallModal = styled.div`
   width: 200px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
   position: fixed;
-  top: 20%; /* 뷰포트 높이의 20% 지점 */
-  left: 60%; /* 뷰포트 너비의 50% 지점 */
+  top: 20%;
+  left: 60%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -175,7 +175,6 @@ const Line = styled.div`
 
 const CommentSection = styled.div`
   flex: 1;
-  /* padding-bottom: 80px; */
 `;
 
 const CommentList = styled.div`
@@ -271,36 +270,38 @@ const PhotoDetail = ({ photoData, closeModal }) => {
       }
     };
 
-    const fetchPhotoDetail = async () => {
-      try {
-        const response = await API.get(`/gallery/photos/${photoId}`);
-        setData(response.data);
-      } catch (error) {
-        console.error("사진 정보를 불러오는 중 오류 발생:", error);
-      }
-    };
-
     loadFolders();
-    fetchPhotoDetail();
-  }, [photoId]);
+    fetchComments();
+  }, []);
 
-  const deletePhoto = async () => {
+  const fetchComments = async () => {
     try {
-      const response = await API.delete(`/gallery/photos/${photoId}`);
-      console.log("삭제가 완료되었습니다", response);
-      window.location.reload(); // 페이지 새로고침
-
-      // closeModal();
+      const response = await API.get(`/gallery/comments`);
+      setComments(response.data);
     } catch (error) {
-      console.error("삭제가 완료되지 않았습니다", error);
+      console.error("댓글 불러오기 실패: ", error);
     }
   };
-  const handleNewCommentChange = (e) => {
-    setNewComment(e.target.value);
+
+  const reply = async () => {
+    try {
+      const response = await API.post("/gallery/comments", {
+        photo: photoData.id,
+        text: newComment,
+      });
+      console.log(response);
+      alert("댓글이 작성되었습니다!!!");
+      setNewComment("");
+      fetchComments();
+    } catch (error) {
+      console.error("댓글 작성에 실패했습니다 ", error);
+      throw error;
+    }
   };
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
+    reply();
   };
 
   const handleSettingsClick = () => {
@@ -316,9 +317,30 @@ const PhotoDetail = ({ photoData, closeModal }) => {
     setIsMoveFolderModalOpen(true);
   };
 
-  const handleFolderClick = (folder) => {
-    setSelectedFolder(folder);
-    setIsMoveFolderModalOpen(false);
+  const handleFolderClick = async (folder) => {
+    try {
+      await API.post(`/gallery/albums/${folder}/photos`, {
+        photo_id: photoData.id,
+      });
+      alert(`사진이 ${folder} 폴더로 이동되었습니다.`);
+      setIsMoveFolderModalOpen(false);
+    } catch (error) {
+      console.error("폴더 이동 실패: ", error);
+      alert("폴더 이동에 실패했습니다.");
+    }
+  };
+
+  const handleDeletePhoto = async () => {
+    try {
+      await API.delete(`/gallery/photos/${photoData.id}`);
+      alert("사진이 삭제되었습니다.");
+
+      closeModal(); // 삭제 후 모달 닫기
+      window.location.reload();
+    } catch (error) {
+      console.error("사진 삭제 실패: ", error);
+      alert("사진 삭제에 실패했습니다.");
+    }
   };
 
   return (
@@ -326,7 +348,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
       <Modal>
         <CloseButton onClick={closeModal}>&times;</CloseButton>
         <Header>
-          <HeaderIcon src="icon-url" alt="icon" />
+          {/* <HeaderIcon src="icon-url" alt="icon" /> */}
           <HeaderTitle>{photoData.date}</HeaderTitle>
         </Header>
         <PostInfo>
@@ -350,7 +372,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
             {comments.map((comment, index) => (
               <CommentItem key={index}>
                 <CommentAvatar src="avatar-url" alt="avatar" />
-                <CommentText>{comment}</CommentText>
+                <CommentText>{comment.text}</CommentText>
               </CommentItem>
             ))}
           </CommentList>
@@ -358,7 +380,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
         <CommentForm onSubmit={handleCommentSubmit}>
           <TextArea
             value={newComment}
-            onChange={handleNewCommentChange}
+            onChange={(e) => setNewComment(e.target.value)}
             rows="2"
             placeholder="댓글 달기"
           />
@@ -371,7 +393,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
           <CloseButton onClick={() => setIsSettingsModalOpen(false)}>
             &times;
           </CloseButton>
-          <Button onClick={deletePhoto}>사진 삭제하기</Button>
+          <Button onClick={handleDeletePhoto}>사진 삭제하기</Button>
           <Button onClick={handleMoveFolderClick}>폴더 이동하기</Button>
         </SmallModal>
       )}
