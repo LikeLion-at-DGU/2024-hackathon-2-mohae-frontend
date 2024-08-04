@@ -7,6 +7,7 @@ import {
   faFolderOpen,
 } from "@fortawesome/free-solid-svg-icons";
 import { fetchFolders } from "../../api/getFolder";
+import { API } from "../../api";
 
 // 스타일 컴포넌트 정의
 const Overlay = styled.div`
@@ -270,9 +271,30 @@ const PhotoDetail = ({ photoData, closeModal }) => {
       }
     };
 
-    loadFolders();
-  }, []);
+    const fetchPhotoDetail = async () => {
+      try {
+        const response = await API.get(`/gallery/photos/${photoId}`);
+        setData(response.data);
+      } catch (error) {
+        console.error("사진 정보를 불러오는 중 오류 발생:", error);
+      }
+    };
 
+    loadFolders();
+    fetchPhotoDetail();
+  }, [photoId]);
+
+  const deletePhoto = async () => {
+    try {
+      const response = await API.delete(`/gallery/photos/${photoId}`);
+      console.log("삭제가 완료되었습니다", response);
+      window.location.reload(); // 페이지 새로고침
+
+      // closeModal();
+    } catch (error) {
+      console.error("삭제가 완료되지 않았습니다", error);
+    }
+  };
   const handleNewCommentChange = (e) => {
     setNewComment(e.target.value);
   };
@@ -349,9 +371,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
           <CloseButton onClick={() => setIsSettingsModalOpen(false)}>
             &times;
           </CloseButton>
-          <Button onClick={() => setIsSettingsModalOpen(false)}>
-            사진 삭제하기
-          </Button>
+          <Button onClick={deletePhoto}>사진 삭제하기</Button>
           <Button onClick={handleMoveFolderClick}>폴더 이동하기</Button>
         </SmallModal>
       )}
