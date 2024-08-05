@@ -16,7 +16,16 @@ const Container = styled.div`
     zoom: 0.95;
   }
 `;
-
+const BackEffect = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  min-height: 100vh; 
+  background: linear-gradient(120deg, #e1eaff 0%, #fff 52.4%, #dcfafc 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+`;
 const Wrapper = styled.div`
   width: 1440px;
   display: flex;
@@ -31,7 +40,7 @@ const Wrapper = styled.div`
 
 const Layout = () => {
   const location = useLocation();
-  const showHeader = location.pathname !== "/PhotoPlus" && location.pathname !== "/login" && location.pathname !== "/Signup";
+  const showHeader = location.pathname !== "/PhotoPlus" && location.pathname !== "/Login" && location.pathname !== "/Signup" && location.pathname !=="/";
 
   return (
     <>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom"; // useNavigate import
+import { useNavigate } from "react-router-dom";
 import { API } from '../../api';
 
 const Container = styled.div`
@@ -42,7 +42,7 @@ const CardContainer = styled.div`
     justify-content: center; 
 `;
 
-const CardLink = styled.a`
+const CardLink = styled.div`
     text-decoration: none;
     color: inherit;
     cursor: pointer;
@@ -139,30 +139,26 @@ const tabs = [
     { label: "호캉스", key: "Hotel" },
 ];
 
-
-
 const Travel = () => {
     const [activeTab, setActiveTab] = useState("Local");
     const navigate = useNavigate();
-    const [userId, setUserId] = useState(null);
     const [activities, setActivities] = useState([]);
-    const handleCardClick = (card) => {
-        // DetailPage로 card의 정보를 state로 전달하며 이동
-        navigate("/CulturePage/Detail", { state: { card } });
+
+    const handleCardClick = (activity) => {
+        navigate("/CulturePage/DetailPage", { state: { activity } });
     };
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await API.get('/accounts/profile/');
-                console.log("userId response", response.data);
-                setUserId(response.data.user.id);
+                const activitiesResponse = await API.get('/culture/activities');
+                console.log("Activity response", activitiesResponse.data);
 
-                if (response.data.user.id) {
-                    const activitiesResponse = await API.get('/culture/activities');
-                    console.log("Activity response", activitiesResponse.data);
-                    setActivities(activitiesResponse.data);
-                }
+                const filteredActivities = activitiesResponse.data.filter(activity => 
+                    activity.category && activity.category.name === '추억거리'
+                );
+
+                setActivities(filteredActivities);
             } catch (error) {
                 console.log('fetch data error:', error);
             }
@@ -170,38 +166,42 @@ const Travel = () => {
         fetchData();
     }, []);
 
+    const filteredActivitiesByTab = activities.filter(activity => 
+        activity.subcategory && activity.subcategory.name === activeTab
+    );
+
     return (
         <Container>
-        <TabMenu>
-            {tabs.map((tab) => (
-                <TabItem
-                    key={tab.key}
-                    active={activeTab === tab.key}
-                    onClick={() => setActiveTab(tab.key)}
-                >
-                    {tab.label}
-                </TabItem>
-            ))}
-        </TabMenu>
-        <CardContainer>
-            {activities.map((activity, index) => (
-                <CardLink key={index} onClick={() => handleCardClick(card)}>
-                    <Card>
-                        <Image src={activity.thumbnail} alt="card image" />
-                        <TextContainer>
-                            <Title>{activity.title || "Blank_title"}</Title>
-                            <Description>{activity.description || "Blank_description"}</Description>
-                            <Date>{activity.date ? `날짜: ${new Date(activity.date).toLocaleDateString()}` : "Blank_date"}</Date>
-                            <Price>{activity.price !== undefined ? `가격: ${activity.price} 원` : "Blank_price"}</Price>
-                            <AvailableSlots>{activity.available_slots !== undefined ? `남은 자리: ${activity.available_slots}` : "Blank_slots"}</AvailableSlots>
-                            <Category>{activity.category !== undefined ? `카테고리 ID: ${activity.category}` : "Blank_category"}</Category>
-                            <Subcategory>{activity.subcategory !== undefined ? `하위 카테고리 ID: ${activity.subcategory}` : "Blank_subcategory"}</Subcategory>
-                        </TextContainer>
-                    </Card>
-                </CardLink>
-            ))}
-        </CardContainer>
-    </Container>
+            <TabMenu>
+                {tabs.map((tab) => (
+                    <TabItem
+                        key={tab.key}
+                        active={activeTab === tab.key}
+                        onClick={() => setActiveTab(tab.key)}
+                    >
+                        {tab.label}
+                    </TabItem>
+                ))}
+            </TabMenu>
+            <CardContainer>
+                {filteredActivitiesByTab.map((activity, index) => (
+                    <CardLink key={index} onClick={() => handleCardClick(activity)}>
+                        <Card>
+                            <Image src={activity.thumbnail} alt="card image" />
+                            <TextContainer>
+                                <Title>{activity.title || "Blank_title"}</Title>
+                                <Description>{activity.description || "Blank_description"}</Description>
+                                <Date>{activity.date ? `날짜: ${new Date(activity.date).toLocaleDateString()}` : "Blank_date"}</Date>
+                                <Price>{activity.price !== undefined ? `가격: ${activity.price} 원` : "Blank_price"}</Price>
+                                <AvailableSlots>{activity.available_slots !== undefined ? `남은 자리: ${activity.available_slots}` : "Blank_slots"}</AvailableSlots>
+                                <Category>{activity.category ? `카테고리: ${activity.category.name}` : "Blank_category"}</Category>
+                                <Subcategory>{activity.subcategory ? `하위 카테고리: ${activity.subcategory.name}` : "Blank_subcategory"}</Subcategory>
+                            </TextContainer>
+                        </Card>
+                    </CardLink>
+                ))}
+            </CardContainer>
+        </Container>
     );
 };
 

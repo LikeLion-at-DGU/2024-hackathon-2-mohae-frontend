@@ -4,6 +4,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns';
 import { useLocation } from "react-router-dom"; 
+import { API } from '../../api';
+import DefaultThumbnail from "/src/assets/img/DefaultThumbnail.png";
 
 const Container = styled.div`
     width: 99%;
@@ -84,8 +86,8 @@ const DateButton = styled.button`
 
 const DatePickerWrapper = styled.div`
     position: absolute;
-    top: 60px; /* DateContainer 바로 아래에 위치하도록 설정 */
-    z-index: 1000; /* 다른 요소 위에 나타나도록 z-index 설정 */
+    top: 60px;
+    z-index: 1000;
 `;
 
 const PeopleContainer = styled.div`
@@ -102,6 +104,7 @@ const PeopleContainer = styled.div`
     font-weight: bold;
     gap: 8px;
 `;
+
 const CounterBox = styled.div`
     display: flex;
     flex-direction: row;
@@ -109,7 +112,6 @@ const CounterBox = styled.div`
     align-items: center;
     position: absolute;
     left: 390px;
-
 `;
 
 const CounterButton = styled.button`
@@ -187,16 +189,86 @@ const TextBox = styled.div`
     }
 `;
 
+const ReservationPopup = styled.div`
+    width: 580px;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    gap: 80px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
+    z-index: 1001;
+
+    img {
+        width: fit-content;
+        height: fit-content;
+    }
+    .TextReservation {
+        font-size: 35px;
+        font-weight: bold;
+    }
+`;
+
+const ErrorPopup  = styled.div`
+    width: 580px;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    gap: 80px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
+    z-index: 1001;
+
+    img {
+        width: fit-content;
+        height: fit-content;
+    }
+    .TextReservation {
+        font-size: 35px;
+        font-weight: bold;
+    }
+`;
+
+const Overlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+`;
+
 const DetailPage = () => {
     const location = useLocation(); 
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const activity = location.state?.activity || {};
+    const [userId, setUserId] = useState(null);
+
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
     const [showStartPicker, setShowStartPicker] = useState(false);
     const [showEndPicker, setShowEndPicker] = useState(false);
     const [people, setPeople] = useState(1);
+    const [showPopup, setShowPopup] = useState(false); // 팝업을 제어하는 상태
+    const [isError, setIsError] = useState(false); // 에러 팝업을 제어하는 상태
 
     useEffect(() => {
         window.scrollTo(0, 0); 
+        FetchUserId(); 
     }, []);
 
     const handleIncreasePeople = () => {
@@ -209,28 +281,98 @@ const DetailPage = () => {
         }
     };
 
-    const handlePurchase = () => {
-        console.log("Purchase button clicked!");
+    const FetchUserId = async () => {
+        try {
+            const response = await API.get('/accounts/profile/');
+            console.log("userId response", response.data);
+            setUserId(response.data.user.id);
+        } catch (error) {
+            console.log('fetch user id error:', error);
+        }
+    };
+
+    const handlePurchase = async () => {
+        if (!userId) {
+            console.error('User ID is not available');
+            return;
+        }
+
+        if (activity.available_slots === 1) {
+            console.error('No available slots for this activity.');
+            setIsError(true);
+            setShowPopup(true);
+            return;
+        }
+    
+        const formData = new FormData();
+        formData.append('activity', activity.id);
+        formData.append('user', userId);
+        formData.append('people', people);
+        formData.append('price', activity.price || "0");
+    
+        if (startDate) {
+            formData.append('start_date', startDate.toISOString());
+        }
+        if (endDate) {
+            formData.append('end_date', endDate.toISOString());
+        }
+        formData.append('status', 'P');
+    
+        // Thumbnail 처리
+        if (activity.thumbnail && activity.thumbnail instanceof File) {
+            formData.append('thumbnail', activity.thumbnail);
+        } else {
+            // DefaultThumbnail을 파일 객체로 변환하여 전송
+            const response = await fetch(DefaultThumbnail);
+            const blob = await response.blob();
+            const file = new File([blob], "DefaultThumbnail.png", { type: "image/png" });
+            formData.append('thumbnail', file);
+        }
+    
+        // thumbnail이 잘 추가되었는지 콘솔에 출력
+        console.log(formData.get('thumbnail'));
+    
+        try {
+            const response = await API.post(`/culture/reservations`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log("Post successful: ", response.data);
+
+            // 구매 완료 후 팝업을 표시
+            setShowPopup(true);
+        } catch (error) {
+            console.error("Error posting data: ", error);
+    
+            if (error.response) {
+                console.error("Response data:", error.response.data);
+                console.error("Response status:", error.response.status);
+                console.error("Response headers:", error.response.headers);
+            }
+        }
     };
 
     return (
         <Container>
             <TopBox>
-                <Thumbnail><img src="/src/assets/img/Example.png" alt="Error" /></Thumbnail>
+                <Thumbnail>
+                    <img src={activity.thumbnail || "/src/assets/img/DefaultThumbnail.png"} alt="Thumbnail" />
+                </Thumbnail>
                 <Detail>
-                    <Location>{location.state?.card?.location || 'Location Name'}</Location>
-                    <Title>{location.state?.card?.title || 'Product Title'}</Title>
+                    <Location>{activity.location || 'Location Name'}</Location>
+                    <Title>{activity.title || 'Product Title'}</Title>
                     <DateContainer>
                         <img src="/src/assets/img/IconDate.png" alt="Error"></img>
-                        {format(startDate, 'yyyy년 MM월 dd일')}
+                        {startDate ? format(startDate, 'yyyy년 MM월 dd일') : "날짜를 선택하세요"}
                         <DateButton onClick={() => setShowStartPicker(true)}>날짜 선택</DateButton>
                         {showStartPicker && (
                             <DatePickerWrapper>
                                 <DatePicker
                                     selected={startDate}
                                     onChange={(date) => {
+                                        console.log("Selected start date:", date);
                                         setStartDate(date);
-                                        setShowStartPicker(false);
                                     }}
                                     onClickOutside={() => setShowStartPicker(false)}
                                     inline
@@ -240,15 +382,15 @@ const DetailPage = () => {
                     </DateContainer>
                     <DateContainer>
                         <img src="/src/assets/img/IconDate.png" alt="Error"></img>
-                        {format(endDate, 'yyyy년 MM월 dd일')}
+                        {endDate ? format(endDate, 'yyyy년 MM월 dd일') : "날짜를 선택하세요"}
                         <DateButton onClick={() => setShowEndPicker(true)}>날짜 선택</DateButton>
                         {showEndPicker && (
                             <DatePickerWrapper>
                                 <DatePicker
                                     selected={endDate}
                                     onChange={(date) => {
+                                        console.log("Selected end date:", date);
                                         setEndDate(date);
-                                        setShowEndPicker(false);
                                     }}
                                     onClickOutside={() => setShowEndPicker(false)}
                                     inline
@@ -257,7 +399,7 @@ const DetailPage = () => {
                         )}
                     </DateContainer>
                     <PeopleContainer>
-                    <img src="/src/assets/img/IconPerson.png" alt="Error"></img>
+                        <img src="/src/assets/img/IconPerson.png" alt="Error"></img>
                         {people}
                         <CounterBox>
                             <CounterButton onClick={handleDecreasePeople}>-</CounterButton>
@@ -266,7 +408,7 @@ const DetailPage = () => {
                     </PeopleContainer>
                     <Total>
                         <p>총 금액</p>
-                        <p>Total Price</p>
+                        <p>{activity.price ? `${activity.price} 원` : '00원'}</p>
                     </Total>
                     <Icons>
                         <img src="/src/assets/img/CartIcon.png" alt="Error" />
@@ -277,13 +419,30 @@ const DetailPage = () => {
             <BottomBox>
                 <TextBox>
                     <p className="Header">정보</p>
-                    <div className="Description">Product information</div>
+                    <div className="Description">{activity.description || 'Product information'}</div>
                 </TextBox>
                 <TextBox>
                     <p className="Header">주소</p>
-                    <div className="Description">Product address</div>
+                    <div className="Description">{activity.address || 'Product address'}</div>
                 </TextBox>
             </BottomBox>
+
+            {showPopup && (
+                <>
+                    <Overlay onClick={() => setShowPopup(false)} />
+                    {isError ? (
+                        <ErrorPopup>
+                            <img src="/src/assets/img/IconCheck.png" alt="Check icon" />
+                            <div className="TextReservation">판매가 중단된 상품입니다.</div>
+                        </ErrorPopup>
+                    ) : (
+                        <ReservationPopup>
+                            <img src="/src/assets/img/IconCheck.png" alt="Check icon" />
+                            <div className="TextReservation">예약이 완료되었습니다.</div>
+                        </ReservationPopup>
+                    )}
+                </>
+            )}
         </Container>
     );
 };

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { API } from '../../api';  // API 모듈 가져오기
 
 const Container = styled.div`
     padding: 20px;
@@ -24,7 +25,6 @@ const TabItem = styled.div`
     cursor: pointer;
     box-shadow: 0px 1px 10px -2px #00000040;
     font-weight: ${({ active }) => (active ? "bold" : "normal")};
-    background-color: ${({ active }) => (active ? "#FFFFFF" : "#F8F9FE")};
 `;
 
 const Box = styled.div`
@@ -50,8 +50,6 @@ const CardContainer = styled.div`
     justify-content: center; 
 `;
 
-
-
 const CardLink = styled.a`
     text-decoration: none;
     color: inherit;
@@ -70,6 +68,7 @@ const Card = styled.div`
     overflow: hidden;
     box-shadow: 0.5px 1px 9px 0px #00000026;
     gap: 15px;
+    position: relative; /* Position the card to use relative positioning for the button */
 `;
 
 const Image = styled.img`
@@ -100,7 +99,7 @@ const Location = styled.div`
 `;
 
 const Title = styled.div`
-    font-size: 25px;
+    font-size: 30px;
     font-weight: bold;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -109,7 +108,7 @@ const Title = styled.div`
 `;
 
 const Distance = styled.div`
-    font-size: 16px;
+    font-size: 24px;
     color: #2D539E;
     font-weight: regular;
     text-overflow: ellipsis;
@@ -118,43 +117,85 @@ const Distance = styled.div`
     width: 100%;
 `;
 
+const HeartButton = styled.button`
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    background-color: transparent; /* 배경색 제거 */
+    border: none; /* 테두리 제거 */
+    outline: none;
+
+    img {
+        width: 24px;
+        height: 24px;
+        border: none; /* 이미지 테두리 제거 */
+    }
+`;
+
 const tabs = [
     { label: "생활", key: "Life" },
     { label: "취미", key: "Hobby" },
     { label: "요리", key: "Cook" },
 ];
 
-const cardData = {
-    Life: [
-        {
-            link: "https://www.youtube.com/watch?v=F2qdVZPxpLA&t=261s",
-            location: "키오스크 사용법",
-            title: "기계로 주문할 때 당황하지 않는 방법. 키오스크 사용법",
-            distance: "디지털 거북이",
-        },
-    ],
-    Hobby: [
-        {
-            link: "https://www.youtube.com/watch?v=xbP-AGGoQuc",
-            location: "악기 배워보기",
-            title: "10분 만에 누구나 악보 보는 법 [음악기초]",
-            distance: "클래식타벅스",
-        },
-        // ... other show data
-    ],
-    Cook: [
-        {
-            link: "https://www.youtube.com/watch?v=j7s9VRsrm9o",
-            location: "요리 배우기",
-            title: "대파 듬뿍! 삼겹살로 만든 '대파 제육볶음'",
-            distance: "백종원 PAIK JONG WON",
-        },
-        // ... other art data
-    ],
-};
-
 const Education = () => {
     const [activeTab, setActiveTab] = useState("Life");
+    const [activities, setActivities] = useState([]);
+    const [likedItems, setLikedItems] = useState({}); // 상태로 좋아요 상태 관리
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await API.get('/culture/activities');
+                const filteredActivities = response.data.filter(activity => 
+                    activity.category && activity.category.name === '배울거리'
+                );
+                setActivities(filteredActivities);
+            } catch (error) {
+                console.log('fetch data error:', error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const handleLikeToggle = async (index, activity) => {
+        const postData = {
+            activity: activity.id,
+            category_id: activity.category?.id,
+            subcategory_id: activity.subcategory?.id
+        };
+    
+        try {
+            if (likedItems[index]) {
+                console.log(`Sending DELETE request for activity ID: ${activity.id}`);
+                const response = await API.post(`/culture/likes`, postData);
+                console.log('Deleted like:', response.data);
+            } else {
+                console.log('Sending POST request with data:', postData);
+                const response = await API.post(`/culture/likes`, postData);
+                console.log('Added like:', response.data);
+            }
+    
+            setLikedItems(prevState => ({
+                ...prevState,
+                [index]: !prevState[index]
+            }));
+        } catch (error) {
+            console.error('Error toggling like:', error);
+        }
+    };
+    
+
+    const filteredActivitiesByTab = activities.filter(activity => 
+        activity.subcategory && activity.subcategory.name === activeTab
+    );
 
     return (
         <Container>
@@ -170,17 +211,22 @@ const Education = () => {
                 ))}
             </TabMenu>
             <Box>
-                
                 <CardContainer>
-                    {cardData[activeTab].map((card, index) => (
-                        <CardLink href={card.link} target="_blank" key={index}>
+                    {filteredActivitiesByTab.map((activity, index) => (
+                        <CardLink href={activity.hyperlink} target="_blank" key={index}>
                             <Card>
-                                <Image alt="card image" />
+                                <Image src={activity.thumbnail} alt="card image" />
                                 <TextContainer>
-                                    <Location>{card.location}</Location>
-                                    <Title>{card.title}</Title>
-                                    <Distance>{card.distance}</Distance>
+                                    <Location>{activity.location || "Unknown location"}</Location>
+                                    <Title>{activity.title || "Blank_title"}</Title>
+                                    <Distance>{activity.distance || "Unknown distance"}</Distance>
                                 </TextContainer>
+                                <HeartButton liked={likedItems[index]} onClick={(e) => { 
+                                    e.preventDefault(); // 링크 클릭 방지
+                                    handleLikeToggle(index, activity); // 좋아요 토글 처리
+                                }}>
+                                    <img src={likedItems[index] ? "/src/assets/img/IconHeart_fill.png" : "/src/assets/img/IconHeart_blank.png"} alt="heart icon" />
+                                </HeartButton>
                             </Card>
                         </CardLink>
                     ))}
