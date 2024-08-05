@@ -5,6 +5,7 @@ import realheart from "../../assets/star.png";
 import PhotoDetail from "./PhotoDetail";
 import ReactModal from "react-modal";
 import { API } from "../../api";
+import { format, isValid } from "date-fns"; // date-fns를 사용하여 날짜를 포맷팅합니다.
 
 const Frame = styled.div`
   display: flex;
@@ -124,6 +125,7 @@ const GalleryFrame = ({
   isLiked,
   title,
   detail,
+  timestamp, // timestamp를 props로 받아옵니다
 }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [liked, setLiked] = useState(isLiked);
@@ -190,6 +192,11 @@ const GalleryFrame = ({
     }
   };
 
+  // timestamp를 Date 객체로 변환하고 포맷팅합니다
+  const formattedDate = isValid(new Date(timestamp))
+    ? format(new Date(timestamp), "yyyy-MM-dd")
+    : "Invalid date";
+
   return (
     <>
       <Frame onClick={openModal}>
@@ -202,7 +209,7 @@ const GalleryFrame = ({
           />
         </StyledImageWrapper>
         <UnderImg>
-          <When>2024-07-25</When>
+          <When>{formattedDate}</When>
         </UnderImg>
         <Under>
           <Radius />

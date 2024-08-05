@@ -29,15 +29,15 @@ const PhotoPost = () => {
   const [photos, setPhotos] = useState([]); // 실제 사진 데이터
   const [filter, setFilter] = useState("all");
   const [folders, setFolders] = useState([]); // 기본 폴더 추가
-  const [selectedFolder, setSelectedFolder] = useState(null);
+  const [selectedFolder, setSelectedFolder] = useState("all");
 
   const navigate = useNavigate();
 
   const openModal = () => setModalIsOpen(true);
-  const closeModal = useCallback(() => {
+  const closeModal = () => {
     setModalIsOpen(false);
     navigate("/"); // 모달 닫힌 후 메인 페이지로 이동
-  }, [navigate]);
+  };
 
   useEffect(() => {
     const fetchPhotos = async () => {
@@ -59,16 +59,12 @@ const PhotoPost = () => {
   }, []);
 
   // 사진 필터링 함수
-  const filteredPhotos = photos.filter((photo) => {
-    if (filter === "all") {
-      return true;
-    } else if (filter === "favorites") {
-      return favorites.includes(photo.id);
-    } else if (filter === "folder") {
-      return photo.album === selectedFolder?.id;
-    }
-    return false;
-  });
+  const filteredPhotos = photos.filter(
+    (photo) =>
+      filter === "all" ||
+      (filter === "favorites" && favorites.includes(photo.id)) ||
+      (filter === "folder" && photo.folder === selectedFolder)
+  );
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -107,7 +103,6 @@ const PhotoPost = () => {
           setFolders={setFolders}
           selectedFolder={selectedFolder}
           setSelectedFolder={setSelectedFolder}
-          setPhotos={setPhotos} // 사진 상태를 업데이트하는 함수 전달
         />
         <S.Right>
           {filter === "favorites" ? (
@@ -121,6 +116,7 @@ const PhotoPost = () => {
                 isLiked={favorites.includes(photo.id)}
                 title={photo.title}
                 detail={photo.detail} // detail prop 전달
+                timestamp={photo.created_at} // created_at 값을 전달
                 closeModal={closeModal}
               />
             ))
