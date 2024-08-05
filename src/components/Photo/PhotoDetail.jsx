@@ -394,8 +394,16 @@ const PhotoDetail = ({ photoData, closeModal }) => {
           <CommentList>
             {comments.map((comment, index) => (
               <CommentItem key={index}>
-                <CommentAvatar src={comment.userAvatar} alt="avatar" />
-                <CommentText>{comment.text}</CommentText>
+                <CommentAvatar
+                  src={
+                    comment.user_profile_image || "/path/to/default/avatar.jpg"
+                  }
+                  alt="avatar"
+                />
+                <CommentText>
+                  <strong>{comment.user_name}</strong>
+                  <p>{comment.text}</p>
+                </CommentText>
               </CommentItem>
             ))}
           </CommentList>
