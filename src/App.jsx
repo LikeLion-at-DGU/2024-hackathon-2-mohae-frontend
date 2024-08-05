@@ -31,7 +31,7 @@ const Wrapper = styled.div`
 
 const Layout = () => {
   const location = useLocation();
-  const showHeader = location.pathname !== "/PhotoPlus";
+  const showHeader = location.pathname !== "/PhotoPlus" && location.pathname !== "/login" && location.pathname !== "/Signup";
 
   return (
     <>
@@ -42,7 +42,7 @@ const Layout = () => {
           <Outlet />
         </Wrapper>
       </Container>
-      <Footer />
+
 
     </>
   );

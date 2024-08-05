@@ -4,12 +4,28 @@ import styled from "styled-components";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { BiSolidUser } from "react-icons/bi";
 
+import { API } from '../../api';
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit; /* 원래 텍스트 색상을 유지 */
 
   &:hover {
     text-decoration: none;
+  }
+`;
+
+const StyledRI = styled(RiAlarmWarningFill)`
+  @media (max-width: 359px) {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+const StyledBI = styled(BiSolidUser)`
+  @media (max-width: 359px) {
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -114,6 +130,14 @@ const CategoryTitle = styled.div`
 const Header = () => {
   const location = useLocation();
   const showHeaderfilter = location.pathname !== "/";
+
+  const Emergency = async () => {
+    try {
+      const response = await API.post('/sms/emergency/');
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <HeaderContainer>
       <Top>
@@ -122,7 +146,7 @@ const Header = () => {
         </StyledLink> */}
         <StyledLink to="/">
           <ButtonwithIcon>
-            <RiAlarmWarningFill size={30} style={{ color: "#FF6F6F" }} />
+            <StyledRI size={30} style={{ color: "#FF6F6F" }} />
             긴급
           </ButtonwithIcon>
         </StyledLink>
@@ -131,8 +155,8 @@ const Header = () => {
         </StyledLink>
         <StyledLink to="mypage">
           <ButtonwithIcon>
-            <BiSolidUser size={30} />
-            마이페이지
+            <StyledBI size={30} />
+            내정보
           </ButtonwithIcon>
         </StyledLink>
       </Top>

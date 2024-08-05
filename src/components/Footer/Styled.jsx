@@ -35,6 +35,12 @@ export const Container = styled.div`
   right: 2rem;
 
   gap: 1rem;
+
+
+  @media (max-width: 359px){
+    right: 0.5rem;
+    max-height: 7000px;
+  }
 `;
 
 export const MomoIcon = styled.div`
@@ -61,6 +67,13 @@ export const MomoIcon = styled.div`
   cursor: pointer;
 
   animation: ${fadeIn} 0.3s ease-in-out;
+
+  @media (max-width: 359px){
+    width: 2.25rem;
+    height: 2rem;
+    border-radius: 0.75rem;
+    font-size: 3rem;
+  }
 `;
 
 export const MomoIcon2 = styled.div`
@@ -89,9 +102,9 @@ export const MomoIcon2 = styled.div`
 
 export const XIcon = styled.div`
   display: flex;
-  width: 5.5rem;
-  height: 5.5rem;
-  font-size: 4.5rem;
+  width: 5.375rem;
+  height: 5.375rem;
+  font-size: 3.25rem;
   justify-content: center;
   align-items: center;
   cursor: pointer;
@@ -99,13 +112,20 @@ export const XIcon = styled.div`
 
   border-radius: 2rem;
   animation: ${fadeIn} 0.3s ease-in-out;
+
+  @media (max-width: 359px) {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.75rem;
+    font-size: 2rem;
+  }
 `;
 
 export const FormBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 20rem;
-  height: 36rem;
+  height: 100%;
   padding: 1rem;
 
   gap: 1rem;
@@ -115,6 +135,10 @@ export const FormBox = styled.div`
   box-shadow: 0px 1px 18px 0px rgba(0, 0, 0, 0.20);
 
   animation: ${fadeIn} 0.5s ease-in-out;
+
+  @media (max-width: 359px) {
+    width: 18rem;
+  }
 `;
 
 export const HeadBox = styled.div`
@@ -129,6 +153,10 @@ export const HeadBody = styled.div`
   flex-direction: column;
   height: 27rem;
   overflow-y: scroll;
+
+  @media (max-width: 359px) {
+    height: 24rem;
+  }
 `;
 
 export const HeadFooter = styled.div`
@@ -153,6 +181,10 @@ export const Text1 = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 1.25rem;
+  }
 `;
 
 export const Text2 = styled.div`
@@ -163,6 +195,10 @@ export const Text2 = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 1rem;
+  }
 `;
 
 export const TextBox = styled.input`
@@ -227,6 +263,10 @@ export const MomoText1 = styled.div`
   font-style: normal;
   font-weight: 800;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 1rem;
+  }
 `;
 
 export const MomoText2 = styled.div`
@@ -237,6 +277,10 @@ export const MomoText2 = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.875rem;
+  }
 `;
 
 export const MomoTextBox = styled.div`
@@ -260,16 +304,20 @@ export const MomoText3 = styled.div`
   border: 1px #EDEDED;
 
   background: #FFF;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 export const MomoText4 = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   color: #353535;
 
   font-family: 'NanumSquareRound';
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-style: normal;
-  font-weight: 800;
+  font-weight: 600;
   line-height: normal;
 `;

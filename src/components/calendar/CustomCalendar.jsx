@@ -14,7 +14,6 @@ import * as S from "./Styled";
 const CustomCalendar = () => {
   const [date, setDate] = useState(new Date());
   const [events, setEvents] = useState([]);
-  const [familyId, setFamilyId] = useState(null);
   const [userId, setUserId] = useState(null);
 
   const [activeStartDate, setActiveStartDate] = useState(new Date());
@@ -42,7 +41,7 @@ const CustomCalendar = () => {
   const [selectedParticipants, setSelectedParticipants] = useState([]);
   const [availableParticipants, setAvailableParticipants] = useState([]);
 
-  const FetchUserId = async () => {
+  const fetchUserId = async () => {
     try {
       const response = await API.get('/accounts/profile/');
       console.log("userId response", response.data);
@@ -52,7 +51,7 @@ const CustomCalendar = () => {
     }
   };
 
-  const FetchDateData = async () => {
+  const fetchDateData = async () => {
     try {
       const response = await API.get('/cal/events/list/');
       console.log("event List", response.data);
@@ -62,7 +61,7 @@ const CustomCalendar = () => {
     }
   };
 
-  const FetchPartiData = async () => {
+  const fetchPartiData = async () => {
     try {
       const response = await API.get('/users/family');
       console.log("family response", response.data);
@@ -78,25 +77,23 @@ const CustomCalendar = () => {
     }
   };
 
+
   useEffect(() => {
     const fetchData = async () => {
-      await FetchUserId();
-      if (userId) {
-        await FetchPartiData();
-        await FetchDateData();
-      }
+      await fetchUserId();
+      await fetchPartiData();
+      await fetchDateData();
     };
     fetchData();
-  }, [userId]);
+  }, []);
 
-  const PostDateData = async () => {
+  const postDateData = async () => {
     try {
       const eventData = {
         title: newEventTitle,
         start: newEventStartDate.toISOString(),
         end: newEventEndDate.toISOString(),
         participants: selectedParticipants.map(p => p.user_id),
-        family_id: familyId,
       };
 
       console.log("posting eventData", eventData);
@@ -104,7 +101,7 @@ const CustomCalendar = () => {
       const response = await API.post('/cal/events/', eventData);
 
       console.log("post response", response.data);
-      FetchDateData();
+      fetchDateData();
     } catch (error) {
       console.error('Post error', error);
       alert('Post 실패');
@@ -112,7 +109,7 @@ const CustomCalendar = () => {
   };
 
   const handleEvent = () => {
-    PostDateData();
+    postDateData();
     setShowForm(false);
   };
 
@@ -154,12 +151,14 @@ const CustomCalendar = () => {
       .map((event, index) => {
         const isStart = date.toDateString() === new Date(event.start).toDateString();
         const isEnd = date.toDateString() === new Date(event.end).toDateString();
+        const color = getEventColor(event.event_id);
 
         return (
           <S.EventTile
             key={index}
             $isStart={isStart}
             $isEnd={isEnd}
+            color={color} // Apply random color
           >
             <span>{isStart ? `${event.title}` : ''}</span>
           </S.EventTile>
@@ -177,11 +176,11 @@ const CustomCalendar = () => {
     ));
   };
 
-  const CloseAddForm = () => {
+  const closeAddForm = () => {
     setShowForm(false);
   };
 
-  const CloseEmojiForm = () => {
+  const closeEmojiForm = () => {
     setShowEmojiForm(false);
   };
 
@@ -201,11 +200,11 @@ const CustomCalendar = () => {
     setShowDetails(true);
   };
 
-  const CloseDetails = () => {
+  const closeDetails = () => {
     setShowDetails(false);
   };
 
-  const handleTodayClick = (date) => {
+  const handleTodayClick = () => {
     const today = new Date();
     setActiveStartDate(today);
     setDate(today);
@@ -246,6 +245,25 @@ const CustomCalendar = () => {
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
     return new Date(dateString).toLocaleString('en', options);
+  };
+
+  const generateRandomColor = (eventId) => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
+  const getEventColor = (eventId) => {
+    if (!window.eventColors) {
+      window.eventColors = {};
+    }
+    if (!window.eventColors[eventId]) {
+      window.eventColors[eventId] = generateRandomColor();
+    }
+    return window.eventColors[eventId];
   };
 
   return (
@@ -289,7 +307,7 @@ const CustomCalendar = () => {
             <>
               <S.backWrapping />
               <S.AddEmojiForm>
-                <S.CloseButton onClick={CloseEmojiForm}>X</S.CloseButton>
+                <S.CloseButton onClick={closeEmojiForm}>X</S.CloseButton>
                 <S.FormContent>
                   <h2>오늘모했어?</h2>
                   <S.EventContainer>
@@ -419,7 +437,7 @@ const CustomCalendar = () => {
                     ))}
                   </div>
                   <S.row>
-                    <S.dateCloseButton onClick={CloseAddForm}>닫기</S.dateCloseButton>
+                    <S.dateCloseButton onClick={closeAddForm}>닫기</S.dateCloseButton>
                     <S.AddButton onClick={handleEvent}>추가</S.AddButton>
                   </S.row>
                 </S.FormContent>
@@ -432,18 +450,20 @@ const CustomCalendar = () => {
         <S.SideSchedules>
           <S.SideContainer>
             <S.EventDetailsHeader>
-              <S.CloseButton2 onClick={CloseDetails}>X</S.CloseButton2>
+              <S.CloseButton2 onClick={closeDetails}>X</S.CloseButton2>
               <S.AddEventButton onClick={() => setShowEmojiForm(!showEmojiForm)}>+</S.AddEventButton>
             </S.EventDetailsHeader>
             <S.DateStyle>{`${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`}</S.DateStyle>
             <S.ScheduleStyle>
               {selectedEvent.length > 0 ? (
                 selectedEvent.map((event, index) => (
-                  <div key={index} style={{ backgroundColor: event.color }}>
-                    <h3>{event.title}</h3>
-                    <p>{formatDate(event.start)} ~ {formatDate(event.end)}</p>
-                    <p>참가자: {event.participants.map(pid => availableParticipants.find(p => p.user_id === pid)?.nickname || '알 수 없음').join(', ')}</p>
-                    <IoTrashOutline onClick={() => deleteEvent(event.event_id)} style={{ cursor: 'pointer' }} />
+                  <div key={index} style={{ backgroundColor: 'inherit' }}> {/* No color for detailed view */}
+                    <S.Row>
+                      <S.EventTitle>{event.title}</S.EventTitle>
+                      <IoTrashOutline onClick={() => deleteEvent(event.event_id)} style={{ cursor: 'pointer' }} />
+                    </S.Row>
+                    <S.EventParti>참가자: {event.participants.map(pid => availableParticipants.find(p => p.user_id === pid)?.nickname || '알 수 없음').join(', ')}</S.EventParti>
+                    <S.EventTime>{formatDate(event.start)} ~ {formatDate(event.end)}</S.EventTime>
                   </div>
                 ))
               ) : (
@@ -461,7 +481,6 @@ const CustomCalendar = () => {
           </S.SideContainer>
         </S.SideSchedules>
       )}
-
     </>
   );
 }

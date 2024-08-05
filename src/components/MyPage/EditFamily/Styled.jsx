@@ -24,6 +24,7 @@ export const EditFamilyContainer = styled.div`
   @media (max-width: 359px) {
     width: 300px;
     padding: 0.5rem 1rem;
+    margin-top: 0;
 
     gap: 0.625rem;
   }
@@ -71,11 +72,12 @@ export const EditFamily = styled.div`
   flex-shrink: 0;
 `;
 
-export const FamilyProfile = styled.div`
+export const FamilyProfile = styled.img`
   width: 5rem;
   height: 5rem;
   border-radius: 5rem;
-  background-color: #000;
+  object-fit: cover;
+  
 
   @media (max-width: 359px) {
     width: 3rem;

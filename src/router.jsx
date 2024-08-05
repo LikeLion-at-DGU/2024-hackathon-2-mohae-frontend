@@ -2,8 +2,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import Homepage from "./pages/Homepage";
-import Signup from "./components/Signup";
-import LoginPage from "./pages/LoginPage";
+import Signup from "./components/Signup/Signup";
+import LoginPage from "./pages/Login";
 // import Gallery from "./pages/Gallery"; // 추가된 부분
 import DatePage from "./pages/DatePage/DatePage"; // DatePage와 Date가 동일 파일로 보임
 import HealthCarePage from "./pages/HealthCarePage";
