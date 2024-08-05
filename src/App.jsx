@@ -1,12 +1,13 @@
 import { styled, ThemeProvider } from "styled-components";
-
 import { Outlet, useLocation } from "react-router-dom";
-
 import Header from "./components/header/Header";
 import Footer from "./components/Footer/Footer"
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   transform-origin: top;
@@ -16,6 +17,7 @@ const Container = styled.div`
     zoom: 0.95;
   }
 `;
+
 const BackEffect = styled.div`
   display: flex;
   justify-content: center;
@@ -26,8 +28,10 @@ const BackEffect = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
 `;
+
 const Wrapper = styled.div`
-  width: 1440px;
+  width: 100%;
+  max-width: 1440px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,25 +47,20 @@ const Layout = () => {
   const showHeader = location.pathname !== "/PhotoPlus" && location.pathname !== "/Login" && location.pathname !== "/Signup" && location.pathname !=="/";
 
   return (
-    <>
-
+    <BackEffect>
       <Container>
+        {showHeader && <Header />}
         <Wrapper>
-          {showHeader && <Header />}
           <Outlet />
         </Wrapper>
       </Container>
-
-
-    </>
+    </BackEffect>
   );
 };
 
 function App() {
   return (
-    <>
-      <Layout />
-    </>
+    <Layout />
   );
 }
 
