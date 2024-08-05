@@ -1,22 +1,66 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { API } from "../../api";
 import * as S from "./Styled";
 
 const CheckSchedule = () => {
   const [isSwiped, setIsSwiped] = useState(false);
   const [startX, setStartX] = useState(null);
+  const [familyData, setFamilyData] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const schedules = [
-    { title: "직장 동료와의 모임 약속", time: "18:00 ~ 22:00" },
-    { title: "아침 공복 유산균 먹기", time: "08:00 ~ 08:30" },
-    { title: "필라테스 1:1 수업", time: "18:00 ~ 22:00" }
-  ];
+  const fetchFamilyProfiles = async () => {
+    try {
+      const response = await API.get("/users/family");
+      console.log("Family profiles:", response.data);
+      const family = response.data.flatMap(family =>
+        family.profiles.map(profile => ({
+          nickname: profile.nickname,
+          user_id: profile.user,
+          family_id: family.family_id,
+          schedules: [],
+          appointments: [],
+          medications: []
+        }))
+      );
+      return family;
+    } catch (error) {
+      console.error("Error fetching family profiles:", error);
+      return [];
+    }
+  };
 
-  const swipeSchedules = [
-    { title: "새로운 일정 1", time: "118:00 ~ 22:00" },
-    { title: "새로운 일정 2", time: "08:00 ~ 08:30" },
-    { title: "새로운 일정 3", time: "18:00 ~ 22:00" }
-  ];
+  const fetchFamilyHealthData = async (familyId, memberId) => {
+    try {
+      const response = await API.get(`/cal/health/family/${familyId}/daily/${memberId}/`);
+      console.log(`Health data for family ${familyId}, member ${memberId}:`, response.data);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching health data for family ${familyId}, member ${memberId}:`, error);
+      return { schedules: [], appointments: [], medications: [] };
+    }
+  };
+
+  const fetchFamilyData = async () => {
+    const familyProfiles = await fetchFamilyProfiles();
+    const familyData = await Promise.all(familyProfiles.map(async member => {
+      const healthData = await fetchFamilyHealthData(member.family_id, member.user_id);
+
+      return {
+        ...member,
+        schedules: healthData.schedules || [],
+        appointments: healthData.appointments || [],
+        medications: healthData.medications || []
+      };
+    }));
+
+    console.log("Complete family data:", familyData);
+    setFamilyData(familyData);
+  };
+
+  useEffect(() => {
+    fetchFamilyData();
+  }, []);
 
   const handleSwipeStart = (e) => {
     setStartX(e.touches[0].clientX);
@@ -36,34 +80,86 @@ const CheckSchedule = () => {
   };
 
   const toggleSwipe = () => {
-    setIsSwiped(prevIsSwiped => !prevIsSwiped);
+    setActiveIndex((activeIndex + 1) % familyData.length);
   };
 
-  const currentSchedules = isSwiped ? swipeSchedules : schedules;
-  const currentBackgroundColor = isSwiped ? '#FBE8F5' : '#2D539E';
-  const textColor = isSwiped ? '#000000' : '#FFFFFF';
-
   return (
-    <S.ScheduleContainer 
-      $bgColor={currentBackgroundColor}
-      key={isSwiped ? 'swiped' : 'default'}
+    <S.ScheduleContainer
       onTouchStart={handleSwipeStart}
       onTouchEnd={handleSwipeEnd}
     >
-      <S.ScheduleText style={{ color: textColor }}>내 일정 확인하기</S.ScheduleText>
-      <S.ArrowButton $left onClick={toggleSwipe}>{'<'}</S.ArrowButton>
+      <S.ScheduleText>
+        {familyData.length > 0 ? `${familyData[activeIndex]?.nickname}의 오늘 모해?` : "나의 오늘 모해?"}
+      </S.ScheduleText>
+      <S.ArrowButton $left onClick={() => setActiveIndex((activeIndex - 1 + familyData.length) % familyData.length)}>
+        <S.StyledLeftArrow />
+      </S.ArrowButton>
       <S.ScheduleBoxes>
-        {currentSchedules.map((schedule, index) => (
-          <S.ScheduleBox key={index}>
-            <S.ScheduleToday>오늘의 모해?</S.ScheduleToday>
-            <S.ScheduleRow>
-              <S.ScheduleTitle>{schedule.title}</S.ScheduleTitle>
-              <S.ScheduleTime>{schedule.time}</S.ScheduleTime>
-            </S.ScheduleRow>
+        {familyData.length > 0 && familyData[activeIndex] ? (
+          <>
+            <S.ScheduleBox>
+              <S.ScheduleToday>오늘 일정</S.ScheduleToday>
+              <S.ScheduleRow>
+                {familyData[activeIndex].schedules.length > 0 ? (
+                  familyData[activeIndex].schedules.map((schedule, index) => (
+                    <div key={index}>
+                      <S.ScheduleTitle>{schedule.title}</S.ScheduleTitle>
+                      <S.ScheduleTime>
+                        {new Date(schedule.start).toLocaleTimeString()} - {new Date(schedule.end).toLocaleTimeString()}
+                      </S.ScheduleTime>
+                    </div>
+                  ))
+                ) : (
+                  <S.ScheduleTitle>일정 없음</S.ScheduleTitle>
+                )}
+              </S.ScheduleRow>
+            </S.ScheduleBox>
+            <S.ScheduleBox>
+              <S.ScheduleToday>오늘 진료 내역</S.ScheduleToday>
+              <S.ScheduleRow>
+                {familyData[activeIndex].appointments.length > 0 ? (
+                  familyData[activeIndex].appointments.map((appointment, index) => (
+                    <div key={index}>
+                      <S.ScheduleTitle>{appointment.name}</S.ScheduleTitle>
+                      <S.ScheduleTime>
+                        {new Date(appointment.appointment_datetime).toLocaleTimeString()}
+                      </S.ScheduleTime>
+                    </div>
+                  ))
+                ) : (
+                  <S.ScheduleTitle>진료 내역 없음</S.ScheduleTitle>
+                )}
+              </S.ScheduleRow>
+            </S.ScheduleBox>
+            <S.ScheduleBox>
+              <S.ScheduleToday>오늘 복용약</S.ScheduleToday>
+              <S.ScheduleRow>
+                {familyData[activeIndex].medications.length > 0 ? (
+                  familyData[activeIndex].medications.map((medication, index) => (
+                    <div key={index}>
+                      <S.ScheduleTitle>{medication.name}</S.ScheduleTitle>
+                      <S.ScheduleTime>
+                        {medication.morning === "true" && "아침 "}
+                        {medication.lunch === "true" && "점심 "}
+                        {medication.dinner === "true" && "저녁 "}
+                      </S.ScheduleTime>
+                    </div>
+                  ))
+                ) : (
+                  <S.ScheduleTitle>복용약 없음</S.ScheduleTitle>
+                )}
+              </S.ScheduleRow>
+            </S.ScheduleBox>
+          </>
+        ) : (
+          <S.ScheduleBox>
+            <S.ScheduleToday>가족 데이터를 불러오는 중입니다...</S.ScheduleToday>
           </S.ScheduleBox>
-        ))}
+        )}
       </S.ScheduleBoxes>
-      <S.ArrowButton onClick={toggleSwipe}>{'>'}</S.ArrowButton>
+      <S.ArrowButton onClick={() => setActiveIndex((activeIndex + 1) % familyData.length)}>
+        <S.StyledRightArrow />
+      </S.ArrowButton>
     </S.ScheduleContainer>
   );
 };

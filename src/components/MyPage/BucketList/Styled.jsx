@@ -73,7 +73,7 @@ export const BucketList = styled.div`
 
   @media (max-width: 359px) {
     gap: 0.875rem;
-    height: 5rem;
+    height: 8rem;
   }
 `;
 

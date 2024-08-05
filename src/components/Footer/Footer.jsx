@@ -1,18 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { API } from "../../api";
-
 import * as S from "./Styled";
-
 import { FaTimes } from "react-icons/fa";
 
 const Footer = () => {
   const [responses, setResponses] = useState([]);
   const [audioFile, setAudioFile] = useState(null);
   const [question, setQuestion] = useState('');
-
+  const [nickname, setNickname] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null);
   const [showemoji, setShowemoji] = useState(true);
   const [showform, setShowform] = useState(false);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const res = await API.get('/api/user_profile/');
+        setNickname(res.data.nickname);
+        setProfilePicture(res.data.profile_picture);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+    fetchUserProfile();
+  }, []);
 
   const handleAudioChange = (event) => {
     setAudioFile(event.target.files[0]);
@@ -49,7 +61,6 @@ const Footer = () => {
       });
       setResponses(prevResponses => [...prevResponses, { question, answer: res.data.answer }]);
       setQuestion('');
-      speakText(res.data.answer);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -99,16 +110,16 @@ const Footer = () => {
         <S.Container>
           <S.FormBox>
             <S.HeadBox>
-              <S.MomoIcon2 style={{width: '3.75rem', height: '3.75rem', fontSize:'4.875rem', borderRadius:'1.125rem', boxShadow: 'none'}}>o</S.MomoIcon2>
+              <S.MomoIcon2 style={{ width: '3.75rem', height: '3.75rem', fontSize: '4.875rem', borderRadius: '1.125rem', boxShadow: 'none' }}>o</S.MomoIcon2>
               <S.Column>
                 <S.Text1>모모 챗봇</S.Text1>
-                <S.Text2>모모에게 무엇이든지 물어보세요</S.Text2>
+                <S.Text2>{nickname}님 모모에게 무엇이든지 물어보세요</S.Text2>
               </S.Column>
             </S.HeadBox>
             <S.HeadBody>
-              <S.Column style={{gap: '1rem'}}>
+              <S.Column style={{ gap: '1rem' }}>
                 <S.TextContainer>
-                  <S.MomoIcon2 style={{width: '1.875rem', height: '1.75rem', fontSize:'2.5rem', borderRadius:'0.625rem', boxShadow: 'none'}}>o</S.MomoIcon2>
+                  <S.MomoIcon2 style={{ width: '1.875rem', height: '1.75rem', fontSize: '2.5rem', borderRadius: '0.625rem', boxShadow: 'none' }}>o</S.MomoIcon2>
                   <S.TextContain>
                     <S.MomoText1>가족 건강 소셜 플랫폼, MOHAE</S.MomoText1>
                     <S.MomoText2>모해는 가족이 서로의 일상에 스며드는 가족 친화 플랫폼 입니다.</S.MomoText2>
@@ -120,20 +131,20 @@ const Footer = () => {
                   </S.TextContain>
                 </S.TextContainer>
                 {responses.map((response, index) => (
-                  <>
-                    <S.TextContainer key={index}>
+                  <React.Fragment key={index}>
+                    <S.TextContainer>
                       <S.TextContain2>
                         <S.MomoText4>{response.question}</S.MomoText4>
                       </S.TextContain2>
-                      <S.MomoIcon2 style={{width: '1.875rem', height: '1.75rem', fontSize:'2.5rem', borderRadius:'0.625rem', boxShadow: 'none'}}>o</S.MomoIcon2>
+                      {profilePicture ? <img src={`http://127.0.0.1:8000${profilePicture}`} alt="Profile" width="50" height="50" /> : <S.MomoIcon2 style={{ width: '1.875rem', height: '1.75rem', fontSize: '2.5rem', borderRadius: '0.625rem', boxShadow: 'none' }}>o</S.MomoIcon2>}
                     </S.TextContainer>
-                    <S.TextContainer key={index}>
-                    <S.MomoIcon2 style={{width: '1.875rem', height: '1.75rem', fontSize:'2.5rem', borderRadius:'0.625rem', boxShadow: 'none'}}>o</S.MomoIcon2>
+                    <S.TextContainer>
+                      <S.MomoIcon2 style={{ width: '2rem', height: '1.75rem', fontSize: '2.5rem', borderRadius: '0.625rem', boxShadow: 'none' }}>o</S.MomoIcon2>
                       <S.TextContain2>
                         <S.MomoText2>{response.answer}</S.MomoText2>
                       </S.TextContain2>
                     </S.TextContainer>
-                  </>
+                  </React.Fragment>
                 ))}
               </S.Column>
             </S.HeadBody>

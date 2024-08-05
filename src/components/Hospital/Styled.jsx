@@ -1,4 +1,4 @@
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const fadeIn = keyframes`
   from {
@@ -17,6 +17,7 @@ export const bigBox = styled.div`
 
   @media (max-width: 359px) {
     width: 320px;
+    padding: 0 10px;
   }
 `;
 
@@ -38,19 +39,23 @@ export const HospitalHeader = styled.div`
   width: 100%;
   justify-content: space-around;
   background-color: inherit;
+
+  @media (max-width: 359px) {
+    justify-content: space-between;
+    translate: 200px;
+    width: 700px;
+  }
 `;
 
 export const HospitalTitle = styled.div`
   color: #000;
-
   font-family: 'NanumSquareRound';
   font-size: 1.5rem;
-  font-style: normal;
   font-weight: 700;
   line-height: normal;
 
   @media (max-width: 359px) {
-    font-size: 0.75rem;
+    font-size: 1rem;
   }
 `;
 
@@ -59,8 +64,8 @@ export const IMG = styled.img`
   height: 35px;
 
   @media (max-width: 359px) {
-    width: 1rem;
-    height: 1rem; 
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -73,21 +78,18 @@ export const HospitalContent = styled.div`
   padding: 0.25rem 0rem;
   align-items: center;
   justify-content: center;
-
   border-radius: 1rem;
   background-color: #fff;
-
   color: #2D538E;
   font-family: 'NanumSquareRound';
   font-size: 1.25rem;
-  font-style: normal;
   font-weight: 700;
 
   @media (max-width: 359px) {
     margin-top: 0.5rem;
     width: 70px;
     gap: 0.375rem;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
   }
 `;
 
@@ -95,9 +97,12 @@ export const CalendarBody = styled.div`
   display: flex;
   width: 100%;
   height: 250px;
+  gap: 1rem;
   overflow-y: scroll;
+
   @media (max-width: 359px) {
-    height: 120px;
+    height: 150px;
+    overflow-y: unset;
   }
 `;
 
@@ -105,8 +110,15 @@ export const DayContainer = styled.div`
   flex: 1;
   min-height: 150px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  
   @media (max-width: 359px) {
-    min-height: 50px; 
+    min-height: 100px; 
+    gap: 0.25rem;
+    width: 90px;
   }
 `;
 
@@ -121,67 +133,61 @@ export const DayHeader = styled.div`
   font-weight: 700;
   font-size: 1.25rem;
   padding: 0.5rem 0rem;
-  
   border-radius: 0.625rem;
-
   margin-bottom: 0.5rem;
-
   background-color: ${props => props.isToday ? '#2d539e' : 'inherit'};
   color: ${props => props.isToday ? '#fff' : '#000'};
 
   @media (max-width: 359px) {
-    font-size: 0.625rem;
-    margin-bottom: 0;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+    padding: 0.25rem 0;
   }
 `;
 
 export const Event = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 0.75rem;
   background-color: #FFF;
   border-radius: 0.25rem;
   box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.25);
   min-height: 150px;
-
-  margin: 1rem;
-  border-radius: 4px;
+  min-width: 120px;
+  margin: 1rem auto;
   top: ${props => props.top}%;
   height: ${props => props.height}%;
   left: 5px;
   right: 5px;
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
 
   @media (max-width: 359px) {
-    padding: 0.25rem;
-    min-height: 30px;
-    margin: 0.125rem;
+    min-height: 100px;
+    min-width: 70px;
+    margin: 0.5rem;
   }
 `;
 
-export const AddEventButton = styled.button`
-  margin: 10px;
-  padding: 10px 20px;
-  right: 0;
-  position: absolute;
-  background-color: #2d539e;
-  color: white;
-  border: none;
-  border-radius: 5px;
+export const AddEventButton = styled.div`
+  display: flex;
+  color: #9f9f9f;
+  text-align: center;
+  font-family: 'NanumSquareRound';
+  font-size: 1.5rem;
+  font-weight: 800;
   cursor: pointer;
 
   @media (max-width: 359px) {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
+    font-size: 1rem;
   }
 `;
 
 export const NewEventForm = styled.div`
   position: fixed;
-
   top: 50%;
   left: 50%;
-
   transform: translate(-50%, -50%);
   background: white;
   border: 1px solid #ccc;
@@ -190,11 +196,11 @@ export const NewEventForm = styled.div`
   min-width: 500px;
   max-width: 90%;
   z-index: 1000;
-
   animation: ${fadeIn} 0.3s ease-in-out;
 
   @media (max-width: 359px) {
-    min-width: 300px;
+    min-width: 280px;
+    padding: 0 10px;
   }
 `;
 
@@ -204,7 +210,6 @@ export const backWrapping = styled.div`
   position: fixed;
   top: 0;
   left: -15%;
-
   z-index: 100;
   background: rgba(159, 159, 159, 0.50);
 
@@ -222,12 +227,11 @@ export const DateSelectInput = styled.input`
   font-size: 1rem;
   font-family: "NanumSquareRound";
   width: 436px;
-
   border: none;
   outline: none;
 
   @media (max-width: 359px) {
-    width: 212px;
+    width: 280px;
   }
 `;
 
@@ -236,15 +240,21 @@ export const FormContent = styled.div`
   flex-direction: column;
   padding: 2rem;
   gap: 1rem;
+
+  @media (max-width: 359px) {
+    padding: 1rem;
+  }
 `;
 
 export const FormText = styled.div`
   color: #000;
   font-family: 'NanumSquareRound';
   font-size: 1.25rem;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 1rem;
+  }
 `;
 
 export const FormButton = styled.button`
@@ -254,56 +264,52 @@ export const FormButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
+
   &:hover {
-    background-color: #2d539e;
+    background-color: #1d3e7f;
+  }
+
+  @media (max-width: 359px) {
+    padding: 5px 10px;
   }
 `;
 
 export const NoDate = styled.div`
   display: flex;
   margin-top: 1rem;
-
   justify-content: center;
-
   color: #9F9F9F;
-
   text-align: center;
   font-family: 'NanumSquareRound';
   font-size: 1rem;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
 
   @media (max-width: 359px) {
     margin-top: 0.5rem;
+    font-size: 0.75rem;
   }
 `;
 
 export const EventTime = styled.div`
   color: #2D539E;
-
   font-family: 'NanumSquareRound';
   font-size: 1.25rem;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
 
   @media (max-width: 359px) {
-    font-size: 0.375rem;
+    font-size: 0.875rem;
   }
 `;
 
 export const EventTitle = styled.div`
   color: #000;
-
   font-family: 'NanumSquareRound';
   font-size: 1rem;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
+  text-overflow: ellipsis;
 
   @media (max-width: 359px) {
-    font-size: 0.375rem;
+    font-size: 0.875rem;
   }
 `;
 
@@ -318,38 +324,48 @@ export const EventInputStyle = styled.input`
 
   @media (max-width: 359px) {
     margin-left: 0;
+    font-size: 0.875rem;
   }
 `;
-
 
 export const contentContainer = styled.div`
   display: flex;
   text-align: center;
   padding: 0.5rem;
-
   align-items: center;
   justify-content: space-between;
-
   flex-direction: row;
-
   border: 2px solid #EDEDED;
   border-radius: 10px;
+
+  @media (max-width: 359px) {
+    padding: 0.25rem;
+  }
 `;
 
 export const row = styled.div`
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: 359px) {
+    gap: 0.5rem;
+  }
 `;
 
 export const HospitalCloseButton = styled.button`
   background-color: #FFF;
   color: #2D539E;
-  border: 1px solid  ;
+  border: 1px solid;
   padding: 5px 10px;
-
+  cursor: pointer;
   border-radius: 5px;
   width: 45%;
   font-size: 1rem;
+
+  @media (max-width: 359px) {
+    padding: 5px;
+    font-size: 0.75rem;
+  }
 `;
 
 export const HospitalAddButton = styled.button`
@@ -357,24 +373,28 @@ export const HospitalAddButton = styled.button`
   color: #FFF;
   border: none;
   padding: 5px 10px;
-
+  cursor: pointer;
   border: 1px solid #2D539E;
-
   border-radius: 5px;
   width: 45%;
   font-size: 1rem;
+
+  @media (max-width: 359px) {
+    padding: 5px;
+    font-size: 0.75rem;
+  }
 `;
 
 export const FormTitle = styled.div`
   color: #000;
-
   font-family: 'NanumSquareRound';
   font-size: 1.5rem;
-  font-style: normal;
   font-weight: 800;
-  line-height: normal;
-
   margin-bottom: 1rem;
+
+  @media (max-width: 359px) {
+    font-size: 1.25rem;
+  }
 `;
 
 export const EventSelectStyle = styled.select`
@@ -387,7 +407,7 @@ export const EventSelectStyle = styled.select`
   padding: 0.344rem 0rem;
 
   @media (max-width: 359px) {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
   }
 `;
 
@@ -397,6 +417,10 @@ export const SelectedParticipant = styled.div`
   padding: 0.5rem;
   border-radius: 4px;
   font-size: 1rem;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 export const RemoveParticipant = styled.div`
@@ -404,5 +428,19 @@ export const RemoveParticipant = styled.div`
   padding: 0.5rem;
   font-size: 1rem;
   color: #2d539e;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
+export const Rowbetween = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-width: 359px) {
+    font-size: 0.875rem;
+  }
+`;

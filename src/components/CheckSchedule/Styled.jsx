@@ -1,4 +1,6 @@
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from "react-icons/fa";
 
 const fadeIn = keyframes`
   from {
@@ -9,11 +11,29 @@ const fadeIn = keyframes`
   }
 `;
 
+export const StyledRightArrow = styled(FaRegArrowAltCircleRight)`
+  width: 40px;
+
+  @media (max-width: 359px) {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const StyledLeftArrow = styled(FaRegArrowAltCircleLeft)`
+  width: 40px;
+  @media (max-width: 359px) {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+
 export const ScheduleContainer = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
-  background-color: ${props => props.$bgColor || '#FFFFFF'};
+  background-color: #2d539e;
   margin-top: 2rem;
   border-radius: 1.25rem;
   
@@ -24,9 +44,9 @@ export const ScheduleContainer = styled.div`
 
   @media (max-width: 359px) {
     width: 280px;
-    padding: 0rem 0.5rem 0.5rem 0.5rem;
+    padding: 0.5rem;
     margin-top: 0.5rem;
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
   }
 `;
 
@@ -37,6 +57,7 @@ export const ScheduleText = styled.p`
   font-style: normal;
   font-weight: 700;
 
+
   @media (max-width: 359px) {
     font-size: 0.5rem;
   }
@@ -46,6 +67,7 @@ export const ScheduleBoxes = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
 `;
 
 export const ScheduleBox = styled.div`
@@ -58,9 +80,11 @@ export const ScheduleBox = styled.div`
   border-radius: 0.625rem;
   background-color: #FFF;
 
+
   @media (max-width: 359px) {
-    height: 1.75rem;
-    padding: 0.25rem 0.25rem;
+    height: 1.375rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
   }
 `;
 
@@ -71,8 +95,9 @@ export const ScheduleToday = styled.div`
   font-style: normal;
   font-weight: 800;
 
+
   @media (max-width: 359px) {
-    font-size: 0.5rem;
+    font-size: 0.625rem;
     font-weight: 700;
   }
 `;
@@ -81,6 +106,7 @@ export const ScheduleRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
 
   @media (max-width: 359px) {
     flex-direction: column;
@@ -121,11 +147,11 @@ export const ArrowButton = styled.button`
   font-size: 4rem;
   font-weight: 400;
   cursor: pointer;
-  color: #333;
-  ${(props) => (props.$left ? 'left: -50px;' : 'right: -50px;')}
+  color: #2d539e;
+  ${(props) => (props.$left ? 'left: -60px;' : 'right: -60px;')}
 
   &:hover {
-    color: #000;
+    color: #1D3E7F;
     font-weight: 550;
   }
 
