@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
 import FavoriteGallery from "../../components/Photo/FavoriteGallery";
-
 import GalleryFrame from "../../components/Photo/GalleryFrame";
 import * as S from "./PhotoPoststyled";
 import arrow from "../../assets/arrow.png";
@@ -30,7 +29,7 @@ const PhotoPost = () => {
   const [photos, setPhotos] = useState([]); // 실제 사진 데이터
   const [filter, setFilter] = useState("all");
   const [folders, setFolders] = useState([]); // 기본 폴더 추가
-  const [selectedFolder, setSelectedFolder] = useState("all");
+  const [selectedFolder, setSelectedFolder] = useState(null);
 
   const navigate = useNavigate();
 
@@ -60,12 +59,16 @@ const PhotoPost = () => {
   }, []);
 
   // 사진 필터링 함수
-  const filteredPhotos = photos.filter(
-    (photo) =>
-      filter === "all" ||
-      (filter === "favorites" && favorites.includes(photo.id)) ||
-      (filter === "folder" && photo.folder === selectedFolder)
-  );
+  const filteredPhotos = photos.filter((photo) => {
+    if (filter === "all") {
+      return true;
+    } else if (filter === "favorites") {
+      return favorites.includes(photo.id);
+    } else if (filter === "folder") {
+      return photo.album === selectedFolder?.id;
+    }
+    return false;
+  });
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -104,6 +107,7 @@ const PhotoPost = () => {
           setFolders={setFolders}
           selectedFolder={selectedFolder}
           setSelectedFolder={setSelectedFolder}
+          setPhotos={setPhotos} // 사진 상태를 업데이트하는 함수 전달
         />
         <S.Right>
           {filter === "favorites" ? (
