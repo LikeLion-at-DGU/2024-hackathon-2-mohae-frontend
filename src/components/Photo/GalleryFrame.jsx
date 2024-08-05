@@ -158,9 +158,9 @@ const GalleryFrame = ({
 
     try {
       if (liked) {
-        await API.delete(`/gallery/favorites/${photo_id}/unfavorite`);
+        await API.delete(`/gallery/favorites/${photoId}/unfavorite`);
       } else {
-        await API.post(`/gallery/favorites/${photo_id}/favorite`);
+        await API.post(`/gallery/favorites/${photoId}/favorite`);
       }
       setLiked(!liked); // 상태 변경
       onLikeToggle(photoId); // 부모 컴포넌트에 상태 변경 알림

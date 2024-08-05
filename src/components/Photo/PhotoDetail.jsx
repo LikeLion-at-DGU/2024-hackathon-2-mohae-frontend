@@ -257,7 +257,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
   const [isMoveFolderModalOpen, setIsMoveFolderModalOpen] = useState(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [folders, setFolders] = useState([]);
-  const [selectedFolder, setSelectedFolder] = useState("Default");
+  const [selectedFolder, setSelectedFolder] = useState(null);
   const iconRef = useRef(null);
 
   useEffect(() => {
@@ -276,8 +276,16 @@ const PhotoDetail = ({ photoData, closeModal }) => {
 
   const fetchComments = async (photoId) => {
     try {
-      const response = await API.get(`/gallery/photos/${photo_id}`);
-      setComments(response.data);
+      const response = await API.get(`/gallery/photos/${photoId}/comments`); // 이 엔드포인트가 존재하는지 확인하세요.
+      const commentIds = response.data.commentIds;
+
+      // 각 댓글 ID를 통해 댓글 내용 가져오기
+      const commentPromises = commentIds.map((commentId) =>
+        API.get(`/gallery/comments/${commentId}`)
+      );
+      const commentsResponses = await Promise.all(commentPromises);
+      const commentsData = commentsResponses.map((res) => res.data);
+      setComments(commentsData);
     } catch (error) {
       console.error("댓글 불러오기 실패: ", error);
     }
@@ -317,17 +325,31 @@ const PhotoDetail = ({ photoData, closeModal }) => {
     setIsMoveFolderModalOpen(true);
   };
 
-  const handleFolderClick = async (folder) => {
-    try {
-      await API.post(`/gallery/albums/${folder}/photos`, {
-        photo_id: photoData.id,
-        status: "Y",
-      });
-      alert(`사진이 ${folder} 폴더로 이동되었습니다.`);
-      setIsMoveFolderModalOpen(false);
-    } catch (error) {
-      console.error("폴더 이동 실패: ", error);
-      alert("폴더 이동에 실패했습니다.");
+  const handleFolderClick = (folder) => {
+    setSelectedFolder(folder);
+  };
+  const handleMoveFolderSubmit = async () => {
+    if (selectedFolder) {
+      try {
+        const response = await API.post(
+          `/gallery/albums/${selectedFolder}/photos`,
+          {
+            photo_id: photoData.id,
+            status: "Y",
+          }
+        );
+        if (response.status === 200) {
+          alert(`사진이 ${selectedFolder} 폴더로 이동되었습니다.`);
+          setIsMoveFolderModalOpen(false);
+        } else {
+          throw new Error("폴더 이동에 실패했습니다.");
+        }
+      } catch (error) {
+        console.error("폴더 이동 실패: ", error);
+        alert("폴더 이동에 실패했습니다.");
+      }
+    } else {
+      alert("이동할 폴더를 선택해주세요.");
     }
   };
 
@@ -416,9 +438,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
                 </Folder>
               ))}
             </FolderList>
-            <Button onClick={() => setIsMoveFolderModalOpen(false)}>
-              폴더 이동하기
-            </Button>
+            <Button onClick={handleMoveFolderSubmit}>폴더 이동하기</Button>
           </SecondModal>
         </Overlay>
       )}
