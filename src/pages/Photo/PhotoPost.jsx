@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
+import FavoriteGallery from "../../components/Photo/FavoriteGallery";
 import GalleryFrame from "../../components/Photo/GalleryFrame";
 import * as S from "./PhotoPoststyled";
 import arrow from "../../assets/arrow.png";
@@ -28,7 +29,7 @@ const PhotoPost = () => {
   const [photos, setPhotos] = useState([]); // 실제 사진 데이터
   const [filter, setFilter] = useState("all");
   const [folders, setFolders] = useState([]); // 기본 폴더 추가
-  const [selectedFolder, setSelectedFolder] = useState("all");
+  const [selectedFolder, setSelectedFolder] = useState(null);
 
   const navigate = useNavigate();
 
@@ -44,6 +45,11 @@ const PhotoPost = () => {
         const response = await API.get("/gallery/photos");
         console.log("photo 정보", response.data);
         setPhotos(response.data);
+
+        const favoritesResponse = await API.get("/gallery/favorites");
+        setFavorites(
+          favoritesResponse.data.map((favorite) => favorite.photo_id)
+        );
       } catch (error) {
         console.error("사진 get 실패", error);
       }
@@ -53,39 +59,16 @@ const PhotoPost = () => {
   }, []);
 
   // 사진 필터링 함수
-  const filteredPhotos = photos.filter(
-    (photo) =>
-      filter === "all" ||
-      (filter === "favorites" && favorites.includes(photo.id)) ||
-      (filter === "folder" && photo.folder === selectedFolder)
-  );
-
-  const handleLikeToggle = async (photoId) => {
-    try {
-      if (favorites.includes(photoId)) {
-        const response = await API.delete(
-          `/gallery/photos/${photoId}/unfavorite/`
-        );
-      } else {
-        const response = await API.post(`/gallery/photos/${photoId}/favorite/`);
-      }
-
-      if (response && response.status === 200) {
-        setFavorites((prevFavorites) =>
-          favorites.includes(photoId)
-            ? prevFavorites.filter((id) => id !== photoId)
-            : [...prevFavorites, photoId]
-        );
-      } else {
-        console.error("Unexpected response:", response);
-      }
-    } catch (error) {
-      console.error(
-        "Failed to update favorites:",
-        error.response || error.message || error
-      );
+  const filteredPhotos = photos.filter((photo) => {
+    if (filter === "all") {
+      return true;
+    } else if (filter === "favorites") {
+      return favorites.includes(photo.id);
+    } else if (filter === "folder") {
+      return photo.album === selectedFolder?.id;
     }
-  };
+    return false;
+  });
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -124,20 +107,24 @@ const PhotoPost = () => {
           setFolders={setFolders}
           selectedFolder={selectedFolder}
           setSelectedFolder={setSelectedFolder}
+          setPhotos={setPhotos} // 사진 상태를 업데이트하는 함수 전달
         />
         <S.Right>
-          {filteredPhotos.map((photo) => (
-            <GalleryFrame
-              key={photo.id}
-              image={photo.image}
-              photoId={photo.id}
-              onLikeToggle={handleLikeToggle}
-              isLiked={favorites.includes(photo.id)}
-              title={photo.title}
-              detail={photo.detail}
-              closeModal={closeModal}
-            />
-          ))}
+          {filter === "favorites" ? (
+            <FavoriteGallery />
+          ) : (
+            filteredPhotos.map((photo) => (
+              <GalleryFrame
+                key={photo.id}
+                image={photo.image}
+                photoId={photo.id}
+                isLiked={favorites.includes(photo.id)}
+                title={photo.title}
+                detail={photo.detail} // detail prop 전달
+                closeModal={closeModal}
+              />
+            ))
+          )}
         </S.Right>
       </S.All>
       <S.Arrow onClick={scrollToTop} src={arrow} alt="Sample"></S.Arrow>

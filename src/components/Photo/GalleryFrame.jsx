@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import good from "../../assets/binstar.png";
 import realheart from "../../assets/star.png";
@@ -39,7 +39,6 @@ const StyledImageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  cursor: pointer;
 `;
 
 const StyledImage = styled.img`
@@ -48,6 +47,7 @@ const StyledImage = styled.img`
   border: none;
   border-radius: 5px;
   transition: border 0.3s ease;
+  cursor: pointer;
 `;
 
 const UnderImg = styled.div`
@@ -55,17 +55,6 @@ const UnderImg = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-`;
-
-const Re = styled.div`
-  color: #9f9f9f;
-  font-family: "NanumSquare Neo";
-  font-size: 9px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.09px;
-  text-decoration: none !important;
 `;
 
 const When = styled.p`
@@ -82,7 +71,7 @@ const When = styled.p`
 const Under = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   position: absolute;
   bottom: 5px;
   width: 100%;
@@ -138,7 +127,30 @@ const GalleryFrame = ({
 }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [liked, setLiked] = useState(isLiked);
+  const [favoriteId, setFavoriteId] = useState(null);
   const [modalData, setModalData] = useState(null);
+
+  useEffect(() => {
+    const fetchLikeStatus = async () => {
+      try {
+        const response = await API.get(`/gallery/favorites`);
+        const favorite = response.data.find((fav) => fav.photo === photoId);
+        if (favorite) {
+          setLiked(true);
+          setFavoriteId(favorite.id);
+        } else {
+          setLiked(false);
+          setFavoriteId(null);
+        }
+      } catch (error) {
+        console.error(
+          "Failed to fetch like status:",
+          error.response ? error.response.data : error.message
+        );
+      }
+    };
+    fetchLikeStatus();
+  }, [photoId]);
 
   const openModal = async () => {
     try {
@@ -157,15 +169,24 @@ const GalleryFrame = ({
     e.stopPropagation();
 
     try {
-      if (liked) {
-        await API.delete(`/gallery/photos/${photoId}/unfavorite`);
+      if (liked && favoriteId) {
+        await API.delete(`/gallery/favorites/${favoriteId}`);
+        setLiked(false);
+        setFavoriteId(null);
       } else {
-        await API.post(`/gallery/photos/${photoId}/favorite`);
+        const response = await API.post(`/gallery/favorites`, {
+          user: "currentUserId", // 실제 사용자 ID로 변경
+          photo: photoId,
+        });
+        setLiked(true);
+        setFavoriteId(response.data.id); // 새로운 favoriteId 설정
       }
-      setLiked(!liked); // 상태 변경
-      onLikeToggle(photoId); // 부모 컴포넌트에 상태 변경 알림
     } catch (error) {
-      console.error("Failed to update favorites:", error);
+      console.error(
+        "Failed to update favorites:",
+        error.response ? error.response.data : error.message
+      );
+      alert("좋아요 상태 업데이트에 실패했습니다. 다시 시도해 주세요."); // 사용자에게 피드백 제공
     }
   };
 
@@ -173,12 +194,14 @@ const GalleryFrame = ({
     <>
       <Frame onClick={openModal}>
         <ImgFrame src={image} />
-        <StyledImageWrapper onClick={handleLikeClick}>
-          <StyledImage src={liked ? realheart : good} alt="좋아요 이미지" />
+        <StyledImageWrapper>
+          <StyledImage
+            src={liked ? realheart : good}
+            alt="좋아요 이미지"
+            onClick={handleLikeClick}
+          />
         </StyledImageWrapper>
-
         <UnderImg>
-          <Re>댓글</Re>
           <When>2024-07-25</When>
         </UnderImg>
         <Under>

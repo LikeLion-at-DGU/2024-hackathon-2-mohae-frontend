@@ -7,8 +7,8 @@ import {
   faFolderOpen,
 } from "@fortawesome/free-solid-svg-icons";
 import { fetchFolders } from "../../api/getFolder";
+import { API } from "../../api";
 
-// 스타일 컴포넌트 정의
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -21,7 +21,7 @@ const Overlay = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  overflow-y: hidden; /* 추가된 부분 */
+  overflow-y: hidden;
 `;
 
 const Modal = styled.div`
@@ -35,7 +35,7 @@ const Modal = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll; /* 추가된 부분 */
+  overflow-y: scroll;
 `;
 
 const SmallModal = styled.div`
@@ -45,8 +45,8 @@ const SmallModal = styled.div`
   width: 200px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
   position: fixed;
-  top: 20%; /* 뷰포트 높이의 20% 지점 */
-  left: 60%; /* 뷰포트 너비의 50% 지점 */
+  top: 20%;
+  left: 60%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -159,14 +159,13 @@ const PostText = styled.p`
 `;
 
 const Image = styled.img`
-  width: 31.2rem;
-  min-height: 500px;
+  width: 100%;
   border-radius: 10px;
   margin-bottom: 20px;
 `;
 
 const Line = styled.div`
-  width: 32rem;
+  width: 100%;
   height: 1px;
   background: #d9d9d9;
   margin-bottom: 30px;
@@ -174,7 +173,6 @@ const Line = styled.div`
 
 const CommentSection = styled.div`
   flex: 1;
-  /* padding-bottom: 80px; */
 `;
 
 const CommentList = styled.div`
@@ -257,28 +255,56 @@ const PhotoDetail = ({ photoData, closeModal }) => {
   const [isMoveFolderModalOpen, setIsMoveFolderModalOpen] = useState(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [folders, setFolders] = useState([]);
-  const [selectedFolder, setSelectedFolder] = useState("Default");
+  const [selectedFolder, setSelectedFolder] = useState(null);
   const iconRef = useRef(null);
 
   useEffect(() => {
     const loadFolders = async () => {
       try {
         const fetchedFolders = await fetchFolders();
-        setFolders(fetchedFolders.map((folder) => folder.name));
+        setFolders(fetchedFolders); // 폴더 데이터를 전체 저장
       } catch (error) {
         console.error("폴더 목록 가져오기 에러: ", error);
       }
     };
 
     loadFolders();
-  }, []);
+    fetchComments(photoData.id); // photoData.id를 이용해 댓글을 가져옵니다.
+  }, [photoData.id]);
 
-  const handleNewCommentChange = (e) => {
-    setNewComment(e.target.value);
+  const fetchComments = async (photoId) => {
+    try {
+      const response = await API.get(`/gallery/comments`);
+      const matchingComments = response.data.filter(
+        (item) => item.photo === photoId
+      );
+      if (matchingComments.length > 0) {
+        setComments(matchingComments);
+      } else {
+        console.log("사진 ID가 일치하지 않습니다.");
+      }
+    } catch (error) {
+      console.error("댓글 불러오기 실패: ", error);
+    }
+  };
+
+  const reply = async () => {
+    try {
+      await API.post("/gallery/comments", {
+        photo: photoData.id,
+        text: newComment,
+      });
+      alert("댓글이 작성되었습니다!!!");
+      setNewComment("");
+      fetchComments(photoData.id); // 댓글 작성 후 다시 댓글을 가져옵니다.
+    } catch (error) {
+      console.error("댓글 작성에 실패했습니다 ", error);
+    }
   };
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
+    reply();
   };
 
   const handleSettingsClick = () => {
@@ -294,9 +320,50 @@ const PhotoDetail = ({ photoData, closeModal }) => {
     setIsMoveFolderModalOpen(true);
   };
 
-  const handleFolderClick = (folder) => {
-    setSelectedFolder(folder);
-    setIsMoveFolderModalOpen(false);
+  const handleFolderClick = (folderId) => {
+    console.log("클릭된 폴더 ID:", folderId); // 폴더 ID가 올바르게 선택되는지 확인
+    setSelectedFolder(folderId);
+  };
+
+  const handleDeletePhoto = async () => {
+    try {
+      await API.delete(`/gallery/photos/${photoData.id}`);
+      alert("사진이 삭제되었습니다.");
+      closeModal(); // 삭제 후 모달 닫기
+      window.location.reload();
+    } catch (error) {
+      console.error("사진 삭제 실패: ", error);
+      alert("사진 삭제에 실패했습니다.");
+    }
+  };
+
+  const handleMoveFolderSubmit = async () => {
+    if (selectedFolder) {
+      try {
+        console.log("선택 폴더 ID", selectedFolder);
+        console.log(photoData.id);
+        const response = await API.post(
+          `/gallery/photos/${photoData.id}/add_to_album`,
+          {
+            album: selectedFolder, // 폴더 ID를 사용
+          }
+        );
+        if (response.status === 200 || response.status === 201) {
+          alert("폴더 이동이 완료되었습니다.");
+          setIsMoveFolderModalOpen(false);
+          closeModal(); // 모달 닫기
+          window.location.reload();
+        } else {
+          console.error("Unexpected response:", response);
+          alert("폴더 이동에 실패했습니다.");
+        }
+      } catch (error) {
+        console.error("폴더 이동 실패: ", error);
+        alert("폴더 이동에 실패했습니다.");
+      }
+    } else {
+      alert("이동할 폴더를 선택해주세요.");
+    }
   };
 
   return (
@@ -304,11 +371,11 @@ const PhotoDetail = ({ photoData, closeModal }) => {
       <Modal>
         <CloseButton onClick={closeModal}>&times;</CloseButton>
         <Header>
-          <HeaderIcon src="icon-url" alt="icon" />
-          <HeaderTitle>{photoData.date}</HeaderTitle>
+          {/* <HeaderIcon src="icon-url" alt="icon" />
+          <HeaderTitle>{photoData.date}</HeaderTitle> */}
         </Header>
         <PostInfo>
-          <Avatar src="avatar-url" alt="avatar" />
+          <Avatar src={photoData.profile.avatar} alt="avatar" />
           <PostContent>
             <PostText>{photoData.profile.nickname}</PostText>
           </PostContent>
@@ -327,8 +394,16 @@ const PhotoDetail = ({ photoData, closeModal }) => {
           <CommentList>
             {comments.map((comment, index) => (
               <CommentItem key={index}>
-                <CommentAvatar src="avatar-url" alt="avatar" />
-                <CommentText>{comment}</CommentText>
+                <CommentAvatar
+                  src={
+                    comment.user_profile_image || "/path/to/default/avatar.jpg"
+                  }
+                  alt="avatar"
+                />
+                <CommentText>
+                  <strong>{comment.user_name}</strong>
+                  <p>{comment.text}</p>
+                </CommentText>
               </CommentItem>
             ))}
           </CommentList>
@@ -336,7 +411,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
         <CommentForm onSubmit={handleCommentSubmit}>
           <TextArea
             value={newComment}
-            onChange={handleNewCommentChange}
+            onChange={(e) => setNewComment(e.target.value)}
             rows="2"
             placeholder="댓글 달기"
           />
@@ -349,9 +424,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
           <CloseButton onClick={() => setIsSettingsModalOpen(false)}>
             &times;
           </CloseButton>
-          <Button onClick={() => setIsSettingsModalOpen(false)}>
-            사진 삭제하기
-          </Button>
+          <Button onClick={handleDeletePhoto}>사진 삭제하기</Button>
           <Button onClick={handleMoveFolderClick}>폴더 이동하기</Button>
         </SmallModal>
       )}
@@ -365,18 +438,21 @@ const PhotoDetail = ({ photoData, closeModal }) => {
             <h2 style={{ color: "white" }}>폴더 선택</h2>
             <FolderList>
               {folders.map((folder) => (
-                <Folder key={folder} onClick={() => handleFolderClick(folder)}>
+                <Folder
+                  key={folder.id}
+                  onClick={() => handleFolderClick(folder.id)}
+                >
                   <FontAwesomeIcon
-                    icon={selectedFolder === folder ? faFolderOpen : faFolder}
+                    icon={
+                      selectedFolder === folder.id ? faFolderOpen : faFolder
+                    }
                     size="3x"
                   />
-                  <FolderName>{folder}</FolderName>
+                  <FolderName>{folder.name}</FolderName>
                 </Folder>
               ))}
             </FolderList>
-            <Button onClick={() => setIsMoveFolderModalOpen(false)}>
-              폴더 이동하기
-            </Button>
+            <Button onClick={handleMoveFolderSubmit}>폴더 이동하기</Button>
           </SecondModal>
         </Overlay>
       )}

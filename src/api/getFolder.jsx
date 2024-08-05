@@ -31,3 +31,13 @@ export const deletePhoto = async () => {
     throw error;
   }
 };
+
+export const fetchFavorites = async () => {
+  try {
+    const response = await API.get("/gallery/favorites");
+    return response.data;
+  } catch (error) {
+    console.error("즐겨찾기 데이터를 가져오는 중 에러 발생:", error);
+    throw error;
+  }
+};

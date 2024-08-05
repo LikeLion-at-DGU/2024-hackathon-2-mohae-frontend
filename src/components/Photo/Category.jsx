@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from "react";
-import * as S from "../../pages/Photo/PhotoPoststyled";
-import { fetchFolders, addFolder } from "../../api/getFolder";
+import React, { useEffect } from "react";
+import * as S from "../../pages/Photo/PhotoPoststyled"; // styled-components 분리
+import { API } from "../../api";
 
 const Category = ({
+  filter,
+  setFilter,
   folders,
   setFolders,
   selectedFolder,
   setSelectedFolder,
+  setPhotos, // 폴더의 사진을 저장할 상태 추가
 }) => {
-  const [filter, setFilter] = useState("all");
-
   useEffect(() => {
     const loadFolders = async () => {
       try {
-        const data = await fetchFolders();
-        setFolders(data.map((folder) => folder.name));
+        const response = await API.get("/gallery/albums");
+        setFolders(
+          response.data.map((folder) => ({ id: folder.id, name: folder.name }))
+        );
       } catch (error) {
         console.error("폴더 목록 가져오기 에러:", error);
       }
@@ -28,9 +31,16 @@ const Category = ({
     setSelectedFolder("all");
   };
 
-  const handleFolderSelect = (folder) => {
+  const handleFolderSelect = async (folder) => {
     setSelectedFolder(folder);
     setFilter("folder");
+    // 선택된 폴더의 사진을 가져옴
+    try {
+      const response = await API.get(`/gallery/albums/${folder.id}/photos`);
+      setPhotos(response.data);
+    } catch (error) {
+      console.error("폴더 사진 가져오기 에러:", error);
+    }
   };
 
   const addNewFolder = async () => {
@@ -39,11 +49,16 @@ const Category = ({
 
     if (newFolderName) {
       try {
-        // 서버에 POST 요청을 보내 폴더를 추가
-        const newFolder = await addFolder(newFolderName);
+        const newFolder = await API.post("/gallery/albums", {
+          name: newFolderName,
+        });
         console.log("서버 응답:", newFolder);
 
-        setFolders((prevFolders) => [...prevFolders, newFolder.name]);
+        // 폴더 목록을 다시 불러옴
+        const response = await API.get("/gallery/albums");
+        setFolders(
+          response.data.map((folder) => ({ id: folder.id, name: folder.name }))
+        );
       } catch (error) {
         console.error("폴더 추가 중 에러 발생:", error);
       }
@@ -86,7 +101,7 @@ const Category = ({
                 onClick={() => handleFolderSelect(folder)}
                 active={selectedFolder === folder}
               >
-                {folder}
+                {folder.name}
               </S.Item>
             ))}
             <S.Item onClick={addNewFolder}>+</S.Item>
