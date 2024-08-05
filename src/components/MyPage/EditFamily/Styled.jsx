@@ -1,6 +1,7 @@
 import styled, {keyframes} from 'styled-components';
 
 import { FaPen, FaUserPlus, FaTimes } from "react-icons/fa";
+import { LuMail, LuMailPlus } from "react-icons/lu";
 
 
 
@@ -375,15 +376,20 @@ export const Rowdi = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
 `;
 
 export const FormInput2 = styled.input`
   display: flex;
-  width: 75%;
-  height: 5rem;
+  width: 65%;
+  height: 4.25rem;
   justify-content: center;
   align-items: center;
 
+  outline: none;
+
+  padding: 0rem 3rem 0rem 2rem;
 
   border-radius: 0.625rem;
   border: 1px #ABABAB;
@@ -401,8 +407,8 @@ export const FormInput2 = styled.input`
 
 export const inputbutton = styled.button`
   display: flex;
-  width: 25%;
-  height: 5rem;
+  width: 35%;
+  height: 4rem;
   justify-content: center;
   align-items: center;
 
@@ -414,6 +420,123 @@ export const inputbutton = styled.button`
   text-align: center;
   font-family: 'NanumSquareRound';
   font-size: 1.875rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+`;
+
+export const Formprint2 = styled.div`
+  display: flex;
+  width: 100%;
+  height: 4rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2rem;
+
+  margin-top: 1.5rem;
+
+  border: none;
+  outline: none;
+
+  background-color: #EDEDED;
+
+  color: #2d539e;
+  font-family: 'NanumSquareRound';
+  font-size: 1.625rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+export const SendingBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+`;
+
+export const SendIcon = styled(LuMail)`
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid #9d9d9d;
+  border-radius: 2rem;
+  padding: 0.75rem;
+`;
+
+export const SendText = styled.div`
+  display: flex;
+`;
+
+export const Phone = styled.div`
+  color: #000;
+
+  font-family: 'NanumSquareRound';
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+export const Phoneadding = styled.div`
+  display: flex;
+  gap: 1rem;
+
+  color: #9F9F9F;
+
+  font-family: 'NanumSquareRound';
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+`;
+
+export const StyleiconLu = styled(LuMailPlus)`
+  width: 1.25rem;
+  height: 1.25rem;
+`;
+
+export const PhoneNumberInput = styled.input`
+  display: flex;
+  width: 360px;
+  height: 5rem;
+  justify-content: center;
+  align-items: center;
+
+  outline: none;
+
+  padding: 0rem 3rem 0rem 2rem;
+
+  border-radius: 0.625rem;
+  border: 1px #ABABAB;
+
+  background: #F7F8FB;
+
+  color: #ABABAB;
+
+  font-family: 'NanumSquareRound';
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+export const SendingButton = styled.div`
+  display: flex;
+  height: 71px;
+  padding: 7px 55px;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 0.625rem;
+  background: #2D539E;
+
+  color: #FFF;
+
+  text-align: center;
+  font-family: 'NanumSquareRound';
+  font-size: 30px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;

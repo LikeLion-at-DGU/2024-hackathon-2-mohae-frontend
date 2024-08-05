@@ -80,7 +80,7 @@ const BucketList = () => {
             </S.Bucket>
           ))}
           {showForm && (
-            <S.inputBucket>
+            <S.InputBucket>
               <S.BucketNumber>{bucketlist.length + 1}</S.BucketNumber>
               <S.EventInputStyle
                 type="text"
@@ -89,12 +89,12 @@ const BucketList = () => {
                 placeholder="당신의 버킷리스트를 입력해주세요"
               />
               <S.ActionButton onClick={handleAddBucketList}><FaCheck /></S.ActionButton>
-            </S.inputBucket>
+            </S.InputBucket>
           )}
           {finishedBuckets.map((item, index) => (
-            <S.Bucket key={item.id} completed>
+            <S.Bucket key={item.id} completed="true">
               <S.BucketNumber>{unfinishedBuckets.length + index + 1}</S.BucketNumber>
-              <S.BucketContent completed>{item.title}</S.BucketContent>
+              <S.BucketContent completed="true">{item.title}</S.BucketContent>
               <S.Actions className="actions">
                 <S.ActionButton onClick={() => handleToggleCompletion(item.id, true)}><FaRedo /></S.ActionButton>
               </S.Actions>

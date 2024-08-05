@@ -65,11 +65,6 @@ const Signup = () => {
     fileInputRef.current.click();
   };
 
-  const selectDefaultPhoto = (photo) => {
-    setPhoto(photo);
-    setPreviewSrc(photo);
-  };
-
   const FirstFormNext = () => {
     setFirstform(false);
     setSecondform(true);
@@ -113,6 +108,20 @@ const Signup = () => {
     setThirdform(true);
     setMarketingform(false);
   }
+
+  const urlToFile = async (url, filename, mimeType) => {
+    const res = await fetch(url);
+    const buf = await res.arrayBuffer();
+    return new File([buf], filename, { type: mimeType });
+  };
+
+  const selectDefaultPhoto = async (photoUrl, filename) => {
+    const file = await urlToFile(photoUrl, filename, 'image/png'); // Adjust mime type if necessary
+    setPhoto(file);
+    setPreviewSrc(photoUrl);
+  };
+
+  
 
   const handleSubmit = async () => {
     const formattedBirthDate = new Date(birth).toISOString().split('T')[0]; // 'YYYY-MM-DD' 형식으로 변환
@@ -323,22 +332,22 @@ const Signup = () => {
                   <S.BasicImage
                     src={Mohaeduaghter}
                     alt="기본 이미지1"
-                    onClick={() => selectDefaultPhoto(Mohaeduaghter)}
+                    onClick={() => selectDefaultPhoto(Mohaeduaghter, 'mohaedaughter.png')}
                   />
                   <S.BasicImage
                     src={Mohaeson}
                     alt="기본 이미지2"
-                    onClick={() => selectDefaultPhoto(Mohaeson)}
+                    onClick={() => selectDefaultPhoto(Mohaeson, 'mohaeson.png')}
                   />
                   <S.BasicImage
                     src={Mohaemom}
                     alt="기본 이미지3"
-                    onClick={() => selectDefaultPhoto(Mohaemom)}
+                    onClick={() => selectDefaultPhoto(Mohaemom, 'mohaemom.png')}
                   />
                   <S.BasicImage
                     src={Mohaedad}
                     alt="기본 이미지4"
-                    onClick={() => selectDefaultPhoto(Mohaedad)}
+                    onClick={() => selectDefaultPhoto(Mohaedad, 'mohaedad.png')}
                   />
                 </S.BasicImageContainer>
                 {previewSrc && (

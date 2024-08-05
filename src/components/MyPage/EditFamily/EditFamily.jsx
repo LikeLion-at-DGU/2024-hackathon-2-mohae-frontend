@@ -10,9 +10,11 @@ const EditFamily = () => {
   const [familyMembers, setFamilyMembers] = useState([]);
 
   const [code, setCode] = useState("");
+  const [family, setFamily] = useState("");
 
   const [codeform, setCodeform] = useState(false);
   const [inviteform, setInviteform] = useState(false);
+  const [invitingfamilyform, setInvitingfamilyform] = useState(false);
 
   const fetchFamilyData = async () => {
     try {
@@ -42,6 +44,18 @@ const EditFamily = () => {
     }
   }
 
+  const PostFamilyName = async () => {
+    try {
+      const response1 = await API.post("/users/family", { family_name : family });
+      console.log("포스트 성공");
+      const response = await API.get("users/family");
+      console.log(response.data.family_id);
+    } catch {
+      console.log(error);
+    }
+  }
+
+
   useEffect(() => {
     fetchFamilyData();
   }, []);
@@ -51,6 +65,11 @@ const EditFamily = () => {
     if (url.startsWith("http")) return url;
     return `http://127.0.0.1:8000${url}`;
   };
+
+  const Invitingfamily = () => {
+    setInviteform(false);
+    setInvitingfamilyform(true);
+  }
 
   return (
     <>
@@ -104,15 +123,54 @@ const EditFamily = () => {
       {inviteform && (
         <>
           <S.backWrapping onClick={() => setInviteform(false)} />
-          <S.FormContent>
-            <S.Rowdi>
-              <S.FormTitle>가족 구성원 초대하기</S.FormTitle>
-              <S.StyledTimes onClick={() => setInviteform(false)} />
-            </S.Rowdi>
-            <S.FormSubtitle>우리 가족명</S.FormSubtitle>
-            <S.FormInput2 />
-            <S.inputbutton>입력</S.inputbutton>
-          </S.FormContent>
+          <S.NewEventForm>
+            <S.FormContent>
+              <S.Rowdi>
+                <S.FormTitle>가족 구성원 초대하기</S.FormTitle>
+                <S.StyledTimes onClick={() => setInviteform(false)} />
+              </S.Rowdi>
+              <S.FormSubtitle>우리 가족명</S.FormSubtitle>
+              <S.Rowdi>
+                <S.FormInput2 
+                  type="text"
+                  placeholder="가족명 입력"
+                  value={family}
+                  onChange={(e) => setFamily(e.target.value)}
+                />
+                <S.inputbutton style={{background: '9F9F9F'}} onClick={PostFamilyName}>입력</S.inputbutton>
+              </S.Rowdi>
+              <S.Formprint2></S.Formprint2>
+              <S.SendingBox onClick={Invitingfamily}>
+                <S.SendIcon />
+                <S.SendText>문자전송</S.SendText>
+              </S.SendingBox>
+            </S.FormContent>
+          </S.NewEventForm>
+        </>
+      )}
+      {invitingfamilyform && (
+        <>
+          <S.backWrapping onClick={() => setInvitingfamilyform(false)} />
+          <S.NewEventForm>
+            <S.FormContent>
+              <S.Rowdi>
+                <S.FormTitle>가족 구성원 초대하기</S.FormTitle>
+                <S.StyledTimes onClick={() => setInvitingfamilyform(false)} />
+              </S.Rowdi>
+              <S.Formprint2></S.Formprint2>
+              <S.Rowdi>
+                <S.Phone>휴대폰 번호</S.Phone>
+                <S.Phoneadding><S.StyleiconLu />번호 추가하기</S.Phoneadding>
+              </S.Rowdi>
+              <S.PhoneNumberInput
+                type="text"
+                placeholder="숫자만 입력"
+                value={family}
+                onChange={(e) => setFamily(e.target.value)}
+              />
+              <S.SendingButton>문자 전송</S.SendingButton>
+            </S.FormContent>
+          </S.NewEventForm>
         </>
       )}
     </>
