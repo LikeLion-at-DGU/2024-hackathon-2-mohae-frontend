@@ -73,21 +73,21 @@ export const BucketList = styled.div`
 
   @media (max-width: 359px) {
     gap: 0.875rem;
-    height: 5rem;
+    height: 8rem;
   }
 `;
 
 export const Bucket = styled.div`
   display: flex;
   flex-direction: row;
-  width: calc(100% - 3.5rem);
+  width: calc(100% - 5.5rem);
   height: 4rem;
   padding: 1rem 1.5rem;
   gap: 1rem;
   align-items: center;
   border-radius: 0.625rem;
   border: 2px solid #EDEDED;
-  background: ${props => props.completed ? '#D3D3D3' : '#F0F0F0'};
+  background: ${props => props.completed === "true" ? '#D3D3D3' : '#F0F0F0'};
   position: relative;
 
   @media (max-width: 359px) {
@@ -101,7 +101,7 @@ export const Bucket = styled.div`
   }
 `;
 
-export const inputBucket = styled.div`
+export const InputBucket = styled.div`
   display: flex;
   flex-direction: row;
   width: calc(100% - 3.5rem);
@@ -147,7 +147,7 @@ export const BucketContent = styled.div`
   font-weight: 400;
   line-height: normal;
   ${props =>
-    props.completed &&
+    props.completed === "true" &&
     css`
       text-decoration: line-through;
     `}

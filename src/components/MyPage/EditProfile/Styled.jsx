@@ -1,4 +1,4 @@
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const fadeIn = keyframes`
   from {
@@ -12,13 +12,11 @@ const fadeIn = keyframes`
 export const EditProfileContainer = styled.div`
   display: flex;
   margin-top: 2rem;
-  
   width: 8rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
-
+  gap: 1rem;
   padding: 2rem 14rem;
   background-color: #FFF;
   border-radius: 1.25rem;
@@ -35,7 +33,6 @@ export const EditProfileImage = styled.div`
   height: 7.75rem;
   position: relative;
   border-radius: 7.75rem;
-  background-color: #000;
 
   @media (max-width: 359px) {
     width: 4.5rem;
@@ -45,11 +42,12 @@ export const EditProfileImage = styled.div`
 `;
 
 export const IMG = styled.img`
-  width: 3rem;
-  height: 3rem;
+  width: 7.75rem;
+  height: 7.75rem;
+  border-radius: 10rem;
   @media (max-width: 359px) {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 4rem;
+    height: 4rem;
   }
 `;
 
@@ -73,7 +71,6 @@ export const EditProfileContent = styled.div`
 
 export const EditProfileName = styled.div`
   color: #000;
-
   text-align: center;
   font-family: 'NanumSquareRound';
   font-size: 1.5rem;
@@ -88,14 +85,12 @@ export const EditProfileName = styled.div`
 
 export const EditProfileText = styled.div`
   color: #9F9F9F;
-
   text-align: center;
   font-family: 'NanumSquareRound';
   font-size: 1.375rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  
   cursor: pointer;
 
   @media (max-width: 359px) {
@@ -103,16 +98,12 @@ export const EditProfileText = styled.div`
   }
 `;
 
-
-
-
 export const backWrapping = styled.div`
   width: 130%;
   height: 100%;
   position: fixed;
   top: 0;
   left: -15%;
-
   z-index: 100;
   background: rgba(159, 159, 159, 0.50);
 
@@ -126,10 +117,8 @@ export const backWrapping = styled.div`
 
 export const NewEventForm = styled.div`
   position: fixed;
-
   top: 50%;
   left: 50%;
-
   transform: translate(-50%, -50%);
   background: white;
   border: 1px solid #ccc;
@@ -138,7 +127,6 @@ export const NewEventForm = styled.div`
   min-width: 500px;
   max-width: 90%;
   z-index: 1000;
-
   animation: ${fadeIn} 0.3s ease-in-out;
 
   @media (max-width: 359px) {
@@ -161,9 +149,8 @@ export const row = styled.div`
 export const EditProfileCloseButton = styled.button`
   background-color: #FFF;
   color: #2D539E;
-  border: 1px solid  ;
+  border: 1px solid;
   padding: 5px 10px;
-
   border-radius: 5px;
   width: 45%;
   font-size: 1rem;
@@ -174,9 +161,7 @@ export const EditProfileAddButton = styled.button`
   color: #FFF;
   border: none;
   padding: 5px 10px;
-
   border: 1px solid #2D539E;
-
   border-radius: 5px;
   width: 45%;
   font-size: 1rem;
@@ -186,12 +171,9 @@ export const contentContainer = styled.div`
   display: flex;
   text-align: center;
   padding: 0.5rem;
-
   align-items: center;
-  justify-content: space-between;
-
+  justify-content: space-around;
   flex-direction: row;
-
   border: 2px solid #EDEDED;
   border-radius: 10px;
 `;
@@ -204,7 +186,6 @@ export const EventInputStyle = styled.input`
   font-size: 1rem;
   font-family: "NanumSquareRound";
   padding: 0.344rem 0rem;
-
   outline: none;
 `;
 
@@ -219,10 +200,25 @@ export const FormText = styled.div`
 
 export const FormTitle = styled.div`
   color: #000;
-
   font-family: 'NanumSquareRound';
   font-size: 1.5rem;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
+`;
+
+export const PreviewContainer = styled.div`
+  margin-top: 1rem;
+`;
+
+export const PreviewImage = styled.img`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+`;
+
+export const CustomPhotoButton = styled.img`
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
 `;

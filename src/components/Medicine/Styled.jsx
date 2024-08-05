@@ -1,4 +1,4 @@
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const fadeIn = keyframes`
   from {
@@ -9,6 +9,17 @@ const fadeIn = keyframes`
   }
 `;
 
+export const BigBox = styled.div`
+  @media (max-width: 359px) {
+    width: 320px;
+  }
+`;
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
 
 export const MedicineContainers = styled.div`
   display: flex;
@@ -18,6 +29,8 @@ export const MedicineContainers = styled.div`
   gap: 1rem;
   margin-bottom: 2rem;
   overflow-x: scroll;
+
+  padding-bottom: 0.5rem;
 
   @media (max-width: 359px) {
     width: 320px;
@@ -155,12 +168,13 @@ export const MedicineTitle = styled.div`
   }
 `;
 
-export const ProfileImage = styled.div`
-  width: 3.125rem;
-  height: 3.125rem;
+export const ProfileImage = styled.img`
+  width: 2rem;
+  height: 2rem;
 
-  border-radius: 3.125rem;
-  background-color: rebeccapurple;
+  border-radius: 2.5rem;
+
+  margin-left: 1rem;
 
   @media (max-width: 359px) {
     width: 1.125rem;
@@ -225,11 +239,16 @@ export const CheckCircle = styled.div`
   height: 2.5rem;
   padding: 0.5rem;
 
+  justify-content: center;
+  align-items: center;
+
   border-radius: 2.5rem;
   background-color: #2d539e;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
 
   animation: ${fadeIn} 0.2s ease-in-out;
+
+  cursor: pointer;
 
   &:hover {
     background-color : #1D3E7F;
@@ -253,6 +272,8 @@ export const CheckNoCircle = styled.div`
 
   animation: ${fadeIn} 0.2s ease-in-out;
 
+  cursor: pointer;
+
   &:hover {
     background-color: #F0F0F0;
   }
@@ -263,7 +284,7 @@ export const CheckNoCircle = styled.div`
   }
 `;
 
-export const CheckBar = styled.div`
+export const CheckBarContainer = styled.div`
   display: flex;
   width: 300px;
   margin: 1rem;
@@ -274,51 +295,9 @@ export const CheckBar = styled.div`
   }
 `;
 
-export const CheckBarAll = styled.div`
-  width: 300px;
-  margin: auto;
+export const CheckBarPart = styled.div`
   height: 5px;
-  border: 20px;
   background-color: #D9D9D9;
-
-  @media (max-width: 359px) {
-    width: 168px;
-    height: 3px;
-  }
-`;
-
-export const CheckBar33 = styled.div`
-  position: absolute;
-  width: 33%;
-  height: 5px;
-  border: 20px;
-  background-color: #2D539e;
-
-  @media (max-width: 359px) {
-    height: 3px;
-  }
-`;
-
-export const CheckBar66 = styled.div`
-  position: absolute;
-  width: 34%;
-  left: 33%;
-  height: 5px;
-  border: 20px;
-  background-color: #2D539e;
-
-  @media (max-width: 359px) {
-    height: 3px; 
-  }
-`;
-
-export const CheckBar100 = styled.div`
-  position: absolute;
-  width: 33%;
-  left: 67%;
-  height: 5px;
-  border: 20px;
-  background-color: #2D539e;
 
   @media (max-width: 359px) {
     height: 3px;
@@ -327,15 +306,14 @@ export const CheckBar100 = styled.div`
 
 export const AddButton = styled.div`
   display: flex;
-  position: absolute;
-  right: 0;
-  top: -4rem;
   color: #9f9f9f;
   text-align: center;
   font-family: 'NanumSquareRound';
   font-size: 1.5rem;
   font-style: normal;
   font-weight: 800;
+
+  cursor: pointer;
 
   @media (max-width: 359px) {
     font-size: 0.75rem;
@@ -409,6 +387,8 @@ export const MedicineCloseButton = styled.button`
   border: 1px solid  ;
   padding: 5px 10px;
 
+  cursor: pointer;
+
   border-radius: 5px;
   width: 45%;
   font-size: 1rem;
@@ -419,6 +399,8 @@ export const MedicineAddButton = styled.button`
   color: #FFF;
   border: none;
   padding: 5px 10px;
+
+  cursor: pointer;
 
   border: 1px solid #2D539E;
 
@@ -480,8 +462,9 @@ export const FormTitle = styled.div`
 import { FaCheck } from "react-icons/fa"
 
 export const StyFaCheck = styled(FaCheck)`
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
+  
   color: #FFF;
 
   @media (max-width: 359px) {

@@ -297,7 +297,7 @@ export const CustomCalendar = styled.div`
 
     @media (max-width: 359px) {
       min-height: 3.5rem;
-      min-width: 30px;
+      min-width: 20px;
       padding: 0.1em;
       font-size: 0.375rem;
     }
@@ -480,6 +480,10 @@ export const CloseButton2 = styled.button`
   border: none;
   font-size: 1.75rem;
   cursor: pointer;
+
+  @media (max-width: 359px) {
+    font-size: 1rem;
+  }
 `;
 
 export const FormContent = styled.div`
@@ -557,6 +561,7 @@ export const EventInputStyle = styled.input`
   font-size: 1rem;
   font-family: "NanumSquareRound";
   padding: 0.344rem 0rem;
+  outline: none;
 
   @media (max-width: 359px) {
     font-size: 0.75rem;
@@ -651,7 +656,7 @@ export const SideSchedules = styled.div`
 
 export const SideContainer = styled.div`
   display: flex;
-  width: 280px;
+  width: 300px;
   height: 100%;
 
   flex-direction: column;
@@ -669,6 +674,10 @@ export const DateStyle = styled.div`
   font-family: "NanumSquareRound";
   font-weight: 800;
   color: #2d539e;
+
+  @media (max-width: 359px) {
+    font-size: 1rem;
+  }
 `;
 
 export const ScheduleStyle = styled.div`
@@ -691,4 +700,61 @@ export const FormTitle = styled.div`
   line-height: normal;
 
   margin-bottom: 1rem;
+`;
+
+export const ArrowButton = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 2rem;
+  color: #2D539E;
+  padding: 1rem; // Increase the padding to make the arrows longer
+
+  &:hover {
+    color: #1D3E7F;
+  }
+
+  @media (max-width: 359px) {
+    font-size: 1rem;
+    padding: 0.5rem; // Adjust padding for smaller screens
+  }
+`;
+
+export const EventTitle = styled.div`
+  color: #000;
+
+  font-family: 'NanumSquareRound';
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-bottom: 0.375rem;
+`;
+
+export const EventTime = styled.div`
+  color: #000;
+
+  font-family: 'NanumSquareRound';
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 0.25rem;
+`;
+
+export const EventParti = styled.div`
+  color: #000;
+
+  font-family: 'NanumSquareRound';
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-bottom: 0.25rem;
+`;
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;

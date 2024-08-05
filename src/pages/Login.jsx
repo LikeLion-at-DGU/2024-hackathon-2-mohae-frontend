@@ -28,11 +28,57 @@ const PageStyle = createGlobalStyle`
   }
 `;
 
+export const BackEffect = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-top: 2rem;
+  padding-bottom: 11rem;
+  width: 130%;
+  height: 100%;
+  align-items: center;
+  background: linear-gradient(120deg, #e1eaff 0%, #fff 52.4%, #dcfafc 100%);
+
+  @media (max-width: 359px) {
+    width: 105%;
+    padding-top: 1rem;
+  }
+`;
+
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: inherit; /* 원래 텍스트 색상을 유지하려면 사용 */
+  color: inherit; /* 원래 텍스트 색상을 유지 */
+
   &:hover {
-    text-decoration: none; /* 호버 시에도 밑줄 없앰 */
+    text-decoration: none;
+  }
+`;
+
+const Top = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0;
+
+  @media (max-width: 359px) {
+    padding: 0;
+  }
+`;
+
+const MOHAEsytle = styled.h1`
+  color: #2d539e;
+  text-align: center;
+  font-family: "Cafe24 Meongi B";
+  font-size: 3rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  margin-bottom: 4rem;
+
+  @media (max-width: 359px) {
+    font-size: 1.5rem;
+    height: 0.5rem;
   }
 `;
 
@@ -40,10 +86,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.25rem;
-  font-family: Arial, sans-serif;
   width: 100%;
-  overflow: auto;
   @media (max-width: 359px) {
     width: 300px;
     padding: 10px;
@@ -76,15 +119,14 @@ const UnderText = styled.p`
 const Nemo = styled.div`
   width: 636px;
   border-radius: 20px;
-  background-color: #fff;
+  background-color: inherit;
   padding: 20px 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   @media (max-width: 359px) {
     width: calc(100%);
-    padding: 10px;
+    padding: 20px;
     flex-shrink: 0;
     border-radius: 25px;
     background: #fff;
@@ -93,25 +135,23 @@ const Nemo = styled.div`
 
 const First = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   color: #000;
-  font-family: "NanumSquare Neo";
-  font-size: 26px;
+  font-family: 'NanumSquareRound';
+  font-size: 36px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   line-height: normal;
   margin-bottom: 60px;
   @media (max-width: 359px) {
-    width: 120px;
-    height: 24px;
     flex-shrink: 0;
     color: #000;
     font-family: "NanumSquareRound";
     font-size: 1rem;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     line-height: normal;
     margin-bottom: 0.25rem;
   }
@@ -122,12 +162,14 @@ const Form = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  gap: 0.5rem;
 `;
 
 const Label = styled.label`
   color: #000;
   text-align: left;
-  font-family: "NanumSquare Neo OTF";
+  font-family: 'NanumSquareRound';
   font-size: 23px;
   font-style: normal;
   font-weight: 400;
@@ -147,8 +189,10 @@ const Label = styled.label`
 
 const Flex = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
+  gap: 1rem;
   margin-bottom: 20px;
   @media (max-width: 359px) {
     display: flex;
@@ -160,22 +204,43 @@ const Flex = styled.div`
 `;
 
 const InputWrapper = styled.div`
-  width: 311px;
   display: flex;
+  width: 100%;
+  height: 71px;
+  justify-content: center;
   align-items: center;
+
+  border-radius: 10px;
+  border: 2px solid #ABABAB;
+
+  background: #F7F8FB;
+
 
   @media (max-width: 359px) {
     width: 100%;
+    height: 2.75rem;
   }
 `;
 
 const Input = styled.input`
   width: 100%;
-  height: 30px;
-  padding: 3px 10px;
-  border-radius: 10px;
-  border: 1.2px solid #ababab;
-  background: #fff;
+  margin-left: 1.25rem;
+
+  color: #ABABAB;
+
+  font-family: NanumSquareRound;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  
+  border: none;
+  outline: none;
+  background-color: inherit;
+
+  @media (max-width: 359px) {
+    font-size: 1rem;
+  }
 `;
 
 const CheckboxLabel = styled.label`
@@ -203,22 +268,23 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const Button = styled.button`
-  width: 224px;
-  height: 48px;
+const Button = styled.div`
+  display: flex;
+  width: 500px;
   justify-content: center;
   align-items: center;
-  border-radius: 30px;
+  border-radius: 1rem;
   background: #2d539e;
+
   color: #fff;
-  font-family: "Cafe24 Dongdong";
-  font-size: 25px;
+  font-family: "NanumSquareRound;";
+  font-size: 2rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   line-height: normal;
   cursor: pointer;
   border: none;
-  padding: 7px 55px;
+  padding: 1rem 4rem;
   gap: 5px;
 
   &:hover {
@@ -228,20 +294,45 @@ const Button = styled.button`
   @media (max-width: 359px) {
     font-size: 1rem;
     padding: 0.375rem 3rem;
-    width: 180px;
+    width: 210px;
     height: 2rem;
+    border-radius: 0.75rem;
   }
 `;
 
-const Button1 = styled(Button)`
-  background: #ffffff;
-  border: 1px solid #2d539e;
+const StyleLink = styled(Link)`
+  display: flex;
+  width: 500px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  background: #fff;
   color: #2d539e;
+
+  font-family: "NanumSquareRound;";
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  padding: 1rem 4rem;
+  gap: 5px;
 
   &:hover {
     background-color: #f0f0f0;
   }
+
+  @media (max-width: 359px) {
+    font-size: 1rem;
+    padding: 0.375rem 3rem;
+    width: 210px;
+    height: 2rem;
+    border-radius: 0.75rem;
+  }
 `;
+
 
 const Find = styled.div`
   text-align: center;
@@ -345,7 +436,7 @@ const Login = () => {
         localStorage.setItem("refresh_token", response.data.refresh);
 
         alert("로그인 성공!");
-        window.location.href = "/";
+        window.location.href = "/Homepage";
       } else {
         setErrorMessage(
           "로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요."
@@ -378,68 +469,67 @@ const Login = () => {
   return (
     <>
       <PageStyle />
-      <Container>
-        <Link to="/"></Link>
-        {/* <P1>
-          모해 <span>MOHAE</span> 서비스
-        </P1> */}
-        <UnderText>
-          모해(MOHAE)는 ‘엄마, 아빠 그리고 나’ 일상을 보다 더 건강하고 의미있게
-          맺어주는 플랫폼입니다.
-          <br />
-          가족의 일상에 더욱 관심을 가지고 표현하기 어려웠던 생각과 마음을
-          나누어봅시다!
-        </UnderText>
-        <Nemo>
-          <Form>
-            <First>로그인 모해?</First>
-            <Flex>
-              <Label>아이디</Label>
-              <InputWrapper>
-                <Input
-                  type="text"
-                  placeholder="아이디 입력"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </InputWrapper>
-            </Flex>
+      <BackEffect>
+        <Container>
+          <Top>
+            <StyledLink to="/">
+              <MOHAEsytle>MOHAE</MOHAEsytle>
+            </StyledLink>
+          </Top>
+          {/* <UnderText>
+            모해(MOHAE)는 ‘엄마, 아빠 그리고 나’ 일상을 보다 더 건강하고 의미있게
+            맺어주는 플랫폼입니다.
+            <br />
+            가족의 일상에 더욱 관심을 가지고 표현하기 어려웠던 생각과 마음을
+            나누어봅시다!
+          </UnderText> */}
+          <Nemo>
+            <Form>
+              <First>로그인 모해?</First>
+              <Flex>
+                <Label>아이디</Label>
+                <InputWrapper>
+                  <Input
+                    type="text"
+                    placeholder="아이디 입력"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </InputWrapper>
+              </Flex>
 
-            <Flex>
-              <Label>비밀번호</Label>
-              <InputWrapper>
-                <Input
-                  type="password"
-                  placeholder="비밀번호 입력"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </InputWrapper>
-            </Flex>
+              <Flex>
+                <Label>비밀번호</Label>
+                <InputWrapper>
+                  <Input
+                    type="password"
+                    placeholder="비밀번호 입력"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </InputWrapper>
+              </Flex>
 
-            {errorMessage && <Error>{errorMessage}</Error>}
+              {errorMessage && <Error>{errorMessage}</Error>}
 
-            <CheckboxLabel>
-              <Checkbox type="checkbox" /> 로그인 유지
-            </CheckboxLabel>
-
-            <ButtonContainer>
-              <Button onClick={PostDateData} disabled={!username || !password}>
-                로그인
-              </Button>
-              <Link to="/Signup">
-                <Button1>회원가입</Button1>
-              </Link>
-              <Find>아이디 / 비밀번호 찾기</Find>
-              <KAKAO>- SNS 로그인 -</KAKAO>
-              <KakakoButton onClick={handleKakaoLogin}>
-                <FontAwesomeIcon icon={faComment} />
-                카카오 로그인
-              </KakakoButton>
-            </ButtonContainer>
-          </Form>
-        </Nemo>
-      </Container>
+              <ButtonContainer>
+                <Button onClick={PostDateData} style={{border: '1px solid #fff'}} disabled={!username || !password}>
+                  로그인
+                </Button>
+                <StyleLink to="/Signup" style={{border: '1px solid #2d539e'}}>
+                  회원가입
+                </StyleLink>
+                {/* <Find>아이디 / 비밀번호 찾기</Find>
+                <KAKAO>- SNS 로그인 -</KAKAO>
+                <KakakoButton onClick={handleKakaoLogin}>
+                  <FontAwesomeIcon icon={faComment} />
+                  카카오 로그인
+                </KakakoButton> */}
+              </ButtonContainer>
+            </Form>
+          </Nemo>
+        </Container>
+      </BackEffect>
     </>
   );
 };

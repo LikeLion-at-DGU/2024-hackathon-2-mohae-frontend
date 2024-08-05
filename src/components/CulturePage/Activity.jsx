@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { API } from '../../api';
 
 const Container = styled.div`
     padding: 20px;
@@ -105,60 +106,38 @@ const Distance = styled.div`
     width: 100%; 
 `;
 
-
 const tabs = [
     { label: "엑티비티", key: "Activity" },
     { label: "놀이공원.동물원", key: "Play" },
     { label: "문화체험", key: "Temapark" },
 ];
 
-const cardData = {
-    Activity: [
-        {
-            link: "https://busan.skylineluge.kr/",
-            location: "부산",
-            title: "스카이라인 루지 부산",
-            distance: "55VF 88 Busan, South Korea",
-        },
-        {
-            link: "https://leisure-web.yanolja.com/leisure/10126830",
-            location: "서울 강남",
-            title: "바운스 트램폴린 삼성센터/키즈카페",
-            distance: "대한민국 서울특별시 강남구 영동대로 325",
-        },
-        {
-            link: "https://leisure-web.yanolja.com/leisure/10035507",
-            location: "강남 역삼",
-            title: "클라임이모션 실내 클라이밍 체험/ 강습권",
-            distance: "대한민국 서울특별시 강남구 역삼동 728-41",
-        },
-        {
-            link: "https://leisure-web.yanolja.com/leisure/10104414",
-            location: "[서울] (한강)",
-            title: "카약패들보드윈드서핑",
-            distance: "서울특별시 광진구 자양동 564",
-        },
-    ],
-    Play: [
-        {
-            link: "https://leisure-web.yanolja.com/leisure/10128152",
-            location: "부산",
-            title: "김해 롯데워터파크 골드2시즌 이용권 ",
-            distance: "경상남도 김해시 장유로 555",
-        },
-    ],
-    Temapark: [
-        {
-            link: "https://www.museum.go.kr/site/main/home",
-            location: "박물관",
-            title: "국립중앙박물관",
-            distance: "서울시 용산구 서빙고로 137",
-        },
-    ],
-};
-
 const Activity = () => {
     const [activeTab, setActiveTab] = useState("Activity");
+    const [activities, setActivities] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await API.get('/culture/activities');
+                const filteredActivities = response.data.filter(activity => 
+                    activity.category && activity.category.name === '놀거리'
+                );
+                
+                // 필터링된 데이터 콘솔 출력
+                console.log('Filtered Activities:', filteredActivities);
+                
+                setActivities(filteredActivities);
+            } catch (error) {
+                console.log('fetch data error:', error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const filteredActivitiesByTab = activities.filter(activity => 
+        activity.subcategory && activity.subcategory.name === activeTab
+    );
 
     return (
         <Container>
@@ -174,14 +153,14 @@ const Activity = () => {
                 ))}
             </TabMenu>
             <CardContainer>
-                {cardData[activeTab].map((card, index) => (
-                    <CardLink href={card.link} target="_blank" key={index}>
+                {filteredActivitiesByTab.map((activity, index) => (
+                    <CardLink href={activity.hyperlink} target="_blank" key={index}>
                         <Card>
-                            <Image alt="card image" />
+                            <Image src={activity.thumbnail} alt="card image" />
                             <TextContainer>
-                                <Location>{card.location}</Location>
-                                <Title>{card.title}</Title>
-                                <Distance>{card.distance}</Distance>
+                                <Location>{activity.location || "Unknown location"}</Location>
+                                <Title>{activity.title || "Blank_title"}</Title>
+                                <Distance>{activity.distance || "Unknown distance"}</Distance>
                             </TextContainer>
                         </Card>
                     </CardLink>
