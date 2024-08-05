@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import * as S from "../../pages/Photo/PhotoPoststyled";
-import { fetchFolders, addFolder } from "../../api/getFolder";
+import * as S from "../../pages/Photo/PhotoPoststyled"; // styled-components 분리
+import { fetchFolders } from "../../api/getFolder";
+import { API } from "../../api";
+import FavoriteGallery from "./FavoriteGallery"; // 경로 수정
 
 const Category = ({
+  filter,
+  setFilter,
   folders,
   setFolders,
   selectedFolder,
   setSelectedFolder,
 }) => {
-  const [filter, setFilter] = useState("all");
-
   useEffect(() => {
     const loadFolders = async () => {
       try {
@@ -39,11 +41,12 @@ const Category = ({
 
     if (newFolderName) {
       try {
-        // 서버에 POST 요청을 보내 폴더를 추가
-        const newFolder = await addFolder(newFolderName);
+        const newFolder = await API.post("/gallery/albums", {
+          name: newFolderName,
+        });
         console.log("서버 응답:", newFolder);
 
-        setFolders((prevFolders) => [...prevFolders, newFolder.name]);
+        setFolders((prevFolders) => [...prevFolders, newFolder.data.name]);
       } catch (error) {
         console.error("폴더 추가 중 에러 발생:", error);
       }
@@ -93,6 +96,7 @@ const Category = ({
           </S.ItemList>
         </S.Section>
       )}
+      {/* {filter === "favorites" && <FavoriteGallery />} 즐겨찾기 필터 추가 */}
     </S.Menubar>
   );
 };
