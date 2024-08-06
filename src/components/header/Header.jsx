@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { BiSolidUser } from "react-icons/bi";
 
-import { API } from '../../api';
+import { API } from "../../api";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -133,23 +133,24 @@ const Header = () => {
 
   const Emergency = async () => {
     try {
-      const response = await API.post('/sms/emergency/');
+      const response = await API.post("/sms/emergency/");
+      alert("긴급 문자가 전송되었습니다.");
     } catch (error) {
       console.error(error);
     }
-  }
+  };
   return (
     <HeaderContainer>
       <Top>
         {/* <StyledLink to="/">
           <MOHAEsytle>MOHAE</MOHAEsytle>
         </StyledLink> */}
-        <StyledLink to="/">
-          <ButtonwithIcon>
-            <StyledRI size={30} style={{ color: "#FF6F6F" }} />
-            긴급
-          </ButtonwithIcon>
-        </StyledLink>
+        {/* <StyledLink to="/"> */}
+        <ButtonwithIcon>
+          <StyledRI size={30} style={{ color: "#FF6F6F" }} />
+          긴급
+        </ButtonwithIcon>
+        {/* </StyledLink> */}
         <StyledLink to="/">
           <MOHAEsytle>MOHAE</MOHAEsytle>
         </StyledLink>
@@ -160,7 +161,7 @@ const Header = () => {
           </ButtonwithIcon>
         </StyledLink>
       </Top>
-      {showHeaderfilter && 
+      {showHeaderfilter && (
         <HeaderWrap2>
           <StyledLink to="Date">
             <CategoryTitle>일정</CategoryTitle>
@@ -175,7 +176,7 @@ const Header = () => {
             <CategoryTitle>문화생활</CategoryTitle>
           </StyledLink>
         </HeaderWrap2>
-      }
+      )}
     </HeaderContainer>
   );
 };
