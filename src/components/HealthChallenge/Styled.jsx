@@ -112,6 +112,10 @@ export const AddEventButton = styled.div`
   font-weight: 800;
   cursor: pointer;
 
+  &:hover {
+    color: #6b6a6a;
+  }
+
   @media (max-width: 359px) {
     font-size: 1rem;
   }

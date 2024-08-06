@@ -163,6 +163,10 @@ export const Event = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
 
+  &:hover {
+    box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.4);
+  }
+
   @media (max-width: 359px) {
     min-height: 100px;
     min-width: 70px;
@@ -178,6 +182,10 @@ export const AddEventButton = styled.div`
   font-size: 1.5rem;
   font-weight: 800;
   cursor: pointer;
+
+  &:hover {
+    color: #6b6a6a;
+  }
 
   @media (max-width: 359px) {
     font-size: 1rem;

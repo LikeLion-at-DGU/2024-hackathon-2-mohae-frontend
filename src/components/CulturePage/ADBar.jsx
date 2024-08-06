@@ -9,7 +9,7 @@ const FrameWrapper = styled.div`
     margin: 30px auto;
     position: relative;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 320px;
         margin: 10px auto;
     }
@@ -29,7 +29,7 @@ const ImgWrapper = styled.div`
         border-radius: 30px;
     }
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 272px;
         height: 88px;
 
@@ -53,7 +53,7 @@ const CustomArrow = styled.div`
         height: 35px;
     }
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         img {
             width: 18px;
             height: 18px;
@@ -89,7 +89,7 @@ const SliderWrapper = styled.div`
         margin: 0 -40px; /* 전체 슬라이더의 좌우 여백 제거 */
     }
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         .slick-slide {
             padding: 0 10px; /* 좁은 화면에서 슬라이드 간격 축소 */
         }

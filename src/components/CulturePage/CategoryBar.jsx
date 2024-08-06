@@ -12,7 +12,7 @@ const FrameWrapper = styled.div`
     margin: 0 auto;
     padding: 20px;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         padding: 10px;
         width: 360px;
     height: auto;
@@ -37,7 +37,7 @@ const TextWrapper = styled.div`
     align-items: center;
     text-align: center;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         font-family: NanumSquareRound;
     width: 100%;
     height: 82px;
@@ -61,7 +61,7 @@ const CategoryBox = styled.div`
     gap: 50px;
     flex-wrap: wrap;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         gap: 20px;
         width: 100%;
     height: auto;
@@ -98,7 +98,7 @@ const Buttons = styled.div`
         font-size: 23px;
     }
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         padding: 10px 15px;
 
         img {

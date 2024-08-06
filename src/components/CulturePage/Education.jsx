@@ -5,7 +5,7 @@ import { API } from '../../api';  // API 모듈 가져오기
 const Container = styled.div`
     padding: 20px;
     width: 1030px;
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 360px;
         padding: 8px;
         display: flex;
@@ -21,7 +21,7 @@ const TabMenu = styled.div`
     justify-content: flex-start;
     align-items: center;
     gap: 1px;
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 328px;
         display: flex;
         flex-direction: row;  
@@ -43,7 +43,7 @@ const TabItem = styled.div`
     box-shadow: 0px 1px 10px -2px #00000040;
     font-family: NanumSquareRound;
     font-weight: ${({ active }) => (active ? "bold" : "normal")};
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 82px;
         height: 28px;
         font-size: 12px;
@@ -76,7 +76,7 @@ const CardContainer = styled.div`
     padding-bottom: 30px;
     margin: 0 auto; 
     justify-content: center; 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 328px;
         grid-template-columns: 1fr;
         gap: 10px;
@@ -105,7 +105,7 @@ const Card = styled.div`
     box-shadow: 0.5px 1px 9px 0px #00000026;
     gap: 15px;
     position: relative; /* Position the card to use relative positioning for the button */
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 300px;
         height: 120px;
         padding: 2px;
@@ -121,7 +121,7 @@ const Image = styled.img`
     height: 256px;
     background-color: #FFFFFF;
     border-radius: 20px;
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 160px;
         height: 90px;
         border-radius: 10px;
@@ -136,7 +136,7 @@ const TextContainer = styled.div`
     width: 415px;
     height: 135px;
     overflow: hidden;
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -154,7 +154,7 @@ const Location = styled.div`
     color: #2D539E80;
     background-color: #EBF1FF;
     border-radius: 10px;
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         font-size: 10px;
         display: flex;
         flex-direction: row;
@@ -173,7 +173,7 @@ const Title = styled.div`
     overflow: hidden;
     white-space: nowrap;
     width: 100%;
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         font-size: 11px;
     }
 `;
@@ -187,7 +187,7 @@ const Distance = styled.div`
     overflow: hidden;
     white-space: nowrap;
     width: 100%;
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         font-size: 9px;
     }
 `;
@@ -212,7 +212,7 @@ const HeartButton = styled.button`
         height: 24px;
         border: none; /* 이미지 테두리 제거 */
     }
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         top: 3px;
         right: 3px;
         img{

@@ -1,5 +1,5 @@
 import React from "react";
-import { styled } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 
 const StyledLink = styled(Link)`
@@ -47,6 +47,14 @@ const NavBlockTop = styled.div`
     }
 `;
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 const NavMenu = styled.div`
     display: flex;
@@ -56,6 +64,7 @@ const NavMenu = styled.div`
     height: 270px;
     border-radius: 35px;
     overflow: hidden;
+    animation: ${fadeIn} 0.5s ease-in;
     .Menuimg {
         width: 200px;
         height: 270px;

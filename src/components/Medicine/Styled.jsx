@@ -315,6 +315,10 @@ export const AddButton = styled.div`
 
   cursor: pointer;
 
+  &:hover {
+    color: #6b6a6a;
+  }
+
   @media (max-width: 359px) {
     font-size: 0.75rem;
   }

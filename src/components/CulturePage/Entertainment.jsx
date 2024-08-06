@@ -6,7 +6,7 @@ const Container = styled.div`
     padding: 20px;
     width: 1030px;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 360px;
         padding: 8px;
         display: flex;
@@ -24,7 +24,7 @@ const TabMenu = styled.div`
     align-items: center;
     gap: 1px;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 328px;
         display: flex;
         flex-direction: row;  
@@ -50,7 +50,7 @@ const TabItem = styled.div.attrs(props => ({
     font-weight: ${({ active }) => (active ? "800" : "700")};
     background-color: ${({ active }) => (active ? "#FFFFFF" : "#F8F9FE")};
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 82px;
         height: 28px;
         font-size: 12px;
@@ -73,7 +73,7 @@ const CardContainer = styled.div`
     margin: 0 auto; 
     justify-content: center; 
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 328px;
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
@@ -102,7 +102,7 @@ const Card = styled.div`
     box-shadow: 0.5px 1px 9px 0px #00000026;
     gap: 15px;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 147px;
         height: 197px;
         padding: 2px;
@@ -119,7 +119,7 @@ const Image = styled.img`
     background-color: #FFFFFF;
     border-radius: 20px;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 132px;
         height: 69px;
         border-radius: 10px;
@@ -131,7 +131,7 @@ const TextContainer = styled.div`
     width: 415px;
     overflow: hidden;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         width: 122px;
     }
 `;
@@ -147,7 +147,7 @@ const Location = styled.div`
     border-radius: 10px;
     margin-bottom: 15px;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         font-size: 11px;
         display: flex;
         flex-direction: row;
@@ -168,7 +168,7 @@ const Title = styled.div`
     white-space: nowrap;
     width: 100%;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         font-size: 12px;
     }
 `;
@@ -178,7 +178,7 @@ const Description = styled.div`
     font-size: 18px;
     margin-bottom: 10px;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         font-size: 10px;
     }
 `;
@@ -189,7 +189,7 @@ const Date = styled.div`
     color: #2D539E;
     margin-bottom: 10px;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         font-size: 10px;
     }
 `;
@@ -200,7 +200,7 @@ const Price = styled.div`
     color: #2D539E;
     margin-bottom: 10px;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         font-size: 10px;
     }
 `;
@@ -211,7 +211,7 @@ const AvailableSlots = styled.div`
     color: #2D539E;
     margin-bottom: 10px;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         font-size: 10px;
     }
 `;
@@ -222,7 +222,7 @@ const Category = styled.div`
     color: #2D539E;
     margin-bottom: 10px;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         font-size: 10px;
     }
 `;
@@ -233,7 +233,7 @@ const Subcategory = styled.div`
     color: #2D539E;
     margin-bottom: 10px;
 
-    @media (max-width: 360px) {
+    @media (max-width: 359px) {
         font-size: 10px;
     }
 `;

@@ -84,19 +84,23 @@ export const EditProfileName = styled.div`
 `;
 
 export const EditProfileText = styled.div`
-  color: #9F9F9F;
+  display: flex;
+  color: #9f9f9f;
   text-align: center;
   font-family: 'NanumSquareRound';
   font-size: 1.375rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-weight: 600;
   cursor: pointer;
+
+  &:hover {
+    color: #6b6a6a;
+  }
 
   @media (max-width: 359px) {
     font-size: 0.75rem;
   }
 `;
+
 
 export const backWrapping = styled.div`
   width: 130%;

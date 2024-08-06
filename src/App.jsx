@@ -10,7 +10,6 @@ const GlobalStyle = createGlobalStyle`
   * {
     font-family: 'NanumSquareRound', sans-serif;
     font-weight: 600;
-    
   }
 `;
 const Container = styled.div`
@@ -19,6 +18,7 @@ const Container = styled.div`
   height: 100%;
   transform-origin: top;
   zoom: 0.7916;
+
 
   @media (max-width: 359px) {
     zoom: 0.95;
@@ -48,7 +48,7 @@ const Wrapper = styled.div`
 
 const Layout = () => {
   const location = useLocation();
-  const showHeader = location.pathname !== "/PhotoPlus" && location.pathname !== "/Login" && location.pathname !== "/Signup" && location.pathname !=="/" && location.pathname !=="/";
+  const showHeader = location.pathname !== "/PhotoPlus" && location.pathname !== "/Login" && location.pathname !== "/login" && location.pathname !== "/Signup" && location.pathname !=="/" && location.pathname !=="/";
 
   return (
     <>
@@ -57,6 +57,7 @@ const Layout = () => {
           <Wrapper>
             {showHeader && <Header />}
             <Outlet />
+            <Footer />
           </Wrapper>
         </Container>
     </>

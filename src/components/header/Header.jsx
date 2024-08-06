@@ -16,14 +16,14 @@ const StyledLink = styled(Link)`
 `;
 
 const StyledRI = styled(RiAlarmWarningFill)`
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     width: 20px;
     height: 20px;
   }
 `;
 
 const StyledBI = styled(BiSolidUser)`
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     width: 20px;
     height: 20px;
   }
@@ -38,7 +38,7 @@ const HeaderContainer = styled.div`
   align-items: center;
   margin: 0 auto; /* 중앙 정렬 */
   padding-bottom: 10px;
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     max-width: 340px;
   }
 `;
@@ -50,7 +50,7 @@ const Top = styled.div`
   align-items: center;
   padding: 0.5rem 0;
 
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     padding: 0;
   }
 `;
@@ -73,7 +73,7 @@ const ButtonwithIcon = styled.div`
     text-decoration-line: underline;
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     font-size: 0.625rem;
   }
 `;
@@ -87,7 +87,7 @@ const HeaderWrap2 = styled.div`
   justify-content: center;
   border-bottom: 0.5px solid rgba(171, 171, 171, 0.5);
 
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     gap: 1rem;
     max-width: 344px;
     padding: 0.25rem 0.5rem;
@@ -103,7 +103,7 @@ const MOHAEsytle = styled.h1`
   font-weight: 400;
   line-height: normal;
 
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     font-size: 1.5rem;
   }
 `;
@@ -122,7 +122,7 @@ const CategoryTitle = styled.div`
     font-weight: 1000;
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     font-size: 0.75rem;
   }
 `;
