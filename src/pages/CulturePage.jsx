@@ -53,11 +53,9 @@ function CulturePage() {
     return (
         <>
             <PageStyle />
-            <BackEffect>
                 <ADBar />
                 <CategoryBar setSelectedCategory={setSelectedCategory} />
                 {renderContent()}
-            </BackEffect>
         </>
     );
 }

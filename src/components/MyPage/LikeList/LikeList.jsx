@@ -4,18 +4,9 @@ import { API } from '../../../api';
 
 const LikeList = () => {
   const [selectedTab, setSelectedTab] = useState('buy');
-  const [likeData, setLikeData] = useState([]);
   const [reservationsData, setReservationsData] = useState([]);
-
-  const GetLikeData = async () => {
-    try {
-      const response = await API.get("/users/mypage/likes");
-      setLikeData(response.data);
-      console.log("likes data", response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const [likedItems, setLikedItems] = useState({});
+  const [activitiesData, setActivitiesData] = useState([]); // 활동 데이터를 저장할 상태
 
   const GetReservationsData = async () => {
     try {
@@ -28,12 +19,37 @@ const LikeList = () => {
   };
 
   useEffect(() => {
-    GetLikeData();
     GetReservationsData();
+
+    const fetchLikedItems = async () => {
+      try {
+        // 서버로부터 기존에 좋아요 표시된 아이템 가져오기
+        const likedResponse = await API.get('/culture/likes');
+        const likedItemsFromServer = likedResponse.data.reduce((acc, likedItem) => {
+          acc[likedItem.activity] = likedItem;
+          return acc;
+        }, {});
+
+        setLikedItems(likedItemsFromServer);
+        console.log('Liked items data:', likedItemsFromServer);
+
+        // 좋아요 표시된 각 활동에 대해 추가 데이터를 가져오기
+        const activityIds = Object.values(likedItemsFromServer).map(item => item.activity);
+        const activityPromises = activityIds.map(id => API.get(`/culture/activities/${id}`));
+        const activitiesResponses = await Promise.all(activityPromises);
+        const activitiesData = activitiesResponses.map(res => res.data);
+        setActivitiesData(activitiesData);
+        console.log('Activities data:', activitiesData);
+
+      } catch (error) {
+        console.log('fetch liked items error:', error);
+      }
+    };
+    
+    fetchLikedItems();
   }, []);
 
   const handleShowBuy = () => setSelectedTab('buy');
-  const handleShowCulture = () => setSelectedTab('culture');
   const handleShowLearn = () => setSelectedTab('learn');
 
   return (
@@ -43,10 +59,6 @@ const LikeList = () => {
           onClick={handleShowBuy}
           $isSelected={selectedTab === 'buy'}
         >예약 내역</S.LikeLikeHeader>
-        <S.LikeLikeHeader
-          onClick={handleShowCulture}
-          $isSelected={selectedTab === 'culture'}
-        >좋아요 목록</S.LikeLikeHeader>
         <S.LikeLikeHeader
           onClick={handleShowLearn}
           $isSelected={selectedTab === 'learn'}
@@ -69,54 +81,26 @@ const LikeList = () => {
             ))}
           </S.BuyList>
         )}
-        {selectedTab === 'culture' && (
-          <S.BuyList> 
-            {likeData.map((like, index) => (
+        {selectedTab === 'learn' && (
+          <S.BuyList>  
+            {activitiesData.map((activity, index) => (
               <S.BuyDetail key={index}>
+                {/* likedItems에서 해당 활동의 liked_at 정보를 가져와 사용 */}
+                <S.BuyTime>{new Date(likedItems[activity.id]?.liked_at).toLocaleDateString()}</S.BuyTime>
                 <S.Row>
-                  <S.BuyImage></S.BuyImage>
+                  <S.BuyImage src={activity.image_url} alt={activity.title} />
                   <S.Column>
                     <S.hi>
-                      <S.BuyMoney>{like.title}</S.BuyMoney>
-                      <S.BuyTitle>{parseInt(like.price)} 원</S.BuyTitle>
+                      <S.BuyMoney>{activity.title}</S.BuyMoney>
                     </S.hi>
-                    <S.BuySubTitle>{new Date(like.start_date).toLocaleDateString()} ~ {new Date(like.end_date).toLocaleDateString()}</S.BuySubTitle>
+                    {/* 추가 정보 출력 */}
+                    <S.BuySubTitle>
+                      {activity.location || '부제 없음'}
+                    </S.BuySubTitle>
                   </S.Column>
                 </S.Row>
               </S.BuyDetail>
             ))}
-          </S.BuyList>
-        )}
-        {selectedTab === 'learn' && (
-          <S.BuyList>  
-            <S.BuyDetail>
-              <S.BuyTime>2024년 7월 27일</S.BuyTime>
-              <S.Row>
-                <S.BuyImage></S.BuyImage>
-                <S.Column>
-                  <S.hi>
-                    <S.BuyMoney>오늘 배울거리1</S.BuyMoney>
-                    <S.BuyTitle>부제 1</S.BuyTitle>
-                  </S.hi>
-                  <S.BuySubTitle>작성자 1</S.BuySubTitle>
-                </S.Column>
-              </S.Row>
-            </S.BuyDetail>
-
-            <S.BuyDetail>
-              <S.BuyTime>2024년 7월 27일</S.BuyTime>
-              <S.Row>
-                <S.BuyImage></S.BuyImage>
-                <S.Column>
-                  <S.hi>
-                    <S.BuyMoney>오늘 배울거리2</S.BuyMoney>
-                    <S.BuyTitle>부제 2</S.BuyTitle>
-                  </S.hi>
-                  <S.BuySubTitle>작성자 2</S.BuySubTitle>
-                </S.Column>
-              </S.Row>
-            </S.BuyDetail>
-
           </S.BuyList>
         )}
       </S.LikeListContainer>

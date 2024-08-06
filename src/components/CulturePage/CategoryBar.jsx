@@ -11,11 +11,24 @@ const FrameWrapper = styled.div`
     align-items: center;
     margin: 0 auto;
     padding: 20px;
+
+    @media (max-width: 360px) {
+        padding: 10px;
+        width: 360px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 auto;
+    padding: 20px;
+    }
 `;
 
 const TextWrapper = styled.div`
+    font-family: NanumSquareRound;
     font-size: 25px;
-    font-weight: 400;
+    font-weight: 600;
     width: 100%;
     height: 82px;
     display: flex;
@@ -23,6 +36,19 @@ const TextWrapper = styled.div`
     justify-content: flex-start;
     align-items: center;
     text-align: center;
+
+    @media (max-width: 360px) {
+        font-family: NanumSquareRound;
+    width: 100%;
+    height: 82px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+        font-size: 14px;
+        height: 50px;
+    }
 `;
 
 const CategoryBox = styled.div`
@@ -34,6 +60,19 @@ const CategoryBox = styled.div`
     align-items: flex-start;
     gap: 50px;
     flex-wrap: wrap;
+
+    @media (max-width: 360px) {
+        gap: 20px;
+        width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap;
+
+    }
 `;
 
 const Buttons = styled.div`
@@ -47,13 +86,29 @@ const Buttons = styled.div`
     border-radius: ${(props) => (props.isActive ? '10px' : '0')};
     box-shadow: ${(props) => (props.isActive ? '0px 2px 15px -2px #00000040' : 'none')};
     cursor: pointer;
-    img{
+
+    img {
         width: 100px;
         height: 100px;
     }
-    .MenuName{
+
+    .MenuName {
+        font-family: NanumSquareRound;
+        font-weight: 600;
         font-size: 23px;
-        font-weight: 400;
+    }
+
+    @media (max-width: 360px) {
+        padding: 10px 15px;
+
+        img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .MenuName {
+            font-size: 12px;
+        }
     }
 `;
 
@@ -82,7 +137,7 @@ const CategoryBar = ({ setSelectedCategory }) => {
                     <div className="MenuName">놀거리</div>
                 </Buttons>
                 <Buttons isActive={activeButton === 3} onClick={() => handleButtonClick(3)}>
-                        <img src="/src/assets/img/Education.png"></img>
+                        <img src="/src/assets/img/Education.png" alt="Education"/>
                         <div className="MenuName">배울거리</div>
                 </Buttons>
             </CategoryBox>
