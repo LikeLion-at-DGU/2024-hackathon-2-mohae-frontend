@@ -226,3 +226,27 @@ export const CustomPhotoButton = styled.img`
   height: 3rem;
   cursor: pointer;
 `;
+
+export const LogoutButton = styled.div`
+  display: flex;
+  margin-top: 2rem;
+  color: #ff7b7b;
+  border: 3px solid #ff7b7b;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  text-align: center;
+  font-family: 'NanumSquareRound';
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  &:hover {
+    color: #ff0000;
+    border: 3px solid #ff0000;
+  }
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
+`;

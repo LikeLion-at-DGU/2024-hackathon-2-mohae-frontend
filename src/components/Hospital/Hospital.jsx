@@ -7,12 +7,16 @@ import { FaTimes } from "react-icons/fa";
 import * as S from "./Styled";
 import { API } from "../../api";
 
+
+
+
 const Hospital = () => {
   const [events, setEvents] = useState([]);
   const [newEvent, setNewEvent] = useState({ name: '', appointment_datetime: new Date(), location: '', patient: '' });
   const [showForm, setShowForm] = useState(false);
   const [availablePatient, setAvailablePatient] = useState([]);
   const [patientMap, setPatientMap] = useState({});
+  const [infoform, setInfoform] = useState(false);
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -120,7 +124,17 @@ const Hospital = () => {
   return (
     <S.bigBox>
       <S.Rowbetween>
-        <S.HospitalTitle>병원진료 예약</S.HospitalTitle>
+        <S.HospitalTitle>
+          병원진료 예약
+          <S.StyledCircle onClick={() => setInfoform(!infoform)}/>
+          {infoform && (
+            <S.Infocontainer>
+              <S.AlramTitle>병원 문자 알림</S.AlramTitle>
+              <S.AlramText>진료 예약한 날 하루 전 오전 9시마다 자동으로 진료자에게 문자가 전송됩니다.
+              </S.AlramText>
+            </S.Infocontainer>
+          )}
+        </S.HospitalTitle>
         <S.AddEventButton onClick={() => setShowForm(true)}>일정 추가하기+</S.AddEventButton>
       </S.Rowbetween>
       <S.HospitalContent>
