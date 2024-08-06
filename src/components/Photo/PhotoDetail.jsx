@@ -13,7 +13,7 @@ const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(5px);
@@ -22,13 +22,21 @@ const Overlay = styled.div`
   justify-content: center;
   z-index: 1000;
   overflow-y: hidden;
+  @media (max-width: 360px) {
+    width: 90%;
+    height: 80%;
+    max-height: 80%;
+    padding: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
 `;
 
 const Modal = styled.div`
   background: white;
   padding: 20px;
   border-radius: 10px;
-  max-width: 500px;
+  max-width: 360px;
   height: 700px;
   width: 90%;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
@@ -36,6 +44,16 @@ const Modal = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+
+  @media (max-width: 360px) {
+    width: 360px;
+    position: absolute;
+    top: 200px;
+    height: 800px;
+    max-height: 80%;
+    padding: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const SmallModal = styled.div`
@@ -46,11 +64,17 @@ const SmallModal = styled.div`
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
   position: fixed;
   top: 20%;
-  left: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   z-index: 1001;
+
+  @media (max-width: 360px) {
+    width: 300px;
+    padding: 10px;
+  }
 `;
 
 const SecondModal = styled.div`
@@ -64,6 +88,14 @@ const SecondModal = styled.div`
   align-items: center;
   z-index: 1002;
   position: relative;
+
+  @media (max-width: 360px) {
+    width: 432px;
+    padding: 20px;
+    position: absolute;
+    top: 500px;
+    flex-wrap: wrap;
+  }
 `;
 
 const Button = styled.button`
@@ -208,11 +240,12 @@ const CommentForm = styled.form`
   align-self: stretch;
   border-radius: 25px;
   background: #f3f4f6;
+  width: 330px;
 `;
 
 const TextArea = styled.textarea`
   display: flex;
-  width: 400px;
+  width: 250px;
   height: 30px;
   flex-direction: column;
   justify-content: center;
@@ -423,7 +456,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
       </Modal>
 
       {isSettingsModalOpen && (
-        <SmallModal top={modalPosition.top} left={modalPosition.left}>
+        <SmallModal>
           <CloseButton onClick={() => setIsSettingsModalOpen(false)}>
             &times;
           </CloseButton>

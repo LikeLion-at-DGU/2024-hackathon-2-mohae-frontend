@@ -8,6 +8,11 @@ export const All = styled.div`
   overflow-x: hidden; /* 가로 스크롤 방지 */
   flex-direction: row; /* 항상 가로 배치 */
   overflow: hidden; /* 요소가 화면을 넘어가면 가리기 */
+
+  @media (max-width: 359px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 export const Margin = styled.div`
@@ -22,14 +27,16 @@ export const Margin = styled.div`
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.2px;
-  /* position: absolute; */
-  /* right: 300px; */
-  /* background: yellow; */
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
     color: black;
+  }
+
+  @media (max-width: 359px) {
+    margin-right: 0;
+    text-align: center;
   }
 `;
 
@@ -49,12 +56,27 @@ export const Menubar = styled.div`
   font-weight: 800;
   line-height: normal;
   letter-spacing: -0.23px;
-  /* z-index: 1000; */
+
+  @media (max-width: 359px) {
+    width: 200px;
+    height: auto;
+    margin-left: 0;
+    padding: 20px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
 `;
 
 export const Section = styled.div`
   margin-bottom: 20px;
   justify-content: center;
+
+  @media (max-width: 359px) {
+    margin-bottom: 10px;
+  }
 `;
 
 export const SectionTitle = styled.h3`
@@ -69,6 +91,11 @@ export const SectionTitle = styled.h3`
     content: "\\1F4C1";
     margin-right: 10px;
   }
+
+  @media (max-width: 359px) {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
 `;
 
 export const ItemList = styled.ul`
@@ -76,6 +103,10 @@ export const ItemList = styled.ul`
   padding: 0;
   margin: 0;
   font-size: 16px;
+
+  @media (max-width: 359px) {
+    font-size: 14px;
+  }
 `;
 
 export const Item = styled.li`
@@ -92,6 +123,11 @@ export const Item = styled.li`
   color: ${({ active }) => (active ? "#ffffff" : "#2d539e")};
   border-radius: 5px;
   font-weight: ${({ active }) => (active ? "bold" : "normal")};
+
+  @media (max-width: 359px) {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
 `;
 
 export const SelectedItem = styled(Item)`
@@ -106,6 +142,14 @@ export const Right = styled.div`
   width: 900px;
   margin-left: 100px;
   min-width: 900px; /* 최소 너비를 설정하여 요소들이 줄어들지 않게 함 */
+
+  @media (max-width: 359px) {
+    width: 100%;
+    margin-left: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
 `;
 
 export const Arrow = styled.img`
@@ -119,5 +163,9 @@ export const Arrow = styled.img`
 
   &:active {
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (max-width: 359px) {
+    right: 20px;
   }
 `;

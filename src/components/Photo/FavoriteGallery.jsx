@@ -9,6 +9,13 @@ const Right = styled.div`
   gap: 30px;
   width: 900px;
   min-width: 900px;
+
+  @media (max-width: 360px) {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+  }
 `;
 
 const FavoriteGallery = () => {
