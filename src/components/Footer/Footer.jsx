@@ -211,7 +211,7 @@ const Footer = () => {
                       <S.TextContain2>
                         <S.MomoText4>{response.question}</S.MomoText4>
                       </S.TextContain2>
-                      {profilePicture ? <img src={`http://127.0.0.1:8000${profilePicture}`} alt="Profile" width="50" height="50" /> : <S.MomoIcon2 style={{ width: '1.875rem', height: '1.75rem', fontSize: '2.5rem', borderRadius: '0.625rem', boxShadow: 'none' }}>o</S.MomoIcon2>}
+                      <S.MomoIcon2 style={{ width: '1.875rem', height: '1.75rem', fontSize: '2.5rem', borderRadius: '0.625rem', boxShadow: 'none' }}>o</S.MomoIcon2>
                     </S.TextContainer>
                     <S.TextContainer>
                       <S.MomoIcon2 style={{ width: '2rem', height: '1.75rem', fontSize: '2.5rem', borderRadius: '0.625rem', boxShadow: 'none' }}>o</S.MomoIcon2>
@@ -239,6 +239,7 @@ const Footer = () => {
       )}
     </>
   );
+  
 };
 
 export default Footer;

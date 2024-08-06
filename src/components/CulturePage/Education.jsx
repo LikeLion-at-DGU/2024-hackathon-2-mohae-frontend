@@ -73,7 +73,7 @@ const CardContainer = styled.div`
     background-color: #FFFFFF;
     align-items: center;
     gap: 45px;
-    padding-bottom: 30px;
+    padding: 30px;
     margin: 0 auto; 
     justify-content: center; 
     @media (max-width: 359px) {

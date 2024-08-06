@@ -59,6 +59,7 @@ const Layout = () => {
             <Outlet />
           </Wrapper>
         </Container>
+        <Footer/>
       </BackEffect>
     </>
   );

@@ -35,8 +35,7 @@ export const Container = styled.div`
   right: 2rem;
 
   gap: 1rem;
-
-
+  
   @media (max-width: 359px){
     right: 0.5rem;
     max-height: 7000px;
