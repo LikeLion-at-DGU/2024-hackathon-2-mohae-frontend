@@ -19,7 +19,8 @@ const PageStyle = createGlobalStyle`
     width: 1440px;
     justify-content: center;
     align-items: center;
-    height: fit-content;}
+    height: fit-content;
+  }
 `;
 
 const PhotoPost = () => {
@@ -121,7 +122,7 @@ const PhotoPost = () => {
                 title={photo.title}
                 detail={photo.description}
                 timestamp={photo.created_at}
-                // detail prop 전달
+                photoData={photo} // photoData prop 전달
                 closeModal={closeModal}
               />
             ))

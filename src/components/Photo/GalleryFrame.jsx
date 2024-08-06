@@ -78,7 +78,7 @@ const Under = styled.div`
   width: 100%;
 `;
 
-const Radius = styled.div`
+const Radius = styled.img`
   width: 39px;
   height: 39px;
   padding: 5px;
@@ -125,7 +125,8 @@ const GalleryFrame = ({
   isLiked,
   title,
   detail,
-  timestamp, // timestamp를 props로 받아옵니다
+  timestamp,
+  photoData = {}, // 기본값 설정
 }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [liked, setLiked] = useState(isLiked);
@@ -197,6 +198,13 @@ const GalleryFrame = ({
     ? format(new Date(timestamp), "yyyy-MM-dd")
     : "Invalid date";
 
+  // photoData를 콘솔에 출력합니다.
+  console.log("photoData:", photoData);
+
+  // profile_picture URL이 유효한지 확인합니다.
+  const profilePicture = photoData?.profile?.profile_picture;
+  console.log("profilePicture:", profilePicture);
+
   return (
     <>
       <Frame onClick={openModal}>
@@ -212,7 +220,15 @@ const GalleryFrame = ({
           <When>{formattedDate}</When>
         </UnderImg>
         <Under>
-          <Radius />
+          {profilePicture ? (
+            <Radius
+              src={profilePicture}
+              alt="profile_picture"
+              onError={(e) => (e.target.style.display = "none")}
+            />
+          ) : (
+            <Radius src={good} alt="default_profile_picture" />
+          )}
           <WhoandDetailText>
             <Who>{title}</Who>
             <DetailText>{detail}</DetailText>
