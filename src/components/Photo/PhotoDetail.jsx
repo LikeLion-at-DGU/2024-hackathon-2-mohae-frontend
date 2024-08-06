@@ -13,7 +13,7 @@ const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(5px);
@@ -22,13 +22,21 @@ const Overlay = styled.div`
   justify-content: center;
   z-index: 1000;
   overflow-y: hidden;
+  @media (max-width: 359px) {
+    width: 90%;
+    height: 80%;
+    max-height: 80%;
+    padding: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
 `;
 
 const Modal = styled.div`
   background: white;
   padding: 20px;
   border-radius: 10px;
-  max-width: 500px;
+  max-width: 360px;
   height: 700px;
   width: 90%;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
@@ -36,6 +44,17 @@ const Modal = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+
+  @media (max-width: 359px) {
+    width: 350px;
+    position: absolute;
+    top: 100px;
+    height: 600px;
+    max-height: 80%;
+    padding: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    margin-left: 110px;
+  }
 `;
 
 const SmallModal = styled.div`
@@ -46,11 +65,17 @@ const SmallModal = styled.div`
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
   position: fixed;
   top: 20%;
-  left: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   z-index: 1001;
+
+  @media (max-width: 360px) {
+    width: 300px;
+    padding: 10px;
+  }
 `;
 
 const SecondModal = styled.div`
@@ -64,6 +89,14 @@ const SecondModal = styled.div`
   align-items: center;
   z-index: 1002;
   position: relative;
+
+  @media (max-width: 360px) {
+    width: 432px;
+    padding: 20px;
+    position: absolute;
+    top: 500px;
+    flex-wrap: wrap;
+  }
 `;
 
 const Button = styled.button`
@@ -208,11 +241,12 @@ const CommentForm = styled.form`
   align-self: stretch;
   border-radius: 25px;
   background: #f3f4f6;
+  width: 330px;
 `;
 
 const TextArea = styled.textarea`
   display: flex;
-  width: 400px;
+  width: 250px;
   height: 30px;
   flex-direction: column;
   justify-content: center;
@@ -275,14 +309,14 @@ const PhotoDetail = ({ photoData, closeModal }) => {
   const fetchComments = async (photoId) => {
     try {
       const response = await API.get(`/gallery/comments`);
-      const matchingComments = response.data.filter(
-        (item) => item.photo === photoId
-      );
-      if (matchingComments.length > 0) {
-        setComments(matchingComments);
-      } else {
-        console.log("사진 ID가 일치하지 않습니다.");
-      }
+      const matchingComments = response.data
+        .filter((item) => item.photo === photoId)
+        .map((comment) => ({
+          ...comment,
+          user_profile_image: comment.profile.profile_picture,
+          user_name: comment.profile.nickname,
+        }));
+      setComments(matchingComments);
     } catch (error) {
       console.error("댓글 불러오기 실패: ", error);
     }
@@ -375,7 +409,10 @@ const PhotoDetail = ({ photoData, closeModal }) => {
           <HeaderTitle>{photoData.date}</HeaderTitle> */}
         </Header>
         <PostInfo>
-          <Avatar src={photoData.profile.avatar} alt="avatar" />
+          <Avatar
+            src={photoData.profile.profile_picture}
+            alt="profile_picture"
+          />
           <PostContent>
             <PostText>{photoData.profile.nickname}</PostText>
           </PostContent>
@@ -420,7 +457,7 @@ const PhotoDetail = ({ photoData, closeModal }) => {
       </Modal>
 
       {isSettingsModalOpen && (
-        <SmallModal top={modalPosition.top} left={modalPosition.left}>
+        <SmallModal>
           <CloseButton onClick={() => setIsSettingsModalOpen(false)}>
             &times;
           </CloseButton>
