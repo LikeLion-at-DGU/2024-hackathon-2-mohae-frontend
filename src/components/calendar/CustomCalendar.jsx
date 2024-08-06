@@ -44,7 +44,6 @@ const CustomCalendar = () => {
   const fetchUserId = async () => {
     try {
       const response = await API.get('/accounts/profile/');
-      console.log("userId response", response.data);
       setUserId(response.data.user.id);
     } catch (error) {
       console.log('fetch user id error:', error);
@@ -54,7 +53,6 @@ const CustomCalendar = () => {
   const fetchDateData = async () => {
     try {
       const response = await API.get('/cal/events/list/');
-      console.log("event List", response.data);
       setEvents(response.data);
     } catch (error) {
       console.log('fetch events error:', error);
@@ -64,19 +62,18 @@ const CustomCalendar = () => {
   const fetchPartiData = async () => {
     try {
       const response = await API.get('/users/family');
-      console.log("family response", response.data);
       const participants = response.data.flatMap(family => 
         family.profiles.map(profile => ({
           nickname: profile.nickname,
           user_id: profile.user
         }))
       );
+      console.log(participants);
       setAvailableParticipants(participants);
     } catch (error) {
       console.log('fetch participants error:', error);
     }
   };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,12 +92,8 @@ const CustomCalendar = () => {
         end: newEventEndDate.toISOString(),
         participants: selectedParticipants.map(p => p.user_id),
       };
-
-      console.log("posting eventData", eventData);
       
       const response = await API.post('/cal/events/', eventData);
-
-      console.log("post response", response.data);
       fetchDateData();
     } catch (error) {
       console.error('Post error', error);
@@ -145,8 +138,11 @@ const CustomCalendar = () => {
         const currentDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
         
         const isInDateRange = currentDate >= eventStartDate && currentDate <= eventEndDate;
+        const hasValidParticipants = event.participants.every(pid => 
+          availableParticipants.some(p => p.user_id === pid)
+        );
 
-        return isInDateRange;
+        return isInDateRange && hasValidParticipants;
       })
       .map((event, index) => {
         const isStart = date.toDateString() === new Date(event.start).toDateString();
@@ -158,7 +154,7 @@ const CustomCalendar = () => {
             key={index}
             $isStart={isStart}
             $isEnd={isEnd}
-            color={color} // Apply random color
+            color={color}
           >
             <span>{isStart ? `${event.title}` : ''}</span>
           </S.EventTile>
@@ -193,8 +189,11 @@ const CustomCalendar = () => {
       const eventStartDate = new Date(eventStart.getFullYear(), eventStart.getMonth(), eventStart.getDate());
       const eventEndDate = new Date(eventEnd.getFullYear(), eventEnd.getMonth(), eventEnd.getDate());
       const selectedDateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const hasValidParticipants = event.participants.every(pid => 
+        availableParticipants.some(p => p.user_id === pid)
+      );
 
-      return selectedDateOnly >= eventStartDate && selectedDateOnly <= eventEndDate;
+      return selectedDateOnly >= eventStartDate && selectedDateOnly <= eventEndDate && hasValidParticipants;
     });
     setSelectedEvent(eventsForSelectedDate);
     setShowDetails(true);
@@ -220,10 +219,10 @@ const CustomCalendar = () => {
   const tileClassName = ({ date: tileDate, view }) => {
     if (view === 'month') {
       const isCurrentMonth = tileDate.getMonth() === activeStartDate.getMonth() && tileDate.getFullYear() === activeStartDate.getFullYear();
-      if (tileDate.getDay() === 0) { // 일요일
+      if (tileDate.getDay() === 0) {
         return isCurrentMonth ? 'current-month-sunday' : 'other-month-sunday';
       }
-      if (tileDate.getDay() === 6) { // 토요일
+      if (tileDate.getDay() === 6) {
         return isCurrentMonth ? 'current-month-satday' : 'other-month-satday';
       }
     }
@@ -457,12 +456,18 @@ const CustomCalendar = () => {
             <S.ScheduleStyle>
               {selectedEvent.length > 0 ? (
                 selectedEvent.map((event, index) => (
-                  <div key={index} style={{ backgroundColor: 'inherit' }}> {/* No color for detailed view */}
+                  <div key={index} style={{ backgroundColor: 'inherit' }}>
                     <S.Row>
                       <S.EventTitle>{event.title}</S.EventTitle>
                       <IoTrashOutline onClick={() => deleteEvent(event.event_id)} style={{ cursor: 'pointer' }} />
                     </S.Row>
-                    <S.EventParti>참가자: {event.participants.map(pid => availableParticipants.find(p => p.user_id === pid)?.nickname || '알 수 없음').join(', ')}</S.EventParti>
+                    <S.EventParti>
+                      참가자: {event.participants
+                        .map(pid => availableParticipants.find(p => p.user_id === pid)?.nickname)
+                        .filter(nickname => nickname !== undefined)
+                        .join(', ')
+                      }
+                    </S.EventParti>
                     <S.EventTime>{formatDate(event.start)} ~ {formatDate(event.end)}</S.EventTime>
                   </div>
                 ))

@@ -82,7 +82,7 @@ export const ScheduleBox = styled.div`
 
 
   @media (max-width: 359px) {
-    height: 1.375rem;
+    height: 2.5rem;
     padding: 0.5rem;
     border-radius: 0.5rem;
   }

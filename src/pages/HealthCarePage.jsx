@@ -6,7 +6,7 @@ import { createGlobalStyle } from "styled-components";
 
 import Hospital from "../components/Hospital/Hospital";
 import Medicine from "../components/Medicine/Medicine";
-import MHealthcareChallenge from "../components/CHealthChallenge/MHealthChallenge";
+import HealthChallenge from "../components/HealthChallenge/HealthCallenge";
 
 const PageStyle = createGlobalStyle`
   body {
@@ -70,7 +70,7 @@ function HealthCarePage() {
         </Box>
 
         <br />
-        <MHealthcareChallenge />
+        <HealthChallenge />
         <br />
       </BackEffect>
     </>
