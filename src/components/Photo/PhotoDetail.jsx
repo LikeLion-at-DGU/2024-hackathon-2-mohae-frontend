@@ -275,14 +275,14 @@ const PhotoDetail = ({ photoData, closeModal }) => {
   const fetchComments = async (photoId) => {
     try {
       const response = await API.get(`/gallery/comments`);
-      const matchingComments = response.data.filter(
-        (item) => item.photo === photoId
-      );
-      if (matchingComments.length > 0) {
-        setComments(matchingComments);
-      } else {
-        console.log("사진 ID가 일치하지 않습니다.");
-      }
+      const matchingComments = response.data
+        .filter((item) => item.photo === photoId)
+        .map((comment) => ({
+          ...comment,
+          user_profile_image: comment.profile.profile_picture,
+          user_name: comment.profile.nickname,
+        }));
+      setComments(matchingComments);
     } catch (error) {
       console.error("댓글 불러오기 실패: ", error);
     }
@@ -375,7 +375,10 @@ const PhotoDetail = ({ photoData, closeModal }) => {
           <HeaderTitle>{photoData.date}</HeaderTitle> */}
         </Header>
         <PostInfo>
-          <Avatar src={photoData.profile.avatar} alt="avatar" />
+          <Avatar
+            src={photoData.profile.profile_picture}
+            alt="profile_picture"
+          />
           <PostContent>
             <PostText>{photoData.profile.nickname}</PostText>
           </PostContent>
