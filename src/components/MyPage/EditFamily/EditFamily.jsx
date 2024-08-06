@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { API } from "../../../api";
 import * as S from "./Styled";
-// import { SiImessage } from "react-icons/si";
-// import { RiKakaoTalkFill } from "react-icons/ri";
-// import { HiLink } from "react-icons/hi";
 
 const EditFamily = () => {
   const [showform, setShowform] = useState(false);
@@ -11,10 +8,12 @@ const EditFamily = () => {
 
   const [code, setCode] = useState("");
   const [family, setFamily] = useState("");
+  const [familycode, setFamilycode] = useState("");
 
   const [codeform, setCodeform] = useState(false);
   const [inviteform, setInviteform] = useState(false);
   const [invitingfamilyform, setInvitingfamilyform] = useState(false);
+  const [phoneNumbers, setPhoneNumbers] = useState([""]);
 
   const fetchFamilyData = async () => {
     try {
@@ -37,24 +36,43 @@ const EditFamily = () => {
 
   const Postdata = async () => {
     try {
-      const response = await API.post("/users/family/join/", { family_code : code });
+      const response = await API.post("/users/family/join/", { family_code: code });
       console.log("Post data response:", response);
     } catch (error) {
-      console.log(error);
+      console.error("Failed to join family:", error.response ? error.response.data : error.message);
     }
-  }
+  };
 
   const PostFamilyName = async () => {
     try {
-      const response1 = await API.post("/users/family", { family_name : family });
-      console.log("포스트 성공");
-      const response = await API.get("users/family");
-      console.log(response.data.family_id);
-    } catch {
-      console.log(error);
+      const response1 = await API.post("/users/family", { family_name: family });
+      console.log("포스트 성공", response1.data);
+      const response = await API.get("/users/family");
+      console.log("하이", response.data[0].family_code);
+      setFamilycode(response.data[0].family_code);
+    } catch (error) {
+      console.error("Failed to create family:", error.response ? error.response.data : error.message);
     }
-  }
+  };
 
+  const validatePhoneNumber = (phone_number) => {
+    const phoneRegex = /^010\d{8}$/; // This regex assumes a phone number format like 010XXXXXXXX
+    return phoneRegex.test(phone_number);
+  };
+
+  const sendInvitations = async () => {
+    try {
+      const validPhoneNumbers = phoneNumbers.filter(validatePhoneNumber);
+      if (validPhoneNumbers.length !== phoneNumbers.length) {
+        throw new Error("Invalid phone number format. Please ensure all phone numbers are in the format 010XXXXXXXX.");
+      }
+
+      const response = await API.post("/users/invite/", { phone_numbers: validPhoneNumbers.map(num => num.toString()) });
+      console.log("Invitations sent successfully:", response.data);
+    } catch (error) {
+      console.error("Failed to send invitations:", error.response ? error.response.data : error.message);
+    }
+  };
 
   useEffect(() => {
     fetchFamilyData();
@@ -69,7 +87,17 @@ const EditFamily = () => {
   const Invitingfamily = () => {
     setInviteform(false);
     setInvitingfamilyform(true);
-  }
+  };
+
+  const addPhoneNumberInput = () => {
+    setPhoneNumbers([...phoneNumbers, ""]);
+  };
+
+  const handlePhoneNumberChange = (index, value) => {
+    const newPhoneNumbers = [...phoneNumbers];
+    newPhoneNumbers[index] = value;
+    setPhoneNumbers(newPhoneNumbers);
+  };
 
   return (
     <>
@@ -105,11 +133,11 @@ const EditFamily = () => {
             <S.FormContent>
               <S.Rowdi>
                 <S.FormTitle>구성원 초대 코드 입력하기</S.FormTitle>
-                <S.StyledTimes onClick={() => setCodeform(false)}/>
+                <S.StyledTimes onClick={() => setCodeform(false)} />
               </S.Rowdi>
               <S.FormSubtitle>가족 구성원에게 받은 6자리 숫자를 입력해주세요.</S.FormSubtitle>
               <S.Sharp>#</S.Sharp>
-              <S.FormInput 
+              <S.FormInput
                 type="text"
                 placeholder="입력"
                 value={code}
@@ -131,15 +159,15 @@ const EditFamily = () => {
               </S.Rowdi>
               <S.FormSubtitle>우리 가족명</S.FormSubtitle>
               <S.Rowdi>
-                <S.FormInput2 
+                <S.FormInput2
                   type="text"
                   placeholder="가족명 입력"
                   value={family}
                   onChange={(e) => setFamily(e.target.value)}
                 />
-                <S.inputbutton style={{background: '9F9F9F'}} onClick={PostFamilyName}>입력</S.inputbutton>
+                <S.inputbutton style={{ background: '9F9F9F' }} onClick={PostFamilyName}>입력</S.inputbutton>
               </S.Rowdi>
-              <S.Formprint2></S.Formprint2>
+              <S.Formprint2>{familycode}</S.Formprint2>
               <S.SendingBox onClick={Invitingfamily}>
                 <S.SendIcon />
                 <S.SendText>문자전송</S.SendText>
@@ -157,24 +185,27 @@ const EditFamily = () => {
                 <S.FormTitle>가족 구성원 초대하기</S.FormTitle>
                 <S.StyledTimes onClick={() => setInvitingfamilyform(false)} />
               </S.Rowdi>
-              <S.Formprint2></S.Formprint2>
+              <S.Formprint2>{familycode}</S.Formprint2>
               <S.Rowdi>
                 <S.Phone>휴대폰 번호</S.Phone>
-                <S.Phoneadding><S.StyleiconLu />번호 추가하기</S.Phoneadding>
+                <S.Phoneadding onClick={addPhoneNumberInput}><S.StyleiconLu />번호 추가하기</S.Phoneadding>
               </S.Rowdi>
-              <S.PhoneNumberInput
-                type="text"
-                placeholder="숫자만 입력"
-                value={family}
-                onChange={(e) => setFamily(e.target.value)}
-              />
-              <S.SendingButton>문자 전송</S.SendingButton>
+              {phoneNumbers.map((phoneNumber, index) => (
+                <S.PhoneNumberInput
+                  key={index}
+                  type="text"
+                  placeholder="숫자만 입력"
+                  value={phoneNumber}
+                  onChange={(e) => handlePhoneNumberChange(index, e.target.value)}
+                />
+              ))}
+              <S.SendingButton onClick={sendInvitations}>문자 전송</S.SendingButton>
             </S.FormContent>
           </S.NewEventForm>
         </>
       )}
     </>
   );
-}
+};
 
 export default EditFamily;

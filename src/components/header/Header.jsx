@@ -145,7 +145,7 @@ const Header = () => {
           <MOHAEsytle>MOHAE</MOHAEsytle>
         </StyledLink> */}
         <StyledLink to="/">
-          <ButtonwithIcon>
+          <ButtonwithIcon onClick={Emergency}>
             <StyledRI size={30} style={{ color: "#FF6F6F" }} />
             긴급
           </ButtonwithIcon>

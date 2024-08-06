@@ -143,7 +143,7 @@ const Medicine = () => {
         </S.Row>
         <S.MedicineContent>
           <S.IMG src={Clock} alt="Clock" />
-          2024년 7월 2일(화) 13:12 PM (점심)
+          {/* 2024년 7월 2일(화) 13:12 PM (점심) 현재시간적용하기 */}
         </S.MedicineContent>
       </S.Column>
       {checkStates.length === 0 ? (

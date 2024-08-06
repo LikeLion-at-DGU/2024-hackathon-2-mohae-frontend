@@ -12,7 +12,7 @@ const EditProfile = () => {
     address: '',
     profile_picture: ''
   });
-  const [profileId, setProfileId] = useState(null); // profile_id 상태 추가
+  const [profileId, setProfileId] = useState(null);
 
   const [newinformation, setNewinformation] = useState({
     nickname: '',
@@ -32,6 +32,7 @@ const EditProfile = () => {
     try {
       const response = await API.get("/users/profiles");
       const data = response.data;
+      console.log(data);
       const profile = data[0] || {};
       setInformation({
         nickname: profile.nickname || '',
@@ -39,7 +40,7 @@ const EditProfile = () => {
         address: profile.address || '',
         profile_picture: profile.profile_picture || ''
       });
-      setProfileId(profile.id); // profile_id 설정
+      setProfileId(profile.id);
       setPreviewSrc(profile.profile_picture || Camera);
     } catch (error) {
       console.error(error);

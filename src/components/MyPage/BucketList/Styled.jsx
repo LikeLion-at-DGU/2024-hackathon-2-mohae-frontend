@@ -1,4 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
+import { FaCheck, FaRedo, FaTimes } from "react-icons/fa";
 
 const fadeIn = keyframes`
   from {
@@ -8,6 +9,34 @@ const fadeIn = keyframes`
     opacity: 1;
   }
 `;
+
+export const StyFaCheck = styled(FaCheck)`
+  width: 20px;
+  height: 20px;
+
+  @media (max-width: 359px){
+    width: 10px;
+    height: 10px;
+  }
+`
+export const StyFaRedo = styled(FaRedo)`
+  width: 20px;
+  height: 20px;
+
+  @media (max-width: 359px){
+    width: 10px;
+    height: 10px;
+  }
+`
+export const StyFaTimes = styled(FaTimes)`
+  width: 20px;
+  height: 20px;
+
+  @media (max-width: 359px){
+    width: 10px;
+    height: 10px;
+  }
+`
 
 export const BucketListContainer = styled.div`
   display: flex;
@@ -165,6 +194,10 @@ export const Actions = styled.div`
   right: 1rem;
   top: 50%;
   transform: translateY(-50%);
+
+  @media (max-width: 359px) {
+    gap: 0;
+  }
 `;
 
 export const ActionButton = styled.button`
@@ -176,6 +209,10 @@ export const ActionButton = styled.button`
 
   &:hover {
     color: #000;
+  }
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
   }
 `;
 
@@ -268,6 +305,10 @@ export const EventInputStyle = styled.input`
   padding: 0.344rem 0rem;
   outline: none;
   background-color: inherit;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 export const FormText = styled.div`
