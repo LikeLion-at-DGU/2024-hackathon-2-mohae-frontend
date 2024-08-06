@@ -40,6 +40,7 @@ const Location = styled.div`
     width: fit-content;
     height: fit-content;
     padding: 6px 15px;
+    font-family: NanumSquareRound;
     font-size: 21px;
     color: #2d539e80;
     background-color: #ebf1ff;
@@ -48,6 +49,7 @@ const Location = styled.div`
 `;
 
 const Title = styled.div`
+    font-family: NanumSquareRound;
     font-size: 36px;
     font-weight: bold;
 `;
@@ -62,6 +64,7 @@ const DateContainer = styled.div`
     border: 1px solid #D9D9D9;
     border-radius: 10px;
     padding-left: 10px;
+    font-family: NanumSquareRound;
     font-size: 21px;
     font-weight: bold;
     gap: 8px;
@@ -74,6 +77,7 @@ const DateContainer = styled.div`
 const DateButton = styled.button`
     width: 117px;
     height: 45px;
+    font-family: NanumSquareRound;
     font-size: 16px;
     background-color: #353535;
     color: #fff;
@@ -100,6 +104,7 @@ const PeopleContainer = styled.div`
     border: 1px solid #D9D9D9;
     border-radius: 10px;
     padding-left: 10px;
+    font-family: NanumSquareRound;
     font-size: 21px;
     font-weight: bold;
     gap: 8px;
@@ -117,6 +122,7 @@ const CounterBox = styled.div`
 const CounterButton = styled.button`
     width: 56px;
     height: 45px;
+    font-family: NanumSquareRound;
     font-size: 18px;
     margin: 0 3px;
     background-color: #353535;
@@ -130,6 +136,7 @@ const Total = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 100%; 
+    font-family: NanumSquareRound;
     font-size: 27px;
     font-weight: 700;
     padding: 0 10px; 
@@ -149,6 +156,7 @@ const Icons = styled.div`
         height: 70px;
         background-color: #2D539E;
         color: #FFFFFF;
+        font-family: NanumSquareRound;
         font-size: 30px;
         font-weight: bold;
         border-radius: 10px;
@@ -180,10 +188,14 @@ const TextBox = styled.div`
     width: fit-content;
     height: fit-content;
     .Header {
+        font-family: NanumSquareRound;
+
         font-size: 32px;
         font-weight: 700;
     }
     .Description {
+        font-family: NanumSquareRound;
+
         font-size: 25px;
         font-weight: 400;
     }
@@ -211,6 +223,7 @@ const ReservationPopup = styled.div`
         height: fit-content;
     }
     .TextReservation {
+        font-family: NanumSquareRound;
         font-size: 35px;
         font-weight: bold;
     }
@@ -238,6 +251,7 @@ const ErrorPopup  = styled.div`
         height: fit-content;
     }
     .TextReservation {
+        font-family: NanumSquareRound;
         font-size: 35px;
         font-weight: bold;
     }

@@ -5,17 +5,37 @@ import { API } from '../../api';
 const Container = styled.div`
     padding: 20px;
     width: 1030px;
+
+    @media (max-width: 359px) {
+        width: 360px;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start; /* 중앙에서 좌측 정렬로 변경 */
+        
+    }
 `;
 
 const TabMenu = styled.div`
     display: flex;
+    flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     gap: 1px;
+
+    @media (max-width: 359px) {
+        width: 328px;
+        display: flex;
+        flex-direction: row;  
+        justify-content: flex-start;  
+        align-items: center;
+        padding-left: 7px;
+    }
 `;
 
 const TabItem = styled.div.attrs(props => ({
-    'data-active': props.active.toString(), // active 속성을 data-active로 변환하여 DOM으로 전달
+    'data-active': props.active.toString(),
 }))`
     display: flex;
     flex-direction: row;
@@ -26,8 +46,19 @@ const TabItem = styled.div.attrs(props => ({
     border-radius: 14px 14px 0px 0px;
     cursor: pointer;
     box-shadow: 0px 1px 10px -2px #00000040;
-    font-weight: ${({ active }) => (active ? "bold" : "normal")};
+    font-family: NanumSquareRound;
+    font-weight: ${({ active }) => (active ? "800" : "700")};
     background-color: ${({ active }) => (active ? "#FFFFFF" : "#F8F9FE")};
+
+    @media (max-width: 359px) {
+        width: 82px;
+        height: 28px;
+        font-size: 12px;
+        border-radius: 8px 8px 0px 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 `;
 
 const CardContainer = styled.div`
@@ -41,6 +72,15 @@ const CardContainer = styled.div`
     box-shadow: 1px 2px 12px 0px #00000040;
     margin: 0 auto; 
     justify-content: center; 
+
+    @media (max-width: 359px) {
+        width: 328px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 16px 9px;
+        border-radius: 0px 14px 14px 14px;
+        box-shadow: 1px 2px 6px 0px #00000040;
+    }
 `;
 
 const CardLink = styled.a`
@@ -61,6 +101,16 @@ const Card = styled.div`
     overflow: hidden;
     box-shadow: 0.5px 1px 9px 0px #00000026;
     gap: 15px;
+
+    @media (max-width: 359px) {
+        width: 147px;
+        height: 197px;
+        padding: 2px;
+        box-shadow: none;
+        border-radius: 10px;
+        gap:4px;
+        padding-top: 10px;
+    }
 `;
 
 const Image = styled.img`
@@ -68,26 +118,48 @@ const Image = styled.img`
     height: 238px;
     background-color: #FFFFFF;
     border-radius: 20px;
+
+    @media (max-width: 359px) {
+        width: 132px;
+        height: 69px;
+        border-radius: 10px;
+    }
 `;
 
 const TextContainer = styled.div`
     padding: 5px;
     width: 415px;
     overflow: hidden;
+
+    @media (max-width: 359px) {
+        width: 122px;
+    }
 `;
 
 const Location = styled.div`
     width: fit-content;
     height: fit-content;
     padding: 6px 15px;
+    font-family: NanumSquareRound;
     font-size: 19px;
     color: #2D539E80;
     background-color: #EBF1FF;
     border-radius: 10px;
     margin-bottom: 15px;
+
+    @media (max-width: 359px) {
+        font-size: 11px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items:center;
+        width: 40px;
+        height: 20px;
+    }
 `;
 
 const Title = styled.div`
+    font-family: NanumSquareRound;
     font-size: 25px;
     font-weight: bold;
     margin-bottom: 10px;
@@ -95,48 +167,75 @@ const Title = styled.div`
     overflow: hidden;
     white-space: nowrap;
     width: 100%;
+
+    @media (max-width: 359px) {
+        font-size: 12px;
+    }
 `;
 
 const Description = styled.div`
+    font-family: NanumSquareRound;
     font-size: 18px;
     margin-bottom: 10px;
+
+    @media (max-width: 359px) {
+        font-size: 10px;
+    }
 `;
 
 const Date = styled.div`
+    font-family: NanumSquareRound;
     font-size: 18px;
     color: #2D539E;
     margin-bottom: 10px;
+
+    @media (max-width: 359px) {
+        font-size: 10px;
+    }
 `;
 
 const Price = styled.div`
+    font-family: NanumSquareRound;
     font-size: 18px;
     color: #2D539E;
     margin-bottom: 10px;
+
+    @media (max-width: 359px) {
+        font-size: 10px;
+    }
 `;
 
 const AvailableSlots = styled.div`
+    font-family: NanumSquareRound;
     font-size: 18px;
     color: #2D539E;
     margin-bottom: 10px;
+
+    @media (max-width: 359px) {
+        font-size: 10px;
+    }
 `;
 
 const Category = styled.div`
+    font-family: NanumSquareRound;
     font-size: 18px;
     color: #2D539E;
     margin-bottom: 10px;
+
+    @media (max-width: 359px) {
+        font-size: 10px;
+    }
 `;
 
 const Subcategory = styled.div`
+    font-family: NanumSquareRound;
     font-size: 18px;
     color: #2D539E;
     margin-bottom: 10px;
-`;
 
-const PostButton = styled.button`
-    padding: 10px 20px;
-    font-size: 16px;
-    margin-top: 20px;
-    cursor: pointer;
+    @media (max-width: 359px) {
+        font-size: 10px;
+    }
 `;
 
 const tabs = [
@@ -174,7 +273,7 @@ const Entertainment = () => {
                 {tabs.map((tab) => (
                     <TabItem
                         key={tab.key}
-                        active={activeTab === tab.key}  // active 값으로 true 또는 false 전달
+                        active={activeTab === tab.key}
                         onClick={() => setActiveTab(tab.key)}
                     >
                         {tab.label}
@@ -187,13 +286,11 @@ const Entertainment = () => {
                         <Card>
                             <Image src={activity.thumbnail} alt="card image" />
                             <TextContainer>
+                            <Location>{activity.subcategory ? `${activity.subcategory.name}` : "Blank_subcategory"}</Location>
+
                                 <Title>{activity.title || "Blank_title"}</Title>
                                 <Description>{activity.description || "Blank_description"}</Description>
-                                <Date>{activity.start_date ? `시작일: ${new Date(activity.start_date).toLocaleDateString()}` : "Blank_start_date"}</Date>
-                                <Price>{activity.price !== undefined ? `가격: ${activity.price} 원` : "Blank_price"}</Price>
-                                <AvailableSlots>{activity.available_slots !== undefined ? `남은 자리: ${activity.available_slots}` : "Blank_slots"}</AvailableSlots>
-                                <Category>{activity.category ? `카테고리: ${activity.category.name}` : "Blank_category"}</Category>
-                                <Subcategory>{activity.subcategory ? `하위 카테고리: ${activity.subcategory.name}` : "Blank_subcategory"}</Subcategory>
+                                
                             </TextContainer>
                         </Card>
                     </CardLink>

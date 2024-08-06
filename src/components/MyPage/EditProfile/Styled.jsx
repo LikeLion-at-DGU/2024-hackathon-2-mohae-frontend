@@ -84,19 +84,23 @@ export const EditProfileName = styled.div`
 `;
 
 export const EditProfileText = styled.div`
-  color: #9F9F9F;
+  display: flex;
+  color: #9f9f9f;
   text-align: center;
   font-family: 'NanumSquareRound';
   font-size: 1.375rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-weight: 600;
   cursor: pointer;
+
+  &:hover {
+    color: #6b6a6a;
+  }
 
   @media (max-width: 359px) {
     font-size: 0.75rem;
   }
 `;
+
 
 export const backWrapping = styled.div`
   width: 130%;
@@ -221,4 +225,28 @@ export const CustomPhotoButton = styled.img`
   width: 3rem;
   height: 3rem;
   cursor: pointer;
+`;
+
+export const LogoutButton = styled.div`
+  display: flex;
+  margin-top: 2rem;
+  color: #ff7b7b;
+  border: 3px solid #ff7b7b;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  text-align: center;
+  font-family: 'NanumSquareRound';
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  &:hover {
+    color: #ff0000;
+    border: 3px solid #ff0000;
+  }
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;

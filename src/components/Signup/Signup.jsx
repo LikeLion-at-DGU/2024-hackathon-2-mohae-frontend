@@ -95,6 +95,7 @@ const Signup = () => {
   }
 
   const OffPrivacyform = () => {
+    setCheckedPrivacy(true);
     setThirdform(true);
     setPrivacyform(false);
   }
@@ -105,6 +106,7 @@ const Signup = () => {
   }
 
   const OffMarketingform = () => {
+    setCheckedMarketing(true);
     setThirdform(true);
     setMarketingform(false);
   }

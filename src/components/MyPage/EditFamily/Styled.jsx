@@ -1,7 +1,6 @@
 import styled, {keyframes} from 'styled-components';
 
 import { FaPen, FaUserPlus, FaTimes } from "react-icons/fa";
-import { LuMail, LuMailPlus } from "react-icons/lu";
 
 
 
@@ -120,16 +119,20 @@ export const FamilyName = styled.div`
 `;
 
 export const AddFamily = styled.div`
-  color: #9F9F9F;
-
+  display: flex;
+  color: #9f9f9f;
+  text-align: center;
   font-family: 'NanumSquareRound';
   font-size: 1.5rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
+  font-weight: 800;
+  cursor: pointer;
+
+  &:hover {
+    color: #6b6a6a;
+  }
 
   @media (max-width: 359px) {
-    font-size: 0.875rem;
+    font-size: 1rem;
   }
 `;
 
@@ -179,7 +182,7 @@ export const NewEventForm = styled.div`
   animation: ${fadeIn} 0.3s ease-in-out;
 
   @media (max-width: 359px) {
-    min-width: 300px;
+    min-width: 150px;
   }
 `;
 
@@ -199,6 +202,10 @@ export const FormTitle = styled.div`
   font-style: normal;
   font-weight: 800;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 1.25rem;
+  }
 `;
 
 export const InviteCode = styled.div`
@@ -270,6 +277,11 @@ export const SelectForm = styled.div`
   border: 1px solid #D9D9D9;
   background-color: #FFF;
   box-shadow: 0.5px 1px 15px 0px rgba(0, 0, 0, 0.20);
+
+  @media (max-width: 359px) {
+    width: 10rem;
+    height: 5rem;
+  }
 `;
 
 export const Selection = styled.div`
@@ -289,6 +301,10 @@ export const Selection = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 export const Selection2 = styled.div`
@@ -307,6 +323,10 @@ export const Selection2 = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 export const FormSubtitle = styled.div`
@@ -317,6 +337,9 @@ export const FormSubtitle = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
 `;
 
 export const FormInput = styled.input`
@@ -340,6 +363,12 @@ export const FormInput = styled.input`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 1rem;
+    margin: 1rem 1rem 1rem 1rem;
+    padding: 1rem 3rem;
+  }
 `;
 
 export const PostButton = styled.div`
@@ -360,6 +389,11 @@ export const PostButton = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 359px) {
+    margin: 2rem; 
+    font-size: 1rem;
+  }
 `;
 
 export const Sharp = styled.div`
@@ -370,26 +404,27 @@ export const Sharp = styled.div`
   font-weight: 900;
   top: 8.75rem;
   left: 12rem;
+
+  @media (max-width: 359px) {
+    top: 8.125rem;
+    left: 4.5rem;
+    font-size: 1.5rem;
+  }
 `;
 
 export const Rowdi = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
 `;
 
 export const FormInput2 = styled.input`
   display: flex;
-  width: 65%;
-  height: 4.25rem;
+  width: 75%;
+  height: 5rem;
   justify-content: center;
   align-items: center;
 
-  outline: none;
-
-  padding: 0rem 3rem 0rem 2rem;
 
   border-radius: 0.625rem;
   border: 1px #ABABAB;
@@ -407,8 +442,8 @@ export const FormInput2 = styled.input`
 
 export const inputbutton = styled.button`
   display: flex;
-  width: 35%;
-  height: 4rem;
+  width: 25%;
+  height: 5rem;
   justify-content: center;
   align-items: center;
 
@@ -420,123 +455,6 @@ export const inputbutton = styled.button`
   text-align: center;
   font-family: 'NanumSquareRound';
   font-size: 1.875rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-`;
-
-export const Formprint2 = styled.div`
-  display: flex;
-  width: 100%;
-  height: 4rem;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 2rem;
-
-  margin-top: 1.5rem;
-
-  border: none;
-  outline: none;
-
-  background-color: #EDEDED;
-
-  color: #2d539e;
-  font-family: 'NanumSquareRound';
-  font-size: 1.625rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`;
-
-export const SendingBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-`;
-
-export const SendIcon = styled(LuMail)`
-  width: 2rem;
-  height: 2rem;
-  border: 1px solid #9d9d9d;
-  border-radius: 2rem;
-  padding: 0.75rem;
-`;
-
-export const SendText = styled.div`
-  display: flex;
-`;
-
-export const Phone = styled.div`
-  color: #000;
-
-  font-family: 'NanumSquareRound';
-  font-size: 1.5rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`;
-
-export const Phoneadding = styled.div`
-  display: flex;
-  gap: 1rem;
-
-  color: #9F9F9F;
-
-  font-family: 'NanumSquareRound';
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-`;
-
-export const StyleiconLu = styled(LuMailPlus)`
-  width: 1.25rem;
-  height: 1.25rem;
-`;
-
-export const PhoneNumberInput = styled.input`
-  display: flex;
-  width: 360px;
-  height: 5rem;
-  justify-content: center;
-  align-items: center;
-
-  outline: none;
-
-  padding: 0rem 3rem 0rem 2rem;
-
-  border-radius: 0.625rem;
-  border: 1px #ABABAB;
-
-  background: #F7F8FB;
-
-  color: #ABABAB;
-
-  font-family: 'NanumSquareRound';
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`;
-
-export const SendingButton = styled.div`
-  display: flex;
-  height: 71px;
-  padding: 7px 55px;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 0.625rem;
-  background: #2D539E;
-
-  color: #FFF;
-
-  text-align: center;
-  font-family: 'NanumSquareRound';
-  font-size: 30px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;

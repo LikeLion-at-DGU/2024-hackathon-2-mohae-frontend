@@ -13,8 +13,9 @@ const PageStyle = createGlobalStyle`
         width: 100%;
         height: 100%; /* 화면 전체를 채우도록 설정 */
         user-select: none; /* 텍스트 선택 방지 */
-        overflow: hidden; /* 선택 방지를 위해 스크롤 숨김 */    
+        overflow: hidden; /* 선택 방지를 위해 스크롤 숨김 */ 
     }
+    
 `;
 
 

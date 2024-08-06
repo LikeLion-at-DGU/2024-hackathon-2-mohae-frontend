@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { FaCheck, FaRedo, FaTimes } from "react-icons/fa";
 import * as S from "./Styled";
 import { API } from "../../../api";
 
@@ -74,8 +73,8 @@ const BucketList = () => {
               <S.BucketNumber>{index + 1}</S.BucketNumber>
               <S.BucketContent>{item.title}</S.BucketContent>
               <S.Actions className="actions">
-                <S.ActionButton onClick={() => handleToggleCompletion(item.id, false)}><FaCheck /></S.ActionButton>
-                <S.ActionButton onClick={() => handleDeleteBucketList(item.id)}><FaTimes /></S.ActionButton>
+                <S.ActionButton onClick={() => handleToggleCompletion(item.id, false)}><S.StyFaCheck /></S.ActionButton>
+                <S.ActionButton onClick={() => handleDeleteBucketList(item.id)}><S.StyFaTimes /></S.ActionButton>
               </S.Actions>
             </S.Bucket>
           ))}
@@ -88,7 +87,7 @@ const BucketList = () => {
                 onChange={(e) => setNewBucket(e.target.value)}
                 placeholder="당신의 버킷리스트를 입력해주세요"
               />
-              <S.ActionButton onClick={handleAddBucketList}><FaCheck /></S.ActionButton>
+              <S.ActionButton onClick={handleAddBucketList}><S.StyFaCheck /></S.ActionButton>
             </S.InputBucket>
           )}
           {finishedBuckets.map((item, index) => (
@@ -96,7 +95,7 @@ const BucketList = () => {
               <S.BucketNumber>{unfinishedBuckets.length + index + 1}</S.BucketNumber>
               <S.BucketContent completed="true">{item.title}</S.BucketContent>
               <S.Actions className="actions">
-                <S.ActionButton onClick={() => handleToggleCompletion(item.id, true)}><FaRedo /></S.ActionButton>
+                <S.ActionButton onClick={() => handleToggleCompletion(item.id, true)}><S.StyFaRedo /></S.ActionButton>
               </S.Actions>
             </S.Bucket>
           ))}

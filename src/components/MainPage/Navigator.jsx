@@ -1,15 +1,16 @@
 import React from "react";
-import { styled } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 
 const StyledLink = styled(Link)`
     text-decoration: none;
-    color: inherit; /* 원래 텍스트 색상을 유지하려면 사용 */
+    color: inherit; /* 원래 텍스트 색상을 유지 */
 
     &:hover {
-        text-decoration: none; /* 호버 시에도 밑줄 없앰 */
+        text-decoration: none;
     }
 `;
+
 const NavDiv = styled.div`
     display: flex;
     flex-direction: row;
@@ -18,6 +19,15 @@ const NavDiv = styled.div`
     gap: 12px;
     width: 836px;
     height: 298px;
+    @media (max-width: 360px) {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 320px;
+        height: auto;
+        gap: 8px;
+    }
 `;
 
 const NavBlockTop = styled.div`
@@ -25,20 +35,26 @@ const NavBlockTop = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 200px;
+    width: px;
     height: 100%;
+    @media (max-width: 360px) {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 85px;
+        height: 118px;
+    }
 `;
 
-const NavBlockBottom = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    width: 200px;
-    height: 100%;
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 `;
-
-
 
 const NavMenu = styled.div`
     display: flex;
@@ -48,70 +64,52 @@ const NavMenu = styled.div`
     height: 270px;
     border-radius: 35px;
     overflow: hidden;
+    animation: ${fadeIn} 0.5s ease-in;
     .Menuimg {
         width: 200px;
         height: 270px;
     }
+    @media (max-width: 360px) {
+        width: 85px;
+        height: 118px;
+        .Menuimg {
+        width: 85px;
+        height: 118px;
+    }
+    }
 `;
 
-const DirectLink = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    width: 153px;
-    height: 52px;
-    gap: 10px;
-    position: absolute;
-    top: 213px;
-    left: 44.5px;
-    background-color: #FFFFFF;
-    border-radius: 30px 0px 0px 0px;
-    div {
-        font-size: 20px;
-        font-weight: 40;
-    }
-    img {
-        width: 22px;
-        height: 22px;
-    }
-`;
 const Navigator = () => {
     return (
         <NavDiv>
-                <NavBlockTop>
-                    <StyledLink to="Date">
-                        <NavMenu>
-                            <img className = "Menuimg" src="/src/assets/img/Function_Date.png" alt="error loading pic" />
-                        </NavMenu>
-                    </StyledLink>
-                </NavBlockTop>
-                <NavBlockBottom>
-                <StyledLink to="HealthCare">
-
+            <NavBlockTop>
+                <StyledLink to="/Date">
                     <NavMenu>
-                        <img className = "Menuimg" src="/src/assets/img/Function_Health.png" alt="error loading pic" />
+                        <img className="Menuimg" src="/src/assets/img/Function_Date.png" alt="error loading pic" />
                     </NavMenu>
-                    </StyledLink>
-
-                </NavBlockBottom>
-                <NavBlockTop>
-                <StyledLink to="PhotoPost">
-
+                </StyledLink>
+            </NavBlockTop>
+            <NavBlockTop>
+                <StyledLink to="/HealthCare">
                     <NavMenu>
-                        <img className = "Menuimg" src="/src/assets/img/Function_Picture.png" alt="error loading pic" />
+                        <img className="Menuimg" src="/src/assets/img/Function_Health.png" alt="error loading pic" />
                     </NavMenu>
-                    </StyledLink>
-                </NavBlockTop>
-                
-            
-                <NavBlockBottom>
-                    <StyledLink to="CulturePage">
-                        <NavMenu>
-                            <img className = "Menuimg" src="/src/assets/img/Function_CultureLife.png" alt="error loading pic" />
-                        </NavMenu>
-                    </StyledLink>
-                </NavBlockBottom>
+                </StyledLink>
+            </NavBlockTop>
+            <NavBlockTop>
+                <StyledLink to="/PhotoPost">
+                    <NavMenu>
+                        <img className="Menuimg" src="/src/assets/img/Function_Picture.png" alt="error loading pic" />
+                    </NavMenu>
+                </StyledLink>
+            </NavBlockTop>
+            <NavBlockTop>
+                <StyledLink to="/CulturePage">
+                    <NavMenu>
+                        <img className="Menuimg" src="/src/assets/img/Function_CultureLife.png" alt="error loading pic" />
+                    </NavMenu>
+                </StyledLink>
+            </NavBlockTop>
         </NavDiv>
     );
 }

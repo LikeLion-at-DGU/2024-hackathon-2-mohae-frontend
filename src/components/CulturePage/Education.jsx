@@ -5,6 +5,15 @@ import { API } from '../../api';  // API 모듈 가져오기
 const Container = styled.div`
     padding: 20px;
     width: 1030px;
+    @media (max-width: 359px) {
+        width: 360px;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start; /* 중앙에서 좌측 정렬로 변경 */
+        
+    }
 `;
 
 const TabMenu = styled.div`
@@ -12,6 +21,14 @@ const TabMenu = styled.div`
     justify-content: flex-start;
     align-items: center;
     gap: 1px;
+    @media (max-width: 359px) {
+        width: 328px;
+        display: flex;
+        flex-direction: row;  
+        justify-content: flex-start;  
+        align-items: center;
+        padding-left: 7px;
+    }
 `;
 
 const TabItem = styled.div`
@@ -24,7 +41,17 @@ const TabItem = styled.div`
     border-radius: 14px 14px 0px 0px;
     cursor: pointer;
     box-shadow: 0px 1px 10px -2px #00000040;
+    font-family: NanumSquareRound;
     font-weight: ${({ active }) => (active ? "bold" : "normal")};
+    @media (max-width: 359px) {
+        width: 82px;
+        height: 28px;
+        font-size: 12px;
+        border-radius: 8px 8px 0px 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 `;
 
 const Box = styled.div`
@@ -43,11 +70,20 @@ const CardContainer = styled.div`
     width: 100%;  
     display: flex;
     flex-direction: column;
+    background-color: #FFFFFF;
     align-items: center;
     gap: 45px;
     padding-bottom: 30px;
     margin: 0 auto; 
     justify-content: center; 
+    @media (max-width: 359px) {
+        width: 328px;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 16px 9px;
+        border-radius: 0px 14px 14px 14px;
+        box-shadow: 1px 2px 6px 0px #00000040;
+    }
 `;
 
 const CardLink = styled.a`
@@ -69,6 +105,15 @@ const Card = styled.div`
     box-shadow: 0.5px 1px 9px 0px #00000026;
     gap: 15px;
     position: relative; /* Position the card to use relative positioning for the button */
+    @media (max-width: 359px) {
+        width: 300px;
+        height: 120px;
+        padding: 2px;
+        box-shadow: none;
+        border-radius: 10px;
+        gap:10px;
+        padding: 10px;
+    }
 `;
 
 const Image = styled.img`
@@ -76,6 +121,11 @@ const Image = styled.img`
     height: 256px;
     background-color: #FFFFFF;
     border-radius: 20px;
+    @media (max-width: 359px) {
+        width: 160px;
+        height: 90px;
+        border-radius: 10px;
+    }
 `;
 
 const TextContainer = styled.div`
@@ -86,28 +136,50 @@ const TextContainer = styled.div`
     width: 415px;
     height: 135px;
     overflow: hidden;
+    @media (max-width: 359px) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        width: 122px;
+    }
 `;
 
 const Location = styled.div`
     width: fit-content;
     height: fit-content;
     padding: 6px 6px;
+    font-family: NanumSquareRound;
     font-size: 19px;
     color: #2D539E80;
     background-color: #EBF1FF;
     border-radius: 10px;
+    @media (max-width: 359px) {
+        font-size: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items:center;
+        width: fit-content;
+        height: 12px;
+    }
 `;
 
 const Title = styled.div`
+    font-family: NanumSquareRound;
     font-size: 30px;
     font-weight: bold;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     width: 100%;
+    @media (max-width: 359px) {
+        font-size: 11px;
+    }
 `;
 
 const Distance = styled.div`
+    font-family: NanumSquareRound;
     font-size: 24px;
     color: #2D539E;
     font-weight: regular;
@@ -115,6 +187,9 @@ const Distance = styled.div`
     overflow: hidden;
     white-space: nowrap;
     width: 100%;
+    @media (max-width: 359px) {
+        font-size: 9px;
+    }
 `;
 
 const HeartButton = styled.button`
@@ -137,6 +212,14 @@ const HeartButton = styled.button`
         height: 24px;
         border: none; /* 이미지 테두리 제거 */
     }
+    @media (max-width: 359px) {
+        top: 3px;
+        right: 3px;
+        img{
+            width: 8px;
+            height: 8px;
+        }
+    }
 `;
 
 const tabs = [
@@ -157,7 +240,16 @@ const Education = () => {
                 const filteredActivities = response.data.filter(activity => 
                     activity.category && activity.category.name === '배울거리'
                 );
+
+                // 서버로부터 기존에 좋아요 표시된 아이템 가져오기 (예시)
+                const likedResponse = await API.get('/culture/likes');
+                const likedItemsFromServer = likedResponse.data.reduce((acc, likedItem) => {
+                    acc[likedItem.activity] = true;
+                    return acc;
+                }, {});
+
                 setActivities(filteredActivities);
+                setLikedItems(likedItemsFromServer);
             } catch (error) {
                 console.log('fetch data error:', error);
             }
@@ -165,33 +257,53 @@ const Education = () => {
         fetchData();
     }, []);
 
-    const handleLikeToggle = async (index, activity) => {
+    const handleLikeToggle = async (activityId, activity) => {
         const postData = {
             activity: activity.id,
             category_id: activity.category?.id,
             subcategory_id: activity.subcategory?.id
         };
-    
+
+        console.log(`Toggling like for activity ID: ${activityId}`);
+        console.log('Current likedItems state:', likedItems);
+        console.log(`Is activity liked? ${likedItems[activityId]}`);
+
         try {
-            if (likedItems[index]) {
-                console.log(`Sending DELETE request for activity ID: ${activity.id}`);
-                const response = await API.post(`/culture/likes`, postData);
-                console.log('Deleted like:', response.data);
+            if (likedItems[activityId]) {
+                // POST 요청을 사용하여 삭제 작업을 시도
+                console.log(`Sending POST request for deleting like for activity ID: ${activity.id}`);
+                const response = await API.post(`/culture/likes/remove_like`, postData);
+
+                if (response.status === 200 || response.status === 204) {
+                    console.log('Successfully deleted like:', response.data);
+                    setLikedItems(prevState => ({
+                        ...prevState,
+                        [activityId]: false
+                    }));
+                } else {
+                    console.error('Failed to delete like:', response);
+                }
             } else {
+                // 좋아요가 안 되어 있다면 추가 요청을 보냄
                 console.log('Sending POST request with data:', postData);
                 const response = await API.post(`/culture/likes`, postData);
-                console.log('Added like:', response.data);
+
+                if (response.status === 200 || response.status === 201) {
+                    console.log('Successfully added like:', response.data);
+                    setLikedItems(prevState => ({
+                        ...prevState,
+                        [activityId]: true
+                    }));
+                } else {
+                    console.error('Failed to add like:', response);
+                }
             }
-    
-            setLikedItems(prevState => ({
-                ...prevState,
-                [index]: !prevState[index]
-            }));
+
+            console.log('Updated likedItems state:', likedItems);
         } catch (error) {
             console.error('Error toggling like:', error);
         }
     };
-    
 
     const filteredActivitiesByTab = activities.filter(activity => 
         activity.subcategory && activity.subcategory.name === activeTab
@@ -210,8 +322,7 @@ const Education = () => {
                     </TabItem>
                 ))}
             </TabMenu>
-            <Box>
-                <CardContainer>
+            <CardContainer>
                     {filteredActivitiesByTab.map((activity, index) => (
                         <CardLink href={activity.hyperlink} target="_blank" key={index}>
                             <Card>
@@ -221,17 +332,16 @@ const Education = () => {
                                     <Title>{activity.title || "Blank_title"}</Title>
                                     <Distance>{activity.distance || "Unknown distance"}</Distance>
                                 </TextContainer>
-                                <HeartButton liked={likedItems[index]} onClick={(e) => { 
+                                <HeartButton liked={likedItems[activity.id]} onClick={(e) => { 
                                     e.preventDefault(); // 링크 클릭 방지
-                                    handleLikeToggle(index, activity); // 좋아요 토글 처리
+                                    handleLikeToggle(activity.id, activity); // 좋아요 토글 처리
                                 }}>
-                                    <img src={likedItems[index] ? "/src/assets/img/IconHeart_fill.png" : "/src/assets/img/IconHeart_blank.png"} alt="heart icon" />
+                                    <img src={likedItems[activity.id] ? "/src/assets/img/IconHeart_fill.png" : "/src/assets/img/IconHeart_blank.png"} alt="heart icon" />
                                 </HeartButton>
                             </Card>
                         </CardLink>
                     ))}
                 </CardContainer>
-            </Box>
         </Container>
     );
 };

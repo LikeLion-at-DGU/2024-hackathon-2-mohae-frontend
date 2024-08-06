@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import * as S from "./Styled";
 import Camera from '../../../assets/camera.png';
 import uploadImg from '../../../assets/imgplus.png';
-import { API } from '../../../api';
+import { API } from '../../../api'; // 로그아웃 함수 추가
 
 const EditProfile = () => {
   const [showform, setShowform] = useState(false);
@@ -12,7 +12,7 @@ const EditProfile = () => {
     address: '',
     profile_picture: ''
   });
-  const [profileId, setProfileId] = useState(null); // profile_id 상태 추가
+  const [profileId, setProfileId] = useState(null);
 
   const [newinformation, setNewinformation] = useState({
     nickname: '',
@@ -32,6 +32,7 @@ const EditProfile = () => {
     try {
       const response = await API.get("/users/profiles");
       const data = response.data;
+      console.log(data);
       const profile = data[0] || {};
       setInformation({
         nickname: profile.nickname || '',
@@ -39,7 +40,7 @@ const EditProfile = () => {
         address: profile.address || '',
         profile_picture: profile.profile_picture || ''
       });
-      setProfileId(profile.id); // profile_id 설정
+      setProfileId(profile.id);
       setPreviewSrc(profile.profile_picture || Camera);
     } catch (error) {
       console.error(error);
@@ -101,6 +102,15 @@ const EditProfile = () => {
 
   const openFileDialog = () => {
     fileInputRef.current.click();
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await API.post('/accounts/logout/');
+      window.location('/login');
+    } catch (error) {
+      console.error("로그아웃 중 에러가 발생했습니다.", error);
+    }
   };
 
   return (
@@ -189,6 +199,6 @@ const EditProfile = () => {
       )}
     </>
   );
-}
+};
 
 export default EditProfile;

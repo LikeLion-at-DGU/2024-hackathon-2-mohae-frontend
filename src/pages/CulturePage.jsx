@@ -9,15 +9,22 @@ import Education from "../components/CulturePage/Education";
 import DetailPage from "../components/CulturePage/DetailPage";
 
 const PageStyle = createGlobalStyle`
+  body {
+    background-color: #F7F8FB;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 1440px;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+  }
+
+  @media (max-width: 359px) {
     body {
-        background-color: #F7F8FB;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: fit-content;
+      width: 360px;
     }
+  }
 `;
 
 const BackEffect = styled.div`
@@ -53,11 +60,9 @@ function CulturePage() {
     return (
         <>
             <PageStyle />
-            <BackEffect>
                 <ADBar />
                 <CategoryBar setSelectedCategory={setSelectedCategory} />
                 {renderContent()}
-            </BackEffect>
         </>
     );
 }

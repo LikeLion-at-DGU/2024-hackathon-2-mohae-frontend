@@ -310,13 +310,15 @@ export const AddButton = styled.div`
   text-align: center;
   font-family: 'NanumSquareRound';
   font-size: 1.5rem;
-  font-style: normal;
   font-weight: 800;
-
   cursor: pointer;
 
+  &:hover {
+    color: #6b6a6a;
+  }
+
   @media (max-width: 359px) {
-    font-size: 0.75rem;
+    font-size: 1rem;
   }
 `;
 

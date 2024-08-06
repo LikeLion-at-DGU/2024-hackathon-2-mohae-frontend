@@ -8,6 +8,11 @@ const FrameWrapper = styled.div`
     width: 1140px;
     margin: 30px auto;
     position: relative;
+
+    @media (max-width: 359px) {
+        width: 320px;
+        margin: 10px auto;
+    }
 `;
 
 const ImgWrapper = styled.div`
@@ -23,6 +28,17 @@ const ImgWrapper = styled.div`
         object-fit: cover;
         border-radius: 30px;
     }
+
+    @media (max-width: 359px) {
+        width: 272px;
+        height: 88px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+        }
+    }
 `;
 
 const CustomArrow = styled.div`
@@ -36,12 +52,19 @@ const CustomArrow = styled.div`
         width: 35px;
         height: 35px;
     }
+
+    @media (max-width: 359px) {
+        img {
+            width: 18px;
+            height: 18px;
+        }
+    }
 `;
 
 const NextArrow = (props) => {
     const { onClick } = props;
     return (
-        <CustomArrow onClick={onClick} style={{ right: '160px', transform: 'translateX(100%) translateY(-50%)' }}>
+        <CustomArrow onClick={onClick} className="next-arrow">
             <img src="/src/assets/img/ArrowButton_right.png" alt="right" />
         </CustomArrow>
     );
@@ -50,7 +73,7 @@ const NextArrow = (props) => {
 const PrevArrow = (props) => {
     const { onClick } = props;
     return (
-        <CustomArrow onClick={onClick} style={{ left: '160px', transform: 'translateX(-100%) translateY(-50%)' }}>
+        <CustomArrow onClick={onClick} className="prev-arrow">
             <img src="/src/assets/img/ArrowButton_left.png" alt="left" />
         </CustomArrow>
     );
@@ -65,6 +88,38 @@ const SliderWrapper = styled.div`
     .slick-list {
         margin: 0 -40px; /* 전체 슬라이더의 좌우 여백 제거 */
     }
+
+    @media (max-width: 359px) {
+        .slick-slide {
+            padding: 0 10px; /* 좁은 화면에서 슬라이드 간격 축소 */
+        }
+
+        .slick-list {
+            margin: 0 -10px; /* 좁은 화면에서 슬라이더 좌우 여백 축소 */
+        }
+
+        .next-arrow {
+            right: 70px;
+            transform: translateY(-50%);
+        }
+
+        .prev-arrow {
+            left: 70px;
+            transform: translateY(-50%);
+        }
+    }
+
+    @media (min-width: 361px) {
+        .next-arrow {
+            right: 95px;
+            transform: translateX(100%) translateY(-50%);
+        }
+
+        .prev-arrow {
+            left: 95px;
+            transform: translateX(-100%) translateY(-50%);
+        }
+    }
 `;
 
 const ADBar = () => {
@@ -78,7 +133,7 @@ const ADBar = () => {
 
     const settings = {
         centerMode: true,
-        centerPadding: "170px",
+        centerPadding: "80px",
         slidesToShow: 1,
         infinite: true,
         speed: 500,

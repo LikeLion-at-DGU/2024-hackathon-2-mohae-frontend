@@ -359,8 +359,9 @@ export const PrevButton = styled.div`
 
   padding: 1rem 0rem;
 
+  border: 3px solid #F0F0F0;
   border-radius: 1rem;
-  background: #F2F3F5;
+  background: #FFF;
 
   color: #5D5C61;
 
@@ -370,6 +371,11 @@ export const PrevButton = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  cursor: pointer;
+  &:hover {
+    background-color: #F0F0F0;
+  }
 
   @media (max-width: 359px) {
     font-size: 0.75rem;
@@ -397,6 +403,13 @@ export const NextButton = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: #1d3e7f;
+    color: #F0F0F0;
+  }
 
   @media (max-width: 359px) {
     font-size: 0.75rem;
