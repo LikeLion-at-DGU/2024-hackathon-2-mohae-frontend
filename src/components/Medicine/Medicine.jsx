@@ -134,6 +134,10 @@ const Medicine = () => {
     return `http://127.0.0.1:8000${url}`;
   };
 
+  const allDosesTaken = (checkState) => {
+    return ['morning', 'lunch', 'dinner'].every(time => checkState[time] === 'true' || checkState[time] === 'disabled');
+  };
+
   return (
     <S.BigBox>
       <S.Column>
@@ -143,7 +147,7 @@ const Medicine = () => {
         </S.Row>
         <S.MedicineContent>
           <S.IMG src={Clock} alt="Clock" />
-          {/* 2024년 7월 2일(화) 13:12 PM (점심) 현재시간저 */}
+          {/* 2024년 7월 2일(화) 13:12 PM (점심) 현재시간 */}
         </S.MedicineContent>
       </S.Column>
       {checkStates.length === 0 ? (
@@ -157,14 +161,18 @@ const Medicine = () => {
           {checkStates.map((checkState, index) => (
             <S.MedicineContainer key={checkState.id}>
               <S.MedicineHeader>
-                <div style={{display:'flex', flexDirection:'row', alignItems: 'center'}}>
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                   <S.MedicineWho>{profileMap[checkState.user]?.nickname || "나"}</S.MedicineWho>
                   <S.ProfileImage src={getProfilePictureUrl(profileMap[checkState.user]?.imageUrl || "")} />
                 </div>
                 <FaTimes onClick={() => handleDeleteMedicine(checkState.id)} style={{ cursor: 'pointer', width: '15px', height: '15px' }} />
               </S.MedicineHeader>
               <S.MedicineTitle>
-                <S.MedicineNotice>{checkState.name}을(를) 아직 복용하지 않았습니다.</S.MedicineNotice>
+                {allDosesTaken(checkState) ? (
+                  <S.MedicineNotice>{checkState.name}을(를) 오늘 모두 복용했습니다.</S.MedicineNotice>
+                ) : (
+                  <S.MedicineNotice>{checkState.name}을(를) 아직 복용하지 않았습니다.</S.MedicineNotice>
+                )}
               </S.MedicineTitle>
               <S.Checks>
                 {checkState.morning !== 'disabled' && (

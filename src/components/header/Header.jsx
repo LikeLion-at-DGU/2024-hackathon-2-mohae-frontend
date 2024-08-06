@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { BiSolidUser } from "react-icons/bi";
 
-import { API } from '../../api';
+import { API } from "../../api";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -129,25 +129,29 @@ const CategoryTitle = styled.div`
 
 const Header = () => {
   const location = useLocation();
-  const showHeaderfilter = location.pathname !== "/" && location.pathname !== "/Homepage";
+  const showHeaderfilter = location.pathname !== "/";
 
   const Emergency = async () => {
     try {
-      const response = await API.post('/sms/emergency/');
+      const response = await API.post("/sms/emergency/");
+      alert("긴급 문자가 전송되었습니다.");
     } catch (error) {
       console.error(error);
     }
-  }
+  };
   return (
     <HeaderContainer>
       <Top>
+        {/* <StyledLink to="/">
+          <MOHAEsytle>MOHAE</MOHAEsytle>
+        </StyledLink> */}
+        {/* <StyledLink to="/"> */}
+        <ButtonwithIcon>
+          <StyledRI size={30} style={{ color: "#FF6F6F" }} />
+          긴급
+        </ButtonwithIcon>
+        {/* </StyledLink> */}
         <StyledLink to="/">
-          <ButtonwithIcon onClick={Emergency}>
-            <StyledRI size={30} style={{ color: "#FF6F6F" }} />
-            긴급
-          </ButtonwithIcon>
-        </StyledLink>
-        <StyledLink to="/Homepage">
           <MOHAEsytle>MOHAE</MOHAEsytle>
         </StyledLink>
         <StyledLink to="mypage">
@@ -157,7 +161,7 @@ const Header = () => {
           </ButtonwithIcon>
         </StyledLink>
       </Top>
-      {showHeaderfilter && 
+      {showHeaderfilter && (
         <HeaderWrap2>
           <StyledLink to="Date">
             <CategoryTitle>일정</CategoryTitle>
@@ -172,7 +176,7 @@ const Header = () => {
             <CategoryTitle>문화생활</CategoryTitle>
           </StyledLink>
         </HeaderWrap2>
-      }
+      )}
     </HeaderContainer>
   );
 };

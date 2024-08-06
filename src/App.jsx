@@ -57,7 +57,6 @@ const Layout = () => {
           <Wrapper>
             {showHeader && <Header />}
             <Outlet />
-            <Footer />
           </Wrapper>
         </Container>
       </BackEffect>

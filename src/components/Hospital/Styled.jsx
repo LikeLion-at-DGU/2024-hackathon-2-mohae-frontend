@@ -1,4 +1,13 @@
 import styled, { keyframes } from 'styled-components';
+import { IoMdInformationCircleOutline } from "react-icons/io";
+
+export const StyledCircle = styled(IoMdInformationCircleOutline)`
+  color: rgba(124, 124, 124, 100);
+  
+  &:hover {
+    color: #000;
+  }
+`;
 
 const fadeIn = keyframes`
   from {
@@ -48,6 +57,9 @@ export const HospitalHeader = styled.div`
 `;
 
 export const HospitalTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
   color: #000;
   font-family: 'NanumSquareRound';
   font-size: 1.5rem;
@@ -450,5 +462,55 @@ export const Rowbetween = styled.div`
 
   @media (max-width: 359px) {
     font-size: 0.875rem;
+  }
+`;
+
+export const Infocontainer = styled.div`
+  display: inline-flex;
+
+  position: absolute;
+  left: 11rem;
+  top: 0.125rem;
+  padding: 0.625rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.625rem;
+
+  border-radius: 0.25rem;
+  background: #FFF;
+  box-shadow: 0.2px 0.4px 19px 0px rgba(0, 0, 0, 0.10);
+
+  @media (max-width: 359px) {
+    left: 8.125rem;
+    padding: 0.375rem;
+  }
+`;
+
+export const AlramTitle = styled.div`
+  color: #000;
+
+  font-family: 'NanumSquareRound';
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.75rem;
+  }
+`;
+
+export const AlramText = styled.div`
+  color: #353535;
+
+  font-family: 'NanumSquareRound';
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  @media (max-width: 359px) {
+    font-size: 0.625rem;
   }
 `;
