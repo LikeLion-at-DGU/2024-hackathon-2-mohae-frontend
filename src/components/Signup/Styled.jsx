@@ -40,21 +40,6 @@ export const StyledPi = styled(PiCalendarBlank)`
   }
 `;
 
-export const BackEffect = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-top: 2rem;
-  padding-bottom: 11rem;
-  width: 130%;
-  height: 100%;
-  align-items: center;
-  background: linear-gradient(120deg, #e1eaff 0%, #fff 52.4%, #dcfafc 100%);
-
-  @media (max-width: 359px) {
-    width: 105%;
-    padding: 1rem;
-  }
-`;
 
 export const Top = styled.div`
   display: flex;

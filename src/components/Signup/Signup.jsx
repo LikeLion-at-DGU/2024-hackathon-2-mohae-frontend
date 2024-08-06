@@ -181,7 +181,6 @@ const Signup = () => {
   return (
     <>
       <S.PageStyle />
-      <S.BackEffect>
         <S.Container>
           <S.Top>
             <StyledLink to="/">
@@ -481,7 +480,6 @@ const Signup = () => {
             </S.ThirdForm>
           )}
         </S.Container>
-      </S.BackEffect>
     </>
   );
 };

@@ -14,12 +14,10 @@ const MyPage = () => {
       <S.PageStyle />
       <EditProfile />
       <S.DIV />
-      <S.BackEffect>
         <EditFamily />
         <BucketList />
         <LikeList />
         <S.DIV />
-      </S.BackEffect>
     </>
   );
 }
