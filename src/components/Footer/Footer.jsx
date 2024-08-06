@@ -29,18 +29,7 @@ const Footer = () => {
     { question: "부모님을 위한 특별한 이벤트를 추천해 주세요.", answer: "부모님을 위한 특별한 이벤트로는 깜짝 가족 모임, 부모님과 함께하는 추억 여행, 또는 부모님께 감사의 편지 쓰기를 추천합니다. 모해의 일정 캘린더에 이벤트를 기록해 보세요." }
   ];
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const res = await API.get('/api/user_profile/');
-        setNickname(res.data.nickname);
-        setProfilePicture(res.data.profile_picture);
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
-      }
-    };
-    fetchUserProfile();
-  }, []);
+  
 
   useEffect(() => {
     if (showform) {
