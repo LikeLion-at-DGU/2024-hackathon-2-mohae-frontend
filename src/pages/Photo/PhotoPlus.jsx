@@ -16,7 +16,7 @@ const Overlay = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     width: 90%;
     height: 80%;
     max-height: 80%;
@@ -37,14 +37,16 @@ const Modal = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  @media (max-width: 360px) {
-    width: 360px;
+  @media (max-width: 359px) {
+    width: 320px;
     position: absolute;
-    top: 200px;
-    height: 800px;
+    top: 100px;
+    height: 500px;
     max-height: 80%;
     padding: 10px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    margin-left: 130px;
   }
 `;
 

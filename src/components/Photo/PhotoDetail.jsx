@@ -22,7 +22,7 @@ const Overlay = styled.div`
   justify-content: center;
   z-index: 1000;
   overflow-y: hidden;
-  @media (max-width: 360px) {
+  @media (max-width: 359px) {
     width: 90%;
     height: 80%;
     max-height: 80%;
@@ -45,14 +45,15 @@ const Modal = styled.div`
   flex-direction: column;
   overflow-y: scroll;
 
-  @media (max-width: 360px) {
-    width: 360px;
+  @media (max-width: 359px) {
+    width: 350px;
     position: absolute;
-    top: 200px;
-    height: 800px;
+    top: 100px;
+    height: 600px;
     max-height: 80%;
     padding: 10px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    margin-left: 110px;
   }
 `;
 
