@@ -98,13 +98,12 @@ export const BuyDetail = styled.div`
   }
 `;
 
-export const BuyImage = styled.div`
+export const BuyImage = styled.img`
   display: flex;
   width: 8.5rem;
   height: 8.5rem;
   margin-right: 2rem;
 
-  background-color: lightcoral;
 
   @media (max-width: 359px) {
     width: 6rem;

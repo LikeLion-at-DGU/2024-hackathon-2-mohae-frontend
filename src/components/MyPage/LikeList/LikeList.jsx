@@ -14,7 +14,7 @@ const LikeList = () => {
       setReservationsData(response.data);
       console.log("reservations", response.data);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching reservations data:", error);
     }
   };
 
@@ -42,7 +42,7 @@ const LikeList = () => {
         console.log('Activities data:', activitiesData);
 
       } catch (error) {
-        console.log('fetch liked items error:', error);
+        console.log('Error fetching liked items or activities data:', error);
       }
     };
     
@@ -88,7 +88,12 @@ const LikeList = () => {
                 {/* likedItems에서 해당 활동의 liked_at 정보를 가져와 사용 */}
                 <S.BuyTime>{new Date(likedItems[activity.id]?.liked_at).toLocaleDateString()}</S.BuyTime>
                 <S.Row>
-                  <S.BuyImage src={activity.image_url} alt={activity.title} />
+                  {/* Log thumbnail information */}
+                  {console.log(`Activity ID: ${activity.id}, Thumbnail: ${activity.thumbnail}`)}
+                  {activity.thumbnail 
+                    ? <S.BuyImage src={activity.thumbnail} alt={activity.title} />
+                    : console.log(`No thumbnail available for Activity ID: ${activity.id}`)
+                  }
                   <S.Column>
                     <S.hi>
                       <S.BuyMoney>{activity.title}</S.BuyMoney>
