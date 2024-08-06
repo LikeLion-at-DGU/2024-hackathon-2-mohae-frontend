@@ -196,7 +196,21 @@ const HealthChallenge = () => {
               <S.FormTitle>건강챌린지</S.FormTitle>
               <S.FormText>대표이미지</S.FormText>
               <S.IconList>
-                {[HealthImage1, HealthImage2, HealthImage3, HealthImage4, HealthImage5, HealthImage6, HealthImage7, HealthImage8, HealthImage9, HealthImage10].map((image, index) => (
+                {[HealthImage1, HealthImage2, HealthImage3, HealthImage4, HealthImage5].map((image, index) => (
+                  <S.IconWrapper key={index}>
+                    <S.ToggleCircle
+                      selected={previewSrc === image}
+                      onClick={() => handleImageToggle(image)}
+                    />
+                    <S.HealthIcon
+                      src={image}
+                      alt={`HealthImage${index + 1}`}
+                    />
+                  </S.IconWrapper>
+                ))}
+              </S.IconList>
+              <S.IconList>
+                {[HealthImage6, HealthImage7, HealthImage8, HealthImage9, HealthImage10].map((image, index) => (
                   <S.IconWrapper key={index}>
                     <S.ToggleCircle
                       selected={previewSrc === image}

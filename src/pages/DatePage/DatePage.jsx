@@ -14,7 +14,7 @@ const DatePage = () => {
       <div style={{height: '1rem'}}></div>
       <CheckSchedule></CheckSchedule>
       <div style={{height: '2rem'}}></div>
-      <S.Calendar>
+      <S.Calendar style={{paddingBottom:'4rem'}}>
         <S.CalendarFilter>
           {/* <S.CalendarFilterText>언제나 든든한 나만의</S.CalendarFilterText>
           <S.CalendarFitlerContent>
