@@ -28,22 +28,6 @@ const PageStyle = createGlobalStyle`
   }
 `;
 
-export const BackEffect = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-top: 2rem;
-  padding-bottom: 11rem;
-  width: 130%;
-  height: 100%;
-  align-items: center;
-  background: linear-gradient(120deg, #e1eaff 0%, #fff 52.4%, #dcfafc 100%);
-
-  @media (max-width: 359px) {
-    width: 105%;
-    padding-top: 1rem;
-  }
-`;
-
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit; /* 원래 텍스트 색상을 유지 */
@@ -469,7 +453,6 @@ const Login = () => {
   return (
     <>
       <PageStyle />
-      <BackEffect>
         <Container>
           <Top>
             <StyledLink to="/">
@@ -529,7 +512,6 @@ const Login = () => {
             </Form>
           </Nemo>
         </Container>
-      </BackEffect>
     </>
   );
 };

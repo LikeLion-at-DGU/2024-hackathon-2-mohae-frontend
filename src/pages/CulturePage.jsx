@@ -27,17 +27,6 @@ const PageStyle = createGlobalStyle`
   }
 `;
 
-const BackEffect = styled.div`
-    display: flex;
-    padding-top: 2rem;
-    flex-direction: column;
-    width: 100vw;
-    min-height: 100vh; 
-    align-items: center;
-    background: linear-gradient(120deg, #e1eaff 0%, #fff 52.4%, #dcfafc 100%);
-    background-size: cover;
-    background-repeat: no-repeat;
-`;
 
 function CulturePage() {
     const [selectedCategory, setSelectedCategory] = useState(0);

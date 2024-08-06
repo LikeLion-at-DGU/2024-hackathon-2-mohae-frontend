@@ -1,9 +1,7 @@
 import { styled, ThemeProvider } from "styled-components";
-
 import { Outlet, useLocation } from "react-router-dom";
-
 import Header from "./components/header/Header";
-import Footer from "./components/Footer/Footer"
+import Footer from "./components/Footer/Footer";
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
@@ -14,11 +12,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 const Container = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   transform-origin: top;
   zoom: 0.7916;
-
 
   @media (max-width: 359px) {
     zoom: 0.95;
@@ -52,13 +51,16 @@ const Layout = () => {
 
   return (
     <>
-      <GlobalStyle/>
+      <BackEffect>
+        <GlobalStyle/>
         <Container>
           <Wrapper>
             {showHeader && <Header />}
             <Outlet />
           </Wrapper>
         </Container>
+        <Footer/>
+      </BackEffect>
     </>
   );
 };

@@ -6,15 +6,37 @@ const LikeList = () => {
   const [selectedTab, setSelectedTab] = useState('buy');
   const [reservationsData, setReservationsData] = useState([]);
   const [likedItems, setLikedItems] = useState({});
-  const [activitiesData, setActivitiesData] = useState([]); // 활동 데이터를 저장할 상태
+  const [activitiesData, setActivitiesData] = useState([]);
 
   const GetReservationsData = async () => {
     try {
       const response = await API.get("/users/mypage/confirmed_reservations");
-      setReservationsData(response.data);
-      console.log("reservations", response.data);
+      const reservations = response.data;
+
+      // Get activity IDs from reservations
+      const activityIds = reservations.map(reservation => reservation.reservation.activity);
+      
+      // Fetch activity details based on activity IDs
+      const activityPromises = activityIds.map(id => API.get(`/culture/activities/${id}`));
+      const activitiesResponses = await Promise.all(activityPromises);
+      const activitiesData = activitiesResponses.map(res => res.data);
+
+      // Map activity data to reservations
+      const updatedReservations = reservations.map(reservation => {
+        const activityDetail = activitiesData.find(activity => activity.id === reservation.reservation.activity);
+        return {
+          ...reservation,
+          reservation: {
+            ...reservation.reservation,
+            activityDetail: activityDetail,
+          },
+        };
+      });
+
+      setReservationsData(updatedReservations);
+      console.log("Updated reservations with activity details:", updatedReservations);
     } catch (error) {
-      console.error("Error fetching reservations data:", error);
+      console.error("Error fetching reservations or activity data:", error);
     }
   };
 
@@ -23,7 +45,6 @@ const LikeList = () => {
 
     const fetchLikedItems = async () => {
       try {
-        // 서버로부터 기존에 좋아요 표시된 아이템 가져오기
         const likedResponse = await API.get('/culture/likes');
         const likedItemsFromServer = likedResponse.data.reduce((acc, likedItem) => {
           acc[likedItem.activity] = likedItem;
@@ -33,7 +54,6 @@ const LikeList = () => {
         setLikedItems(likedItemsFromServer);
         console.log('Liked items data:', likedItemsFromServer);
 
-        // 좋아요 표시된 각 활동에 대해 추가 데이터를 가져오기
         const activityIds = Object.values(likedItemsFromServer).map(item => item.activity);
         const activityPromises = activityIds.map(id => API.get(`/culture/activities/${id}`));
         const activitiesResponses = await Promise.all(activityPromises);
@@ -45,7 +65,7 @@ const LikeList = () => {
         console.log('Error fetching liked items or activities data:', error);
       }
     };
-    
+
     fetchLikedItems();
   }, []);
 
@@ -71,9 +91,12 @@ const LikeList = () => {
               <S.BuyDetail key={index}>
                 <S.BuyTime>{new Date(reservation.confirmed_at).toLocaleDateString()} 예약 완료</S.BuyTime>
                 <S.Row>
-                  <S.BuyImage></S.BuyImage>
+                  <S.BuyImage
+                    src={reservation.reservation.activityDetail?.thumbnail || 'default-thumbnail.png'}
+                    alt={reservation.reservation.activityDetail?.title || 'No title available'}
+                  />                  
                   <S.Column>
-                    <S.BuyMoney>활동 이름 : {reservation.reservation.activity?.title || 'No title available'}</S.BuyMoney>
+                    <S.BuyMoney>활동 이름 : {reservation.reservation.activityDetail?.title || 'No title available'}</S.BuyMoney>
                     <S.BuyTitle>예약자 : {reservation.reservation.user?.username || 'Unknown user'}</S.BuyTitle>
                   </S.Column>
                 </S.Row>
@@ -85,23 +108,15 @@ const LikeList = () => {
           <S.BuyList>  
             {activitiesData.map((activity, index) => (
               <S.BuyDetail key={index}>
-                {/* likedItems에서 해당 활동의 liked_at 정보를 가져와 사용 */}
                 <S.BuyTime>{new Date(likedItems[activity.id]?.liked_at).toLocaleDateString()}</S.BuyTime>
                 <S.Row>
-                  {/* Log thumbnail information */}
-                  {console.log(`Activity ID: ${activity.id}, Thumbnail: ${activity.thumbnail}`)}
                   {activity.thumbnail 
                     ? <S.BuyImage src={activity.thumbnail} alt={activity.title} />
-                    : console.log(`No thumbnail available for Activity ID: ${activity.id}`)
+                    : <div>No thumbnail available</div>
                   }
                   <S.Column>
-                    <S.hi>
-                      <S.BuyMoney>{activity.title}</S.BuyMoney>
-                    </S.hi>
-                    {/* 추가 정보 출력 */}
-                    <S.BuySubTitle>
-                      {activity.location || '부제 없음'}
-                    </S.BuySubTitle>
+                    <S.BuyMoney>{activity.title}</S.BuyMoney>
+                    <S.BuySubTitle>{activity.location || '부제 없음'}</S.BuySubTitle>
                   </S.Column>
                 </S.Row>
               </S.BuyDetail>
