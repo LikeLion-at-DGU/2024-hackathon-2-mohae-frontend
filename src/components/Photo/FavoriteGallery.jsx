@@ -50,6 +50,7 @@ const FavoriteGallery = () => {
           isLiked={true}
           title={item.title}
           detail={item.description}
+          timestamp={item.created_at} // created_at 값을 전달
           onLikeToggle={handleLikeToggle}
         />
       ))}
