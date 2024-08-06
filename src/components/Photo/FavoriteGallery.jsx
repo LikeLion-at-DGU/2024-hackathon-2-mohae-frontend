@@ -4,13 +4,11 @@ import { API } from "../../api";
 import styled from "styled-components";
 
 const Right = styled.div`
-  /* margin-top: 30px; */
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
   width: 900px;
-  /* margin-left: 100px; */
-  min-width: 900px; /* 최소 너비를 설정하여 요소들이 줄어들지 않게 함 */
+  min-width: 900px;
 `;
 
 const FavoriteGallery = () => {
@@ -50,7 +48,8 @@ const FavoriteGallery = () => {
           isLiked={true}
           title={item.title}
           detail={item.description}
-          timestamp={item.created_at} // created_at 값을 전달
+          timestamp={item.created_at}
+          photoData={item} // 전체 photoData를 전달
           onLikeToggle={handleLikeToggle}
         />
       ))}
