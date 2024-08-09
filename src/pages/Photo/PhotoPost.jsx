@@ -21,6 +21,12 @@ const PageStyle = createGlobalStyle`
     align-items: center;
     height: fit-content;
   }
+
+  @media (max-width: 359px) {
+    body {
+      width: 360px;
+    }
+  }
 `;
 
 const PhotoPost = () => {

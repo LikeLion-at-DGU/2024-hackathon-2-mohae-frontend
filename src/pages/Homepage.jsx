@@ -10,11 +10,16 @@ const PageStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     display: flex;
-    min-height: 100vh; /* minimum height instead of height */
-    width: 100%;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center; /* vertical stacking */
+    width: 1440px;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+  }
+
+  @media (max-width: 359px) {
+    body {
+      width: 360px;
+    }
   }
 `;
 

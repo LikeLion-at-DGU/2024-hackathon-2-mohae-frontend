@@ -12,9 +12,11 @@ export const PageStyle = createGlobalStyle`
     justify-content: center;
     align-items: center;
     height: fit-content;
+  }
 
-    @media (max-width: 359px) {
-    width: 360px;
+  @media (max-width: 359px) {
+    body {
+      width: 360px;
     }
   }
 `;

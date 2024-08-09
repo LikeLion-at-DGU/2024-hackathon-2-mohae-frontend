@@ -15,15 +15,11 @@ const PageStyle = createGlobalStyle`
     justify-content: center;
     align-items: center;
     height: fit-content;
-    @media (max-width: 359px) {
-      background-color: #F7F8FB;
-      margin: 0;
-      padding: 0;
-      display: flex;
+  }
+
+  @media (max-width: 359px) {
+    body {
       width: 360px;
-      justify-content: center;
-      align-items: center;
-      height: fit-content;
     }
   }
 `;

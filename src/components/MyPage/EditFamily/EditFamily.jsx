@@ -165,7 +165,7 @@ const EditFamily = () => {
                   value={family}
                   onChange={(e) => setFamily(e.target.value)}
                 />
-                <S.inputbutton style={{ background: '9F9F9F' }} onClick={PostFamilyName}>입력</S.inputbutton>
+                <S.inputbutton style={{ background: '#2d539e' }} onClick={PostFamilyName}>입력</S.inputbutton>
               </S.Rowdi>
               <S.Formprint2>{familycode}</S.Formprint2>
               <S.SendingBox onClick={Invitingfamily}>
