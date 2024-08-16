@@ -8,7 +8,7 @@ import { API } from "../../api";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: inherit; /* 원래 텍스트 색상을 유지 */
+  color: inherit;
 
   &:hover {
     text-decoration: none;
@@ -36,7 +36,7 @@ const HeaderContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto; /* 중앙 정렬 */
+  margin: 0 auto;
   padding-bottom: 10px;
   @media (max-width: 359px) {
     max-width: 340px;
@@ -57,7 +57,7 @@ const Top = styled.div`
 
 const ButtonwithIcon = styled.div`
   display: flex;
-  flex-direction: column; /* 아이콘과 텍스트를 수평으로 배치 */
+  flex-direction: column;
   align-items: center;
   gap: 0.5rem;
   color: #000;
@@ -68,6 +68,8 @@ const ButtonwithIcon = styled.div`
   font-weight: 700;
   line-height: normal;
   cursor: pointer;
+
+  user-select: none;
 
   &:hover {
     text-decoration-line: underline;
@@ -102,6 +104,8 @@ const MOHAEsytle = styled.h1`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  user-select: none;
 
   @media (max-width: 359px) {
     font-size: 1.5rem;
@@ -151,7 +155,7 @@ const Header = () => {
           긴급
         </ButtonwithIcon>
         {/* </StyledLink> */}
-        <StyledLink to="/">
+        <StyledLink to="homepage">
           <MOHAEsytle>MOHAE</MOHAEsytle>
         </StyledLink>
         <StyledLink to="mypage">

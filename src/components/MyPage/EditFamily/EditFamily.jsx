@@ -56,7 +56,7 @@ const EditFamily = () => {
   };
 
   const validatePhoneNumber = (phone_number) => {
-    const phoneRegex = /^010\d{8}$/; // This regex assumes a phone number format like 010XXXXXXXX
+    const phoneRegex = /^010\d{8}$/;
     return phoneRegex.test(phone_number);
   };
 

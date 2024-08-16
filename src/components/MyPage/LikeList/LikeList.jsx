@@ -13,15 +13,12 @@ const LikeList = () => {
       const response = await API.get("/users/mypage/confirmed_reservations");
       const reservations = response.data;
 
-      // Get activity IDs from reservations
       const activityIds = reservations.map(reservation => reservation.reservation.activity);
       
-      // Fetch activity details based on activity IDs
       const activityPromises = activityIds.map(id => API.get(`/culture/activities/${id}`));
       const activitiesResponses = await Promise.all(activityPromises);
       const activitiesData = activitiesResponses.map(res => res.data);
 
-      // Map activity data to reservations
       const updatedReservations = reservations.map(reservation => {
         const activityDetail = activitiesData.find(activity => activity.id === reservation.reservation.activity);
         return {

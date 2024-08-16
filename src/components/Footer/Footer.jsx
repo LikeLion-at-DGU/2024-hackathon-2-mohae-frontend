@@ -175,7 +175,7 @@ const Footer = () => {
               <S.MomoIcon2 style={{ width: '3.75rem', height: '3.75rem', fontSize: '4.875rem', borderRadius: '1.125rem', boxShadow: 'none' }}>o</S.MomoIcon2>
               <S.Column>
                 <S.Text1>모모 챗봇</S.Text1>
-                <S.Text2>{nickname}님 모모에게 무엇이든지 물어보세요</S.Text2>
+                <S.Text2>모모에게 무엇이든지 물어보세요</S.Text2>
               </S.Column>
             </S.HeadBox>
             <S.HeadBody>

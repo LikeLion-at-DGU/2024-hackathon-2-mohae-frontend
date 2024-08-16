@@ -3,6 +3,7 @@ import styled, {keyframes} from 'styled-components';
 import { RiSendPlaneFill } from "react-icons/ri";
 import { MdKeyboardVoice } from "react-icons/md";
 
+
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -66,6 +67,8 @@ export const MomoIcon = styled.div`
   cursor: pointer;
 
   animation: ${fadeIn} 0.3s ease-in-out;
+
+  user-select: none;
 
   @media (max-width: 359px){
     width: 2.25rem;

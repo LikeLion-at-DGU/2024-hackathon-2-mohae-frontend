@@ -3,36 +3,10 @@ import { Outlet, useLocation } from "react-router-dom";
 import Header from "./components/header/Header";
 import Footer from "./components/Footer/Footer";
 import { createGlobalStyle } from 'styled-components';
+import { BiFontFamily } from "react-icons/bi";
 
-const GlobalStyle = createGlobalStyle`
-  * {
-    font-family: 'NanumSquareRound', sans-serif;
-    font-weight: 600;
-  }
-`;
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  transform-origin: top;
-  zoom: 0.7916;
+import "./Font.css";
 
-  @media (max-width: 359px) {
-    zoom: 0.95;
-  }
-`;
-const BackEffect = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  min-height: 100vh; 
-  background: linear-gradient(120deg, #e1eaff 0%, #fff 52.4%, #dcfafc 100%);
-  background-size: cover;
-  background-repeat: no-repeat;
-`;
 const Wrapper = styled.div`
   width: 1440px;
   display: flex;
@@ -40,8 +14,14 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
 
+  transform-origin: top;
+
+  zoom: 0.7916;
+
+
   @media (max-width: 359px) {
     width: 360px;
+    zoom: 0.95;
   }
 `;
 
@@ -51,16 +31,12 @@ const Layout = () => {
 
   return (
     <>
-      <BackEffect>
-        <GlobalStyle/>
-        <Container>
+
           <Wrapper>
             {showHeader && <Header />}
             <Outlet />
           </Wrapper>
-        </Container>
         <Footer/>
-      </BackEffect>
     </>
   );
 };

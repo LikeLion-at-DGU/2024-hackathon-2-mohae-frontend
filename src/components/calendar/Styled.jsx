@@ -256,6 +256,10 @@ export const CustomCalendar = styled.div`
       font-weight: 600;
     }
   }
+
+  .react-calendar__month-view__weekdays abbr {
+    text-decoration: none;
+  }
   
   .current-month-sunday {
     color: #DE0000 !important;

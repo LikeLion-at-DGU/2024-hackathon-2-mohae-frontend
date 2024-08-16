@@ -3,26 +3,22 @@ import styled, { createGlobalStyle } from "styled-components";
 import { PiCalendarBlank } from "react-icons/pi";
 
 export const PageStyle = createGlobalStyle`
+body {
+  background-color: #F7F8FB;
+  margin: auto;
+  padding: 0;
+  display: flex;
+  width: fit-content;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+}
+
+@media (max-width: 359px) {
   body {
-    background-color: #F7F8FB;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    width: 1440px;
-    justify-content: center;
-    align-items: center;
-    height: fit-content;
-    @media (max-width: 359px) {
-      background-color: #F7F8FB;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      width: 360px;
-      justify-content: center;
-      align-items: center;
-      height: fit-content;
-    }
+    width: 360px;
   }
+}
 `;
 
 export const StyledPi = styled(PiCalendarBlank)`
@@ -63,6 +59,8 @@ export const MOHAEsytle = styled.h1`
   line-height: normal;
 
   margin-bottom: 3rem;
+
+  user-select: none;
 
   @media (max-width: 359px) {
     font-size: 1.5rem;

@@ -27,9 +27,6 @@ export const HealthIcon = styled.img`
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid #fff;
-  &:hover {
-    border: 2px solid #2D539E;
-  }
 `;
 
 export const CustomPhotoButton = styled.img`
